@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,10 +23,13 @@ class User extends Authenticatable
 
     public const ROLE_STAFF = 'staff';
 
+    public const ROLE_FARMER = 'farmer';
+
     public const ROLES = [
         self::ROLE_ADMIN,
         self::ROLE_SHOP,
         self::ROLE_STAFF,
+        self::ROLE_FARMER,
     ];
 
     protected function casts(): array
@@ -51,6 +55,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_SHOP;
     }
 
+    public function isFarmer(): bool
+    {
+        return $this->role === self::ROLE_FARMER;
+    }
+
     public function hasRole(string|array $roles): bool
     {
         $roles = is_array($roles) ? $roles : func_get_args();
@@ -64,6 +73,7 @@ class User extends Authenticatable
             self::ROLE_ADMIN => __('messages.roles.admin'),
             self::ROLE_SHOP => __('messages.roles.shop'),
             self::ROLE_STAFF => __('messages.roles.staff'),
+            self::ROLE_FARMER => __('messages.roles.farmer'),
             default => ucfirst((string) $this->role),
         };
     }
@@ -71,5 +81,15 @@ class User extends Authenticatable
     public function staff(): BelongsTo
     {
         return $this->belongsTo(Staff::class, 'staff_id', 'id');
+    }
+
+    public function agriculturalInquiries(): HasMany
+    {
+        return $this->hasMany(AgriculturalInquiry::class);
+    }
+
+    public function agriculturalAnnouncements(): HasMany
+    {
+        return $this->hasMany(AgriculturalAnnouncement::class);
     }
 }

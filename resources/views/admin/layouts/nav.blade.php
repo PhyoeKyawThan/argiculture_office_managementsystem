@@ -17,6 +17,16 @@
             <i data-lucide="clipboard-check" class="w-4 h-4"></i>
             {{ __('messages.nav.inspections') }}
         </a>
+        <a href="{{ route('admin.inquiries.index') }}"
+            class="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 {{ request()->routeIs('admin.inquiries.*') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} transition-all flex items-center gap-2.5">
+            <i data-lucide="message-circle-question" class="w-4 h-4"></i>
+            {{ __('messages.nav.inquiries') }}
+        </a>
+        <a href="{{ route('admin.announcements.index') }}"
+            class="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 {{ request()->routeIs('admin.announcements.*') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} transition-all flex items-center gap-2.5">
+            <i data-lucide="newspaper" class="w-4 h-4"></i>
+            {{ __('messages.nav.announcements') }}
+        </a>
     @endif
 
     @if($u && $u->isAdmin())
@@ -29,12 +39,6 @@
             class="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 {{ request()->routeIs('admin.users.*') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} transition-all flex items-center gap-2.5">
             <i data-lucide="shield" class="w-4 h-4"></i>
             {{ __('messages.nav.users') }}
-        </a>
-        <a href="#"
-            class="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 text-emerald-100/60 cursor-not-allowed flex items-center gap-2.5">
-            <i data-lucide="user-check" class="w-4 h-4"></i>
-            {{ __('messages.nav.farmers') }}
-            <span class="ml-0.5 px-1.5 py-0.5 text-[9px] font-black bg-amber-400 text-amber-900 rounded-full">{{ __('messages.nav.soon') }}</span>
         </a>
     @endif
 

@@ -52,6 +52,26 @@
                 </div>
                 <p class="text-sm text-slate-600">{{ __('messages.dashboard.inspections_desc') }}</p>
             </a>
+            <a href="{{ route('admin.inquiries.index') }}"
+                class="block bg-white rounded-2xl border border-emerald-100 p-6 hover:shadow-md transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="p-2 rounded-xl bg-emerald-100 text-emerald-800 group-hover:bg-emerald-200 transition">
+                        <i data-lucide="message-circle-question" class="w-6 h-6"></i>
+                    </span>
+                    <h2 class="font-bold text-lg">{{ __('messages.dashboard.inquiries_title') }}</h2>
+                </div>
+                <p class="text-sm text-slate-600">{{ __('messages.dashboard.inquiries_desc') }}</p>
+            </a>
+            <a href="{{ route('admin.announcements.index') }}"
+                class="block bg-white rounded-2xl border border-emerald-100 p-6 hover:shadow-md transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="p-2 rounded-xl bg-emerald-100 text-emerald-800 group-hover:bg-emerald-200 transition">
+                        <i data-lucide="newspaper" class="w-6 h-6"></i>
+                    </span>
+                    <h2 class="font-bold text-lg">{{ __('messages.dashboard.announcements_title') }}</h2>
+                </div>
+                <p class="text-sm text-slate-600">{{ __('messages.dashboard.announcements_desc') }}</p>
+            </a>
         @endif
         <a href="{{ route('landing.home') }}" target="_blank"
             class="block bg-white rounded-2xl border border-emerald-100 p-6 hover:shadow-md transition group">

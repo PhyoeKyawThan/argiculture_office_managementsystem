@@ -40,6 +40,10 @@ class LoginController extends Controller
             return route('shop.dashboard', absolute: false);
         }
 
+        if ($user->isFarmer()) {
+            return route('farmer.dashboard', absolute: false);
+        }
+
         if ($user->isBackOffice()) {
             return route('admin.dashboard.index', absolute: false);
         }

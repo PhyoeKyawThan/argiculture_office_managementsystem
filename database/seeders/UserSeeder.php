@@ -30,6 +30,12 @@ class UserSeeder extends Seeder
                 'role' => User::ROLE_SHOP,
                 'password' => 'password',
             ],
+            [
+                'name' => 'U Aung Farmer',
+                'email' => 'farmer@agrimanage.local',
+                'role' => User::ROLE_FARMER,
+                'password' => 'password',
+            ],
         ];
 
         foreach ($users as $data) {

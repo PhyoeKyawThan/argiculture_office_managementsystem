@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LandingSectionSeeder::class,
             StaffSeeder::class,
+            AgriculturalAnnouncementSeeder::class,
         ]);
     }
 }

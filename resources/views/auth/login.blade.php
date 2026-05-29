@@ -50,7 +50,10 @@
                 </button>
             </form>
         </div>
-        <p class="text-center text-xs text-slate-500 mt-6">
+        <p class="text-center text-sm text-slate-600 mt-6">
+            <a href="{{ route('farmer.register') }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.auth.farmer_register') }}</a>
+        </p>
+        <p class="text-center text-xs text-slate-500 mt-3">
             <a href="{{ route('landing.home') }}" class="text-emerald-700 font-semibold hover:underline">{{ __('messages.auth.back_home') }}</a>
         </p>
     </div>

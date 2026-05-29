@@ -13,7 +13,7 @@ class EnsureUserHasRole
         $user = $request->user();
 
         if (! $user || ! $user->hasRole($roles)) {
-            abort(403, 'You do not have permission to access this area.');
+            abort(403, __('messages.errors.forbidden'));
         }
 
         return $next($request);
