@@ -7,27 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Support\AgriculturalContentCatalog;
 
 class AgriculturalAnnouncement extends Model
 {
-    public const CATEGORY_NEWS = 'news';
-
-    public const CATEGORY_WEATHER = 'weather_alert';
-
-    public const CATEGORY_TIP = 'farming_tip';
-
-    public const CATEGORIES = [
-        self::CATEGORY_NEWS,
-        self::CATEGORY_WEATHER,
-        self::CATEGORY_TIP,
-    ];
-
     protected $fillable = [
         'user_id',
         'title',
         'slug',
         'content',
-        'category',
+        'module',
+        'sub_type',
         'featured_image_path',
         'published_at',
         'is_published',
@@ -44,6 +34,10 @@ class AgriculturalAnnouncement extends Model
             if (blank($announcement->slug) && filled($announcement->title)) {
                 $announcement->slug = static::uniqueSlug($announcement->title, $announcement->id);
             }
+
+            if (! AgriculturalContentCatalog::moduleHasSubTypes($announcement->module)) {
+                $announcement->sub_type = null;
+            }
         });
     }
 
@@ -58,6 +52,16 @@ class AgriculturalAnnouncement extends Model
             ->where('is_published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    public function scopeForModule(Builder $query, string $module): Builder
+    {
+        return $query->where('module', $module);
+    }
+
+    public function scopeForSubType(Builder $query, string $subType): Builder
+    {
+        return $query->where('sub_type', $subType);
     }
 
     public function featuredImageUrl(): ?string

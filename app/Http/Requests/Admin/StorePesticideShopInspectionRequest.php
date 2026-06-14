@@ -23,13 +23,15 @@ class StorePesticideShopInspectionRequest extends FormRequest
             'is_registered_pesticide' => ['sometimes', 'boolean'],
             'has_valid_retail_license' => ['sometimes', 'boolean'],
             'license_expiry_date' => [
-                Rule::requiredIf(fn () => $this->boolean('has_valid_retail_license')),
+                Rule::requiredIf(fn() => $this->boolean('has_valid_retail_license')),
                 'nullable',
                 'date',
             ],
             'complies_with_pesticide_law' => ['sometimes', 'boolean'],
             'has_training_certificate' => ['sometimes', 'boolean'],
             'raw_findings_notes' => ['nullable', 'string'],
+            'photos' => ['nullable', 'array', 'max:2'], 
+            'photos.*' => ['file', 'image', 'max:5120'],
             'action_taken' => ['nullable', 'string', 'max:255'],
             'remarks' => ['nullable', 'string'],
         ];

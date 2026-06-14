@@ -87,14 +87,39 @@
         </section>
     @endif
 
-    <footer class="mt-auto bg-emerald-950 text-emerald-200 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
-            @if($footer)
-                <p class="font-bold text-white mb-1">{{ $footer->title }}</p>
-                <p>{{ $footer->body }}</p>
-            @else
-                <p>{{ __('messages.landing.footer_fallback') }}</p>
-            @endif
-        </div>
-    </footer>
+    @if($latestNews->isNotEmpty())
+        <section class="max-w-6xl mx-auto px-4 py-16">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-emerald-900">{{ __('messages.farmer.latest_news') }}</h2>
+                    <p class="text-slate-600 text-sm mt-1">{{ __('messages.announcements.public_subtitle') }}</p>
+                </div>
+                <a href="{{ route('news.index') }}" class="text-sm font-bold text-emerald-700 whitespace-nowrap">{{ __('messages.farmer.view_all_news') }}</a>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($latestNews as $article)
+                    <a href="{{ route('news.show', $article) }}"
+                        class="bg-white rounded-2xl border border-emerald-100 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+                        @if($article->featured_image_path)
+                            <img src="{{ $article->featuredImageUrl() }}" alt="" class="w-full h-40 object-cover">
+                        @endif
+                        <div class="p-5 flex flex-col flex-1">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ __('messages.content.modules.'.$article->module.'.label') }}</span>
+                            <h3 class="font-bold text-slate-900 mt-1 mb-2 line-clamp-2">{{ $article->title }}</h3>
+                            <time class="text-xs text-slate-500 mt-auto">{{ $article->published_at?->format('M j, Y') }}</time>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    @endif
+@endsection
+
+@section('footer')
+    @if($footer)
+        <p class="font-bold text-white mb-1">{{ $footer->title }}</p>
+        <p>{{ $footer->body }}</p>
+    @else
+        <p>{{ __('messages.landing.footer_fallback') }}</p>
+    @endif
 @endsection

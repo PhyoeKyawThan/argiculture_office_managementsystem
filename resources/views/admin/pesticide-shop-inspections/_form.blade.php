@@ -120,6 +120,35 @@
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">
+                    {{ __('messages.inspections.photos') ?? 'Inspection Photos' }}
+                    <span class="text-xs font-normal text-slate-400 font-mono">({{ __('messages.inspections.max_photos_limit', ['count' => 2]) ?? 'Max 2 photos, up to 5MB each' }})</span>
+                </label>
+                
+                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-xl p-6 bg-slate-50 hover:bg-slate-100/50 hover:border-emerald-300 transition-colors group @error('photos') border-red-300 bg-red-50/10 @enderror">
+                    <input type="file" name="photos[]" id="photos" multiple accept="image/*"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    
+                    <svg class="w-8 h-8 text-slate-400 group-hover:text-emerald-500 transition-colors mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                    </svg>
+
+                    <p class="text-sm text-slate-600 font-semibold group-hover:text-emerald-700 transition-colors" id="file-upload-text">
+                        {{ __('messages.inspections.click_to_upload') ?? 'Click to upload files' }}
+                    </p>
+                    <p class="text-xs text-slate-400 mt-1 font-medium" id="file-counter-text">No files selected</p>
+                </div>
+
+                @error('photos')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+                @error('photos.*')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
             <div>
                 <label for="action_taken" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.inspections.action_taken') }}</label>
                 <input type="text" name="action_taken" id="action_taken" value="{{ old('action_taken', $record?->action_taken) }}"
@@ -156,6 +185,32 @@
         if (licenseCheckbox) {
             licenseCheckbox.addEventListener('change', syncLicenseField);
             syncLicenseField();
+        }
+
+        // --- Photo Counter Handling ---
+        const photoInput = document.getElementById('photos');
+        const fileText = document.getElementById('file-upload-text');
+        const fileCounter = document.getElementById('file-counter-text');
+
+        if (photoInput) {
+            photoInput.addEventListener('change', function () {
+                const count = this.files.length;
+                if (count > 2) {
+                    alert('You can only select up to 2 photos.');
+                    this.value = ''; // Reset files selection
+                    fileText.textContent = "Click to upload files";
+                    fileCounter.textContent = "No files selected";
+                    return;
+                }
+
+                if (count > 0) {
+                    fileText.textContent = "Files ready to upload";
+                    fileCounter.textContent = `${count} file(s) selected`;
+                } else {
+                    fileText.textContent = "Click to upload files";
+                    fileCounter.textContent = "No files selected";
+                }
+            });
         }
     });
 </script>

@@ -17,7 +17,8 @@ class AgriculturalAnnouncementController extends Controller
     {
         $announcements = AgriculturalAnnouncement::query()
             ->with('author:id,name')
-            ->when($request->filled('category'), fn ($q) => $q->where('category', $request->string('category')))
+            ->when($request->filled('module'), fn ($q) => $q->where('module', $request->string('module')))
+            ->when($request->filled('sub_type'), fn ($q) => $q->where('sub_type', $request->string('sub_type')))
             ->when($request->filled('published'), function ($query) use ($request) {
                 if ($request->string('published') === 'yes') {
                     $query->where('is_published', true);
@@ -104,7 +105,8 @@ class AgriculturalAnnouncementController extends Controller
             'title',
             'slug',
             'content',
-            'category',
+            'module',
+            'sub_type',
             'published_at',
         ]);
 

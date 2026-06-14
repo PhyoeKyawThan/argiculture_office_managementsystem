@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\Auth\FarmerRegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ShopRegisterController;
 use App\Http\Controllers\Admin\AgriculturalAnnouncementController;
 use App\Http\Controllers\Admin\AgriculturalInquiryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FeatureSettingController;
 use App\Http\Controllers\Admin\LandingSectionController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\PesticideShopController;
 use App\Http\Controllers\Admin\PesticideShopInspectionController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController;
@@ -27,8 +31,16 @@ Route::get('/news/{announcement:slug}', [NewsController::class, 'show'])->name('
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
-    Route::get('/farmer/register', [FarmerRegisterController::class, 'create'])->name('farmer.register');
-    Route::post('/farmer/register', [FarmerRegisterController::class, 'store'])->name('farmer.register.store');
+
+    Route::middleware('feature:farmer_registration')->group(function () {
+        Route::get('/farmer/register', [FarmerRegisterController::class, 'create'])->name('farmer.register');
+        Route::post('/farmer/register', [FarmerRegisterController::class, 'store'])->name('farmer.register.store');
+    });
+
+    Route::middleware('feature:shop_registration')->group(function () {
+        Route::get('/shop/register', [ShopRegisterController::class, 'create'])->name('shop.register');
+        Route::post('/shop/register', [ShopRegisterController::class, 'store'])->name('shop.register.store');
+    });
 });
 
 Route::post('/logout', [LoginController::class, 'destroy'])
@@ -41,18 +53,43 @@ Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(f
 
 Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->group(function () {
     Route::get('/dashboard', [FarmerDashboardController::class, 'index'])->name('dashboard');
-    Route::resource('inquiries', FarmerInquiryController::class)->only(['index', 'create', 'store', 'show']);
+
+    Route::middleware('feature:farmer_inquiries')->group(function () {
+        Route::resource('inquiries', FarmerInquiryController::class)->only(['index', 'create', 'store', 'show']);
+    });
 });
 
 Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::resource('staff', StaffController::class);
-    Route::resource('pesticide-shop-inspections', PesticideShopInspectionController::class);
-    Route::resource('inquiries', AgriculturalInquiryController::class)->only(['index', 'show', 'update']);
+    Route::post('notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
+    Route::post('notifications/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
+
+    Route::middleware('feature:staff_management')->group(function () {
+        Route::resource('staff', StaffController::class);
+    });
+
+    Route::middleware('feature:shop_inspections')->group(function () {
+        Route::resource('pesticide-shop-inspections', PesticideShopInspectionController::class);
+    });
+
+    Route::middleware('feature:farmer_inquiries')->group(function () {
+        Route::resource('inquiries', AgriculturalInquiryController::class)->only(['index', 'show', 'update']);
+    });
+
     Route::resource('announcements', AgriculturalAnnouncementController::class)->except(['show']);
 
+    Route::middleware('feature:shop_registration')->group(function () {
+        Route::resource('pesticide-shops', PesticideShopController::class)->only(['index', 'show', 'update']);
+    });
+
     Route::middleware('role:admin')->group(function () {
+        Route::get('feature-settings', [FeatureSettingController::class, 'edit'])->name('feature-settings.edit');
+        Route::put('feature-settings', [FeatureSettingController::class, 'update'])->name('feature-settings.update');
+
+        Route::middleware('feature:landing_cms')->group(function () {
+            Route::resource('landing-sections', LandingSectionController::class)->except(['show']);
+        });
+
         Route::resource('users', UserController::class)->except(['show']);
-        Route::resource('landing-sections', LandingSectionController::class)->except(['show']);
     });
 });

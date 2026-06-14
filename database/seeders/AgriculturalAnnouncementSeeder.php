@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\AgriculturalAnnouncement;
 use App\Models\User;
+use App\Support\AgriculturalContentCatalog;
 use Illuminate\Database\Seeder;
 
 class AgriculturalAnnouncementSeeder extends Seeder
@@ -20,7 +21,7 @@ class AgriculturalAnnouncementSeeder extends Seeder
             [
                 'title' => 'Monsoon Planting Advisory',
                 'slug' => 'monsoon-planting-advisory',
-                'category' => AgriculturalAnnouncement::CATEGORY_TIP,
+                'module' => AgriculturalContentCatalog::MODULE_FARMING,
                 'content' => "Prepare seed beds with proper drainage.\nUse certified seeds for better yield.\nContact your township agriculture officer for soil testing support.",
                 'is_published' => true,
                 'published_at' => now()->subDays(2),
@@ -28,7 +29,7 @@ class AgriculturalAnnouncementSeeder extends Seeder
             [
                 'title' => 'Heavy Rain Alert — Ayeyarwady Region',
                 'slug' => 'heavy-rain-alert-ayeyarwady',
-                'category' => AgriculturalAnnouncement::CATEGORY_WEATHER,
+                'module' => AgriculturalContentCatalog::MODULE_WEATHER,
                 'content' => "Heavy rainfall is expected over the next 48 hours.\nFarmers should secure fertilizer stores and check field drainage channels.",
                 'is_published' => true,
                 'published_at' => now()->subDay(),
@@ -36,7 +37,7 @@ class AgriculturalAnnouncementSeeder extends Seeder
             [
                 'title' => 'Pesticide Retail Compliance Week',
                 'slug' => 'pesticide-retail-compliance-week',
-                'category' => AgriculturalAnnouncement::CATEGORY_NEWS,
+                'module' => AgriculturalContentCatalog::MODULE_NEWS,
                 'content' => "Township agriculture teams will conduct advisory visits to licensed pesticide retailers this week.",
                 'is_published' => true,
                 'published_at' => now(),

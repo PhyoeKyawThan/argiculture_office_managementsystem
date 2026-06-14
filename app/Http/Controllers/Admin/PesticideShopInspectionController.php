@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StorePesticideShopInspectionRequest;
 use App\Http\Requests\Admin\UpdatePesticideShopInspectionRequest;
 use App\Models\PesticideShopInspection;
 use App\Models\Staff;
+use App\Traits\HandlesFileUploads;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\View\View;
 
 class PesticideShopInspectionController extends Controller
 {
+    use HandlesFileUploads;
     public function index(Request $request): View
     {
         $inspections = PesticideShopInspection::query()
@@ -24,7 +26,7 @@ class PesticideShopInspectionController extends Controller
                 $term = '%' . $request->string('search') . '%';
                 $query->where('owner_name', 'like', $term);
             })
-            ->when($request->filled('township'), fn ($query) => $query->where('township', $request->string('township')))
+            ->when($request->filled('township'), fn($query) => $query->where('township', $request->string('township')))
             ->orderByDesc('inspection_date')
             ->orderByDesc('id')
             ->paginate(15)
@@ -49,8 +51,16 @@ class PesticideShopInspectionController extends Controller
     public function store(StorePesticideShopInspectionRequest $request): RedirectResponse
     {
         $data = $this->payloadFromRequest($request);
-
-        $inspection = DB::transaction(fn () => PesticideShopInspection::create($data));
+        if ($request->hasFile('photos')) {
+            $uploadedPaths = [];
+            foreach ($request->file('photos') as $photo) {
+                if ($path = $this->uploadFile($photo, 'pesticide-shop-inspections')) {
+                    $uploadedPaths[] = $path;
+                }
+            }
+            $data['photos'] = $uploadedPaths;
+        }
+        $inspection = DB::transaction(fn() => PesticideShopInspection::create($data));
 
         return redirect()
             ->route('admin.pesticide-shop-inspections.show', $inspection)
@@ -78,8 +88,28 @@ class PesticideShopInspectionController extends Controller
     public function update(UpdatePesticideShopInspectionRequest $request, PesticideShopInspection $pesticide_shop_inspection): RedirectResponse
     {
         $data = $this->payloadFromRequest($request);
+        $finalPhotos = [];
 
-        DB::transaction(fn () => $pesticide_shop_inspection->update($data));
+        if ($request->has('photos')) {
+            foreach ($request->file('photos') ?? $request->input('photos') as $photo) {
+                if (is_string($photo)) {
+                    $finalPhotos[] = $photo;
+                } elseif ($photo instanceof \Illuminate\Http\UploadedFile) {
+                    if ($path = $this->uploadFile($photo, 'pesticide-shop-inspections')) {
+                        $finalPhotos[] = $path;
+                    }
+                }
+            }
+        }
+
+        $oldPhotos = $pesticide_shop_inspection->photos ?? [];
+        $removedPhotos = array_diff($oldPhotos, $finalPhotos);
+
+        foreach ($removedPhotos as $oldPhotoPath) {
+            $this->deleteFile($oldPhotoPath);
+        }
+        $data['photos'] = $finalPhotos;
+        DB::transaction(fn() => $pesticide_shop_inspection->update($data));
 
         return redirect()
             ->route('admin.pesticide-shop-inspections.show', $pesticide_shop_inspection)
@@ -104,7 +134,7 @@ class PesticideShopInspectionController extends Controller
         $data = $request->validated();
         $data['inspector_staff_id'] = $this->resolveInspectorStaffId($request);
 
-        if (! $data['has_valid_retail_license']) {
+        if (!$data['has_valid_retail_license']) {
             $data['license_expiry_date'] = null;
         }
 

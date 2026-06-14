@@ -23,6 +23,7 @@ class PesticideShopInspection extends Model
         'has_training_certificate',
         'raw_findings_notes',
         'action_taken',
+        'photos',
         'remarks',
     ];
 
@@ -33,6 +34,7 @@ class PesticideShopInspection extends Model
         'has_valid_retail_license' => 'boolean',
         'complies_with_pesticide_law' => 'boolean',
         'has_training_certificate' => 'boolean',
+        'photos' => 'array',
     ];
 
     public function inspector(): BelongsTo

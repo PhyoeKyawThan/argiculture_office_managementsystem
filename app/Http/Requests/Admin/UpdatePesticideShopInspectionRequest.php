@@ -23,7 +23,7 @@ class UpdatePesticideShopInspectionRequest extends FormRequest
             'is_registered_pesticide' => ['sometimes', 'boolean'],
             'has_valid_retail_license' => ['sometimes', 'boolean'],
             'license_expiry_date' => [
-                Rule::requiredIf(fn () => $this->boolean('has_valid_retail_license')),
+                Rule::requiredIf(fn() => $this->boolean('has_valid_retail_license')),
                 'nullable',
                 'date',
             ],
@@ -31,6 +31,17 @@ class UpdatePesticideShopInspectionRequest extends FormRequest
             'has_training_certificate' => ['sometimes', 'boolean'],
             'raw_findings_notes' => ['nullable', 'string'],
             'action_taken' => ['nullable', 'string', 'max:255'],
+            'photos' => ['nullable', 'array', 'max:2'],
+            'photos.*' => [
+                'required',
+                Rule::forEach(function ($value) {
+                    // If the value is a string (existing path), just validate it as a string.
+                    // If it's a file, validate it as an image up to 5MB.
+                    return is_string($value)
+                        ? ['string']
+                        : ['file', 'image', 'max:5120'];
+                })
+            ],
             'remarks' => ['nullable', 'string'],
         ];
     }

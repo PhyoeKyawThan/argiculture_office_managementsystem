@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('has_training_certificate')->default(false);
             $table->text('raw_findings_notes')->nullable();
             $table->string('action_taken')->nullable();
+            $table->json('photos')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
 

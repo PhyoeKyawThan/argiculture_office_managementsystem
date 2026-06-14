@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgriculturalAnnouncement;
 use App\Models\LandingSection;
 use Illuminate\View\View;
 
@@ -15,6 +16,10 @@ class LandingController extends Controller
             'stats' => LandingSection::activeByType('stat'),
             'cta' => LandingSection::activeByType('cta')->first(),
             'footer' => LandingSection::activeByType('footer')->first(),
+            'latestNews' => AgriculturalAnnouncement::published()
+                ->latest('published_at')
+                ->limit(3)
+                ->get(),
         ]);
     }
 }

@@ -19,12 +19,15 @@
         </div>
     </div>
 
-    <a href="{{ route('farmer.inquiries.create') }}"
-        class="flex items-center justify-center gap-2 w-full py-4 mb-8 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-2xl shadow-lg transition">
-        <i data-lucide="plus-circle" class="w-5 h-5"></i>
-        {{ __('messages.farmer.ask_question') }}
-    </a>
+    @if(\App\Support\Feature::enabled('farmer_inquiries'))
+        <a href="{{ route('farmer.inquiries.create') }}"
+            class="flex items-center justify-center gap-2 w-full py-4 mb-8 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-2xl shadow-lg transition">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            {{ __('messages.farmer.ask_question') }}
+        </a>
+    @endif
 
+    @if(\App\Support\Feature::enabled('farmer_inquiries'))
     <section class="mb-8">
         <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-black text-emerald-900">{{ __('messages.farmer.my_questions') }}</h2>
@@ -47,6 +50,7 @@
             @endforelse
         </div>
     </section>
+    @endif
 
     <section>
         <div class="flex items-center justify-between mb-3">
@@ -61,7 +65,7 @@
                         <img src="{{ $article->featuredImageUrl() }}" alt="" class="w-full h-36 object-cover">
                     @endif
                     <div class="p-4">
-                        <span class="text-[10px] font-black uppercase text-emerald-600">{{ __('messages.announcements.categories.'.$article->category) }}</span>
+                        <span class="text-[10px] font-black uppercase text-emerald-600">{{ __('messages.content.modules.'.$article->module.'.label') }}</span>
                         <h3 class="font-bold text-slate-900 mt-1">{{ $article->title }}</h3>
                         <p class="text-xs text-slate-500 mt-2">{{ $article->published_at?->format('M j, Y') }}</p>
                     </div>

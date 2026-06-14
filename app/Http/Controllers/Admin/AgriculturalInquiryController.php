@@ -35,9 +35,13 @@ class AgriculturalInquiryController extends Controller
         return view('admin.inquiries.index', compact('inquiries', 'pendingCount'));
     }
 
-    public function show(AgriculturalInquiry $inquiry): View
+    public function show(Request $request, AgriculturalInquiry $inquiry): View
     {
         $inquiry->load(['farmer:id,name,email', 'responder:id,name']);
+
+        $request->user()->unreadNotifications()
+            ->where('data->inquiry_id', $inquiry->id)
+            ->update(['read_at' => now()]);
 
         return view('admin.inquiries.show', compact('inquiry'));
     }

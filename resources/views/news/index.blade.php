@@ -1,26 +1,20 @@
-@extends('landing.layout')
+@extends(auth()->check() && auth()->user()->isFarmer() ? 'farmer.layouts.app' : 'landing.layout')
 
-@section('title', __('messages.announcements.public_title'))
+@section('title', __('messages.content.modules.'.$module.'.label'))
 
 @section('content')
-    <section class="max-w-4xl mx-auto px-4 py-10">
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-black text-emerald-900">{{ __('messages.announcements.public_title') }}</h1>
-            <p class="text-slate-600 mt-2">{{ __('messages.announcements.public_subtitle') }}</p>
+    <section class="max-w-5xl mx-auto px-0 sm:px-0 py-4 sm:py-6">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-black text-emerald-900">{{ __('messages.content.modules.'.$module.'.label') }}</h1>
+            <p class="text-slate-600 mt-2">{{ __('messages.content.modules.'.$module.'.description') }}</p>
         </div>
 
-        <form method="GET" class="mb-8 flex flex-wrap justify-center gap-2">
-            <a href="{{ route('news.index') }}"
-                class="px-4 py-2 rounded-full text-sm font-bold {{ !request('category') ? 'bg-emerald-700 text-white' : 'bg-white border border-emerald-200 text-emerald-800' }}">
-                {{ __('messages.common.all') }}
-            </a>
-            @foreach(\App\Models\AgriculturalAnnouncement::CATEGORIES as $category)
-                <a href="{{ route('news.index', ['category' => $category]) }}"
-                    class="px-4 py-2 rounded-full text-sm font-bold {{ request('category') === $category ? 'bg-emerald-700 text-white' : 'bg-white border border-emerald-200 text-emerald-800' }}">
-                    {{ __('messages.announcements.categories.'.$category) }}
-                </a>
-            @endforeach
-        </form>
+        <x-content-module-nav
+            context="page"
+            :modules="$enabledModules"
+            :current-module="$module"
+            :current-sub-type="$subType"
+        />
 
         <div class="grid sm:grid-cols-2 gap-6">
             @forelse($announcements as $article)
@@ -31,8 +25,13 @@
                         </a>
                     @endif
                     <div class="p-5 flex flex-col flex-1">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ __('messages.announcements.categories.'.$article->category) }}</span>
-                        <h2 class="text-lg font-bold text-slate-900 mt-1 mb-2">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ __('messages.content.modules.'.$article->module.'.label') }}</span>
+                            @if($article->sub_type)
+                                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">{{ __('messages.content.sub_types.'.$article->sub_type) }}</span>
+                            @endif
+                        </div>
+                        <h2 class="text-lg font-bold text-slate-900 mb-2">
                             <a href="{{ route('news.show', $article) }}" class="hover:text-emerald-800">{{ $article->title }}</a>
                         </h2>
                         <p class="text-sm text-slate-600 line-clamp-3 flex-1">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 140) }}</p>

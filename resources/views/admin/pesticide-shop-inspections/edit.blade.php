@@ -7,7 +7,7 @@
         <h1 class="text-3xl font-black text-emerald-900">{{ __('messages.inspections.edit_title') }}</h1>
         <p class="text-slate-600 text-sm">{{ $inspection->owner_name }} · {{ $inspection->township }}</p>
     </div>
-    <form method="POST" action="{{ route('admin.pesticide-shop-inspections.update', $inspection) }}" class="bg-white rounded-2xl border border-emerald-100 p-6 shadow-sm">
+    <form method="POST" action="{{ route('admin.pesticide-shop-inspections.update', $inspection) }}" class="bg-white rounded-2xl border border-emerald-100 p-6 shadow-sm" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('admin.pesticide-shop-inspections._form', [

@@ -23,10 +23,10 @@
     </div>
 
     <form method="GET" class="mb-6 flex flex-wrap gap-3">
-        <select name="category" class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="">{{ __('messages.announcements.all_categories') }}</option>
-            @foreach(\App\Models\AgriculturalAnnouncement::CATEGORIES as $category)
-                <option value="{{ $category }}" @selected(request('category') === $category)>{{ __('messages.announcements.categories.'.$category) }}</option>
+        <select name="module" class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="">{{ __('messages.announcements.all_modules') }}</option>
+            @foreach(\App\Support\AgriculturalContentCatalog::modules() as $module)
+                <option value="{{ $module }}" @selected(request('module') === $module)>{{ __('messages.content.modules.'.$module.'.label') }}</option>
             @endforeach
         </select>
         <select name="published" class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
@@ -42,7 +42,7 @@
             <thead class="bg-emerald-50 text-left">
                 <tr>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.title_field') }}</th>
-                    <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.category_field') }}</th>
+                    <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.module_field') }}</th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.published_at_field') }}</th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.common.actions') }}</th>
                 </tr>
@@ -51,7 +51,12 @@
                 @forelse($announcements as $announcement)
                     <tr class="hover:bg-emerald-50/50">
                         <td class="px-4 py-3 font-semibold">{{ $announcement->title }}</td>
-                        <td class="px-4 py-3">{{ __('messages.announcements.categories.'.$announcement->category) }}</td>
+                        <td class="px-4 py-3">
+                            <div>{{ __('messages.content.modules.'.$announcement->module.'.label') }}</div>
+                            @if($announcement->sub_type)
+                                <div class="text-xs text-slate-500">{{ __('messages.content.sub_types.'.$announcement->sub_type) }}</div>
+                            @endif
+                        </td>
                         <td class="px-4 py-3">
                             @if($announcement->is_published)
                                 <span class="text-emerald-700 font-bold text-xs">{{ __('messages.common.published') }}</span>
