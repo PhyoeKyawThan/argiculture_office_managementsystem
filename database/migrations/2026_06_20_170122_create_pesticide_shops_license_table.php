@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pesticide_shops_license', function (Blueprint $table) {
+        Schema::create('pesticide_shops_licenses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pesticide_shop_id')
                 ->nullable()

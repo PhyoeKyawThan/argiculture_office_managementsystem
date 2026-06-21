@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReviewPesticideShopRequest;
 use App\Models\PesticideShop;
+use App\Models\PesticideShopLicense;
+use App\Models\PesticideShopsLicense;
 use App\Models\User;
 use App\Traits\DateConverterTrait;
 use App\Traits\DocxProcessorTrait;
@@ -72,11 +74,65 @@ class PesticideShopController extends Controller
         }
         $updatePayload['reviewed_by'] = auth()->id();
         $shop->update($updatePayload);
+        if($status === 'approved') {
+            if($shop->license) {
+                $shop->license->update([
+                    'issued_date' => now(),
+                    'expiry_date' => now()->addYear(),
+                    'issued_by_user_id' => auth()->id(),
+                ]);
+            } else {
+                PesticideShopsLicense::create([
+                    'pesticide_shop_id' => $shop->id,
+                    'license_number' => 'LIC-' . Str::upper(Str::random(8)),
+                    'name' => $shop->name,
+                    'nrc' => $shop->nrc,
+                    'shop_address' => $shop->requested_selling_address,
+                    'issued_date' => now(),
+                    'expiry_date' => now()->addYear()->addYear(),
+                    'issued_by_user_id' => auth()->id(),
+                ]);
+            }
+        }
         return redirect()
             ->back()
             ->with('success', __('Application status has been updated successfully.'));
     }
 
+    public function downloadLicense(Request $request, PesticideShop $shop)
+    {
+        if ($shop->status !== PesticideShop::STATUS_APPROVED) {
+            return redirect()->back()->with('error', 'Only approved shops can download the license.');
+        }
+        $license = $shop->license;
+        $textReplacements = [
+            'license_number' => $license->license_number,
+            'name' => $license->name,
+            'nrc' => $license->nrc,
+            'shop_address' => $license->shop_address,
+            'issued_date' => $this->convertToBurmeseDate($license->issued_date),
+            'expiry_date' => $this->convertToBurmeseDate($license->expiry_date),
+        ];
+
+        $imageReplacements = [
+            // 'signature' => $shop->signature,
+        ];
+
+        $templatePath = 'templates/license.docx';
+
+        try {
+            $filePath = $this->generatePurePhpPdf($templatePath, $textReplacements, $imageReplacements);
+
+            return response()
+                ->download($filePath, "လိုင်စင်-{$shop->name}.pdf", [
+                    'Content-Type' => 'application/pdf'
+                ])
+                ->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Document compilation failed: ' . $e->getMessage());
+        }
+    }
     public function downloadDocument(Request $request, $id)
     {
         $shop = PesticideShop::findOrFail($id);

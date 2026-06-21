@@ -63,6 +63,11 @@ class PesticideShop extends Model
         );
     }
 
+    public function license()
+    {
+        return $this->hasOne(PesticideShopsLicense::class, 'pesticide_shop_id');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

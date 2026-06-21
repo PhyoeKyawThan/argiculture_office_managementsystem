@@ -209,6 +209,9 @@
                 <a href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}" class="btn-word">
                     Download Agreement Word (.docx)
                 </a>
+                 <a href="{{ route('admin.pesticide-shops.download_license', [$pesticideShop->id]) }}" class="btn-word">
+                    Download License Word (.pdf)
+                </a>
             </div>
             @if($pesticideShop->status === 'rejected' && $pesticideShop->rejection_reason)
                 <div class="rounded-3xl border border-red-200 bg-red-50 p-6 text-sm text-red-800 shadow-sm">

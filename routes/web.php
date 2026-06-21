@@ -89,6 +89,7 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
         Route::resource('pesticide-shops', AdminPesticideShopController::class)->only(['index', 'show']);
         Route::get('pesticide-shops/{shop}/download-agreements', [AdminPesticideShopController::class, 'downloadSurroundingAgreements'])->name('pesticide-shops.download_agreements');
         Route::get('pesticide-shops/{id}/download', [AdminPesticideShopController::class, 'downloadDocument'])->name('pesticide-shops.download');
+        Route::get('pesticide-shops/{shop}/download-license', [AdminPesticideShopController::class, 'downloadLicense'])->name('pesticide-shops.download_license');
     });
 
     Route::middleware('role:admin')->group(function () {
