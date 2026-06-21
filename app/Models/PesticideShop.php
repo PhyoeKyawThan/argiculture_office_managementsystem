@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -34,7 +35,10 @@ class PesticideShop extends Model
         'has_emergency_preparedness_plan',
         'signature',
         'attachments',
-        'surrounding_agreements'
+        'surrounding_agreements',
+        'status',
+        'rejection_reason',
+        'reviewed_by',
     ];
 
     protected $casts = [
@@ -42,6 +46,22 @@ class PesticideShop extends Model
         'surrounding_agreements' => 'array',
         'has_emergency_preparedness_plan' => 'boolean',
     ];
+    protected function nrc(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                if (preg_match('/^([^\(]+\([^\)]+\))\s*[^\(]+(\([^\)]+\)\d+)$/u', $value, $matches)) {
+                    return $matches[1] . $matches[2];
+                }
+
+                if (preg_match('/^([^\s\(]+)\s*(\([^\)]+\))[^\(]+(\([^\)]+\)\d+)/u', $value, $matches)) {
+                    return $matches[1] . $matches[2] . $matches[3];
+                }
+
+                return $value;
+            }
+        );
+    }
 
     public function user(): BelongsTo
     {

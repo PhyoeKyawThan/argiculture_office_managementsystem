@@ -201,6 +201,15 @@
         </div>
 
         <div class="space-y-6">
+            <div class="rounded-3xl border border-red-200 bg-red-50 p-6 text-sm text-red-800 shadow-sm">
+                <a href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'pdf']) }}" class="btn-pdf">Download PDF</a>
+                <a href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'docx']) }}" class="btn-word">
+                    Download Word (.docx)
+                </a>
+                <a href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}" class="btn-word">
+                    Download Agreement Word (.docx)
+                </a>
+            </div>
             @if($pesticideShop->status === 'rejected' && $pesticideShop->rejection_reason)
                 <div class="rounded-3xl border border-red-200 bg-red-50 p-6 text-sm text-red-800 shadow-sm">
                     <p class="font-black text-base flex items-center gap-1 mb-2">
@@ -216,12 +225,12 @@
                     <h2 class="text-lg font-black text-slate-900">Application Review</h2>
                     <p class="text-xs text-slate-400">Evaluate application materials, attachments, and neighborhood validations before verifying approval status.</p>
                     
-                    <form method="POST" action="{{ route('admin.pesticide-shops.update', $pesticideShop) }}" class="space-y-4">
+                    <form method="POST" action="{{ route('admin.pesticide-shops.update_status', $pesticideShop) }}" class="space-y-4">
                         @csrf
                         @method('PUT')
                         
                         <div class="space-y-2">
-                            <button type="submit" name="action" value="approved"
+                            <button type="submit" name="status" value="approved"
                                 class="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-md shadow-emerald-700/10 text-sm">
                                 Approve Application
                             </button>
@@ -233,7 +242,7 @@
                                 class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('rejection_reason') }}</textarea>
                         </div>
                         
-                        <button type="submit" name="action" value="rejected"
+                        <button type="submit" name="status" value="rejected"
                             class="w-full py-3 border border-red-200 text-red-700 hover:bg-red-50 font-bold rounded-xl transition text-sm">
                             Reject Application
                         </button>

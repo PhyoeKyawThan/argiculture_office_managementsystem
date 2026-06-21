@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeatureSettingController;
 use App\Http\Controllers\Admin\LandingSectionController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\PesticideShopController;
+use App\Http\Controllers\Admin\PesticideShopController as AdminPesticideShopController;
+use App\Http\Controllers\Shop\PesticideShopController as ShopPesticideShopController;
 use App\Http\Controllers\Admin\PesticideShopInspectionController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController;
@@ -49,10 +50,10 @@ Route::post('/logout', [LoginController::class, 'destroy'])
 
 Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(function () {
     Route::get('/dashboard', [ShopDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/license-register', [PesticideShopController::class, 'licenseRegisterationForm'])->name('licenseRegisterationForm');
-    Route::post('/license-register', [PesticideShopController::class, 'store'])->name('storeLicenseApplication');
-    Route::get('/license/edit/{id}', [PesticideShopController::class, 'licenseEditForm'])->name('licenseEditForm');
-    Route::put('/shop/license/update/{id}', [PesticideShopController::class, 'update'])->name('licenseUpdate');
+    Route::get('/license-register', [ShopPesticideShopController::class, 'licenseRegisterationForm'])->name('licenseRegisterationForm');
+    Route::post('/license-register', [ShopPesticideShopController::class, 'store'])->name('storeLicenseApplication');
+    Route::get('/license/edit/{id}', [ShopPesticideShopController::class, 'licenseEditForm'])->name('licenseEditForm');
+    Route::put('/shop/license/update/{id}', [ShopPesticideShopController::class, 'update'])->name('licenseUpdate');
 });
 
 Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->group(function () {
@@ -83,7 +84,11 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
     Route::resource('announcements', AgriculturalAnnouncementController::class)->except(['show']);
 
     Route::middleware('feature:shop_registration')->group(function () {
-        Route::resource('pesticide-shops', PesticideShopController::class)->only(['index', 'show', 'update']);
+        Route::put('pesticide-shops/{shop}/update-status', [AdminPesticideShopController::class, 'update_status'])
+            ->name('pesticide-shops.update_status');
+        Route::resource('pesticide-shops', AdminPesticideShopController::class)->only(['index', 'show']);
+        Route::get('pesticide-shops/{shop}/download-agreements', [AdminPesticideShopController::class, 'downloadSurroundingAgreements'])->name('pesticide-shops.download_agreements');
+        Route::get('pesticide-shops/{id}/download', [AdminPesticideShopController::class, 'downloadDocument'])->name('pesticide-shops.download');
     });
 
     Route::middleware('role:admin')->group(function () {

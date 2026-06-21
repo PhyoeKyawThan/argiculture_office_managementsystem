@@ -12,7 +12,9 @@
         "php": "^8.3",
         "laravel/framework": "^13.7",
         "laravel/tinker": "^3.0",
-        "phpoffice/phpword": "^1.4"
+        "mpdf/mpdf": "^8.3",
+        "ncjoes/office-converter": "^1.0",
+        "phpoffice/phpword": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

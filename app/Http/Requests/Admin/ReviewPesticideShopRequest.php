@@ -16,20 +16,15 @@ class ReviewPesticideShopRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action' => ['required', Rule::in([PesticideShop::STATUS_APPROVED, PesticideShop::STATUS_REJECTED])],
-            'rejection_reason' => [
-                Rule::requiredIf(fn () => $this->input('action') === PesticideShop::STATUS_REJECTED),
-                'nullable',
-                'string',
-                'max:1000',
-            ],
+            'status' => 'required|in:approved,rejected',
+            'rejection_reason' => 'required_if:status,rejected|nullable|string|min:5',
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'action' => __('messages.shop_reg.review_action'),
+            'status' => __('messages.shop_reg.status'),
             'rejection_reason' => __('messages.shop_reg.rejection_reason'),
         ];
     }
