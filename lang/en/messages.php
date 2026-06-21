@@ -69,7 +69,7 @@ return [
         'download' => 'Download',
     ],
     'auth' => [
-        'sign_in_title' => 'Staff Sign In',
+        'sign_in_title' => 'Sign In',
         'sign_in_subtitle' => 'Use your office credentials to access the admin panel.',
         'email' => 'Email',
         'password' => 'Password',
@@ -311,8 +311,11 @@ return [
     ],
     'shop' => [
         'title' => 'AgriManage Shop',
+        'dashboard' => 'Dashboard',
         'welcome' => 'Welcome, :name',
+        'go_back_home' => 'Site Home',
         'portal_desc' => 'Shop operator portal. Full features coming soon.',
+        'select_nrc_code_first' => 'Select NRC Code First'
     ],
     'errors' => [
         'staff_delete_forbidden' => 'Only administrators can delete staff records.',
@@ -455,11 +458,13 @@ return [
     'shop_reg' => [
         'title' => 'Pesticide Shop Registration',
         'nav' => 'Register Shop',
-        'subtitle' => 'Submit your shop details for office review and approval.',
+        'subtitle' => 'To register your pesticide retail shop, you need to register an account.',
         'shop_name' => 'Shop Name',
-        'owner_name' => 'Owner Name',
+        'owner_name' => 'Name',
         'license_number' => 'License Number',
         'phone' => 'Phone',
+        'password' => 'Password',
+        'confirm_password' => 'Confirm Password',
         'email' => 'Email',
         'address' => 'Address / Location',
         'township' => 'Township',

@@ -49,6 +49,10 @@ Route::post('/logout', [LoginController::class, 'destroy'])
 
 Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(function () {
     Route::get('/dashboard', [ShopDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/license-register', [PesticideShopController::class, 'licenseRegisterationForm'])->name('licenseRegisterationForm');
+    Route::post('/license-register', [PesticideShopController::class, 'store'])->name('storeLicenseApplication');
+    Route::get('/license/edit/{id}', [PesticideShopController::class, 'licenseEditForm'])->name('licenseEditForm');
+    Route::put('/shop/license/update/{id}', [PesticideShopController::class, 'update'])->name('licenseUpdate');
 });
 
 Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->group(function () {

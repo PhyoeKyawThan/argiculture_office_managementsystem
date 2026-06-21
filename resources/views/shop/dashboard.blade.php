@@ -1,32 +1,96 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('messages.shop.title') }} · {{ __('messages.app.brand') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-emerald-50 min-h-screen font-sans">
-    <header class="bg-emerald-900 text-white px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
-        <span class="font-bold text-lg">{{ __('messages.shop.title') }}</span>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="text-sm text-emerald-200 hover:text-white font-semibold">{{ __('messages.auth.sign_out') }}</button>
-        </form>
-    </header>
-    <main class="max-w-3xl mx-auto p-6 sm:p-8">
-        <h1 class="text-2xl font-black text-emerald-900 mb-2">{{ __('messages.shop.welcome', ['name' => auth()->user()->name]) }}</h1>
-        <p class="text-slate-600 mb-6">{{ __('messages.shop.portal_desc') }}</p>
+@extends('shop.layouts.root')
 
-        @if($shop = auth()->user()->pesticideShop)
-            <div class="bg-white rounded-2xl border border-emerald-100 p-6 shadow-sm space-y-3 text-sm">
-                <h2 class="text-lg font-black text-emerald-900">{{ $shop->shop_name }}</h2>
-                <p><span class="font-bold text-slate-500">{{ __('messages.shop_reg.license_number') }}:</span> {{ $shop->license_number }}</p>
-                <p><span class="font-bold text-slate-500">{{ __('messages.shop_reg.address') }}:</span> {{ $shop->address }}</p>
-                <p><span class="font-bold text-slate-500">{{ __('messages.shop_reg.phone') }}:</span> {{ $shop->phone }}</p>
-                <span class="inline-block px-2 py-0.5 rounded-full text-xs font-black uppercase bg-emerald-100 text-emerald-800">{{ __('messages.shop_reg.statuses.approved') }}</span>
+@section('title', __('messages.shop.title'))
+
+@section('breadcumb')
+    <span>{{ __('messages.shop.dashboard') }}</span>
+@endsection
+
+@section('content')
+    <h1 class="text-2xl font-black text-emerald-900 mb-2">
+        {{ __('messages.shop.welcome', ['name' => auth()->user()->name]) }}
+    </h1>
+    <p class="text-slate-600 mb-6">{{ __('messages.shop.portal_desc') }}</p>
+
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-sm font-semibold">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if($shop = auth()->user()->pesticideShop)
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
+            
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-50 pb-4">
+                <div>
+                    <h2 class="text-xl font-black text-slate-900">{{ $shop->name }}</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Submitted: {{ $shop->created_at->format('M j, Y') }}</p>
+                </div>
+                
+                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
+                    @if($shop->status === 'approved') bg-emerald-100 text-emerald-800
+                    @elseif($shop->status === 'rejected') bg-red-100 text-red-800
+                    @else bg-amber-100 text-amber-800 @endif">
+                    {{ $shop->status }}
+                </span>
             </div>
-        @endif
-    </main>
-</body>
-</html>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->nrc }}</span>
+                </div>
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Township</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->township }}</span>
+                </div>
+                <div class="sm:col-span-2">
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Proposed Selling Address</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->requested_selling_address }}</span>
+                </div>
+            </div>
+
+            @if($shop->status === 'rejected' && $shop->rejection_reason)
+                <div class="p-4 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-800">
+                    <p class="font-bold mb-1">Rejection Reason Note from Agriculture Inspector:</p>
+                    <p class="text-xs text-slate-700 bg-white/50 p-2.5 rounded-xl border border-red-200/40 mt-1">{{ $shop->rejection_reason }}</p>
+                </div>
+            @endif
+
+            <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4">
+                @if($shop->status === 'pending' || $shop->status === 'rejected')
+                    <div class="text-xs text-slate-400">
+                        @if($shop->status === 'pending')
+                            <span class="text-amber-600 font-bold">※ Under Review:</span> You can modify your responses while the application is pending review.
+                        @else
+                            <span class="text-red-600 font-bold">※ Action Required:</span> Please update and fix the elements requested by the inspector.
+                        @endif
+                    </div>
+                    <a href="{{ route('shop.licenseEditForm', $shop->id) }}" 
+                       class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm whitespace-nowrap">
+                        Update Application Data &rarr;
+                    </a>
+                @else
+                    <div class="text-xs text-emerald-700 bg-emerald-50 border border-emerald-100/60 px-3 py-2 rounded-xl w-full">
+                        ✔ Your license application process is verified. Your physical certificate package is being generated by the department.
+                    </div>
+                @endif
+            </div>
+
+        </div>
+    @else
+        <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm text-center max-w-xl mx-auto space-y-4 my-6">
+            <div class="h-12 w-12 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-xl font-bold">
+                ၇
+            </div>
+            <div>
+                <h3 class="text-base font-black text-slate-900">No Submitted Form 7 Applications Found</h3>
+                <p class="text-xs text-slate-400 mt-1">You have not registered your pesticide shop details yet. Please complete your profile layout to gain access to trading allocations.</p>
+            </div>
+            <a href="{{ route('shop.licenseRegisterationForm') }}"
+                class="inline-block px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black rounded-xl transition shadow-md shadow-emerald-700/10">
+                Complete Form 7 License Profile
+            </a>
+        </div>
+    @endif
+@endsection

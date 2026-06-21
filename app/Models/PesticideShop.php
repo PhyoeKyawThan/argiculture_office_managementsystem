@@ -21,22 +21,26 @@ class PesticideShop extends Model
 
     protected $fillable = [
         'user_id',
-        'shop_name',
-        'owner_name',
-        'license_number',
-        'phone',
-        'email',
-        'address',
+        'name',
         'township',
-        'region',
-        'status',
-        'rejection_reason',
-        'reviewed_by',
-        'reviewed_at',
+        'nrc',
+        'education',
+        'stable_address',
+        'requested_selling_address',
+        'building_type',
+        'building_area',
+        'from_restaurant_distance',
+        'retail_or_wholesale',
+        'has_emergency_preparedness_plan',
+        'signature',
+        'attachments',
+        'surrounding_agreements'
     ];
 
     protected $casts = [
-        'reviewed_at' => 'datetime',
+        'attachments' => 'array',
+        'surrounding_agreements' => 'array',
+        'has_emergency_preparedness_plan' => 'boolean',
     ];
 
     public function user(): BelongsTo

@@ -107,6 +107,8 @@ return [
         ),
     ],
 
+    'nrc_formats' => require base_path('assets/nrc_format.php'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
