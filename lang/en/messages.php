@@ -314,7 +314,7 @@ return [
         'dashboard' => 'Dashboard',
         'welcome' => 'Welcome, :name',
         'go_back_home' => 'Site Home',
-        'portal_desc' => 'Shop operator portal. Full features coming soon.',
+        'portal_desc' => 'Shop operator portal.',
         'select_nrc_code_first' => 'Select NRC Code First'
     ],
     'errors' => [
@@ -489,6 +489,24 @@ return [
             'approved' => 'Approved',
             'rejected' => 'Rejected',
         ],
+    ],
+    'shop_dashboard' => [
+        'title' => 'Shop Dashboard',
+        'subtitle' => 'Your pesticide shop registration status and license certificate.',
+        'registration_status' => 'Registration Status',
+        'license_certificate' => 'License Certificate',
+        'download_license' => 'Download License Certificate',
+        'pending_review' => 'Your shop registration is pending review. You will be notified after the office reviews your application.',
+        'approved_notice' => 'Your shop registration has been approved. You can download your license certificate below.',
+        'rejected_notice' => 'Your shop registration has been rejected. Please contact the agriculture office for more information.',
+    ],
+    'pesticide_shops' => [
+        'download' => 'Download License Application',
+        'download_agreements' => 'Download Surrounding Agreements',
+        'download_license' => 'Download License',
+        'status_pending' => 'Pending',
+        'status_approved' => 'Approved',
+        'status_rejected' => 'Rejected',
     ],
     'notifications' => [
         'title' => 'Notifications',

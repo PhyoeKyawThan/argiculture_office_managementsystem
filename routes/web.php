@@ -54,6 +54,7 @@ Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(f
     Route::post('/license-register', [ShopPesticideShopController::class, 'store'])->name('storeLicenseApplication');
     Route::get('/license/edit/{id}', [ShopPesticideShopController::class, 'licenseEditForm'])->name('licenseEditForm');
     Route::put('/shop/license/update/{id}', [ShopPesticideShopController::class, 'update'])->name('licenseUpdate');
+    Route::get('pesticide-shops/{shop}/download-license', [AdminPesticideShopController::class, 'downloadLicense'])->name('licenseDownload');
 });
 
 Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->group(function () {

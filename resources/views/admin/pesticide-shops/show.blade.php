@@ -22,7 +22,7 @@
                         @if($pesticideShop->status === 'approved') bg-emerald-100 text-emerald-800
                         @elseif($pesticideShop->status === 'rejected') bg-red-100 text-red-800
                         @else bg-amber-100 text-amber-800 @endif">
-                        {{ $pesticideShop->status }}
+                        {{  __('messages.pesticide_shops.status_' . $pesticideShop->status) }}
                     </span>
                 </div>
 
@@ -85,7 +85,6 @@
                 <h3 class="text-base font-black text-slate-900">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ (Surrounding Agreements)</h3>
                 
                 @php
-                    // Decode structural metadata safely if it exists inside string/json representation
                     $agreements = is_string($pesticideShop->surrounding_aggreements) 
                         ? json_decode($pesticideShop->surrounding_aggreements, true) 
                         : $pesticideShop->surrounding_aggreements;
@@ -201,16 +200,19 @@
         </div>
 
         <div class="space-y-6">
-            <div class="rounded-3xl border border-red-200 bg-red-50 p-6 text-sm text-red-800 shadow-sm">
-                <a href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'pdf']) }}" class="btn-pdf">Download PDF</a>
-                <a href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'docx']) }}" class="btn-word">
-                    Download Word (.docx)
+            <div class="flex justify-between flex-wrap gap-4 rounded-3xl border border-red-200 bg-blue-50 p-6 text-sm text-red-800 shadow-sm">
+                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'pdf']) }}">{{ __('messages.pesticide_shops.download') }} (.pdf)</a>
+                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'docx']) }}">
+                    {{ __('messages.pesticide_shops.download') }} (.docx)
                 </a>
-                <a href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}" class="btn-word">
-                    Download Agreement Word (.docx)
+                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}">
+                    {{ __('messages.pesticide_shops.download_agreements') }} (.docx)
                 </a>
-                 <a href="{{ route('admin.pesticide-shops.download_license', [$pesticideShop->id]) }}" class="btn-word">
-                    Download License Word (.pdf)
+                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'pdf']) }}">
+                    {{ __('messages.pesticide_shops.download_agreements') }} (.pdf)
+                </a>
+                 <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_license', [$pesticideShop->id]) }}">
+                    {{ __('messages.pesticide_shops.download_license') }} (.pdf)
                 </a>
             </div>
             @if($pesticideShop->status === 'rejected' && $pesticideShop->rejection_reason)
