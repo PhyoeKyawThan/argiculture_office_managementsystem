@@ -40,6 +40,10 @@
                 {{ __('messages.nav.inquiries') }}
             </a>
         @endif
+            <a href="{{ route('admin.fertilizer-licenses.index') }}" class="{{ $navLink(request()->routeIs('admin.fertilizer-licenses.*')) }}">
+                <i data-lucide="truck" class="{{ $iconClass }}"></i>
+                Fertilizer Licenses
+            </a>
         <a href="{{ route('admin.announcements.index') }}" class="{{ $navLink(request()->routeIs('admin.announcements.*')) }}">
             <i data-lucide="newspaper" class="{{ $iconClass }}"></i>
             {{ __('messages.nav.announcements') }}

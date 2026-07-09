@@ -108,4 +108,55 @@
             </a>
         </div>
     @endif
+
+    <div class="mt-8 bg-white rounded-3xl border border-emerald-100 p-6 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-4">
+            <div>
+                <h2 class="text-xl font-black text-slate-900">Fertilizer Distribution License</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Manage your fertilizer distribution application from here.</p>
+            </div>
+
+            @if($latestFertilizerLicense)
+                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
+                    {{ $latestFertilizerLicense->status === 'completed' ? 'bg-emerald-100 text-emerald-800' : ($latestFertilizerLicense->status === 'sending_to_regional_department' ? 'bg-blue-100 text-blue-800' : ($latestFertilizerLicense->status === 'allowed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800')) }}">
+                    {{ ucfirst(str_replace('_', ' ', $latestFertilizerLicense->status)) }}
+                </span>
+            @endif
+        </div>
+
+        @if($latestFertilizerLicense)
+            <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Applicant</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->applicant_name }}</span>
+                </div>
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Submitted</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ optional($latestFertilizerLicense->application_date)->format('M j, Y') ?? __('messages.common.em_dash') }}</span>
+                </div>
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->nrc_number }}</span>
+                </div>
+                <div>
+                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Items</span>
+                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->items->count() }}</span>
+                </div>
+            </div>
+            <div class="text-sm text-slate-600 bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+                {{ $latestFertilizerLicense->status === 'sending_to_regional_department'
+                    ? 'Your application is being transferred to the Regional Department.'
+                    : 'Your current application status will appear here after submission.' }}
+            </div>
+        @else
+            <p class="text-sm text-slate-600">Submit a new fertilizer distribution license application to start the review process.</p>
+        @endif
+
+        <div class="pt-2 border-t border-slate-50 flex items-center justify-end gap-3">
+            <a href="{{ route('shop.fertilizer-licenses.create') }}"
+                class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm whitespace-nowrap">
+                Apply for Fertilizer License →
+            </a>
+        </div>
+    </div>
 @endsection

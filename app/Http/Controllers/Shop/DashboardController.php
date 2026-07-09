@@ -9,6 +9,12 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        return view('shop.dashboard');
+        $latestFertilizerLicense = auth()->user()
+            ?->fertilizerDistributionLicenses()
+            ->with('items')
+            ->latest()
+            ->first();
+
+        return view('shop.dashboard', compact('latestFertilizerLicense'));
     }
 }

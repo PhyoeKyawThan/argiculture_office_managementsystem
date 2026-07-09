@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ShopRegisterController;
 use App\Http\Controllers\Admin\AgriculturalAnnouncementController;
 use App\Http\Controllers\Admin\AgriculturalInquiryController;
+use App\Http\Controllers\Admin\FertilizerLicenseController as AdminFertilizerLicenseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeatureSettingController;
 use App\Http\Controllers\Admin\LandingSectionController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Farmer\DashboardController as FarmerDashboardController;
 use App\Http\Controllers\Farmer\InquiryController as FarmerInquiryController;
+use App\Http\Controllers\Shop\FertilizerLicenseController as ShopFertilizerLicenseController;
+use App\Http\Controllers\Shop\NotificationController as ShopNotificationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
@@ -54,6 +57,10 @@ Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(f
     Route::post('/license-register', [ShopPesticideShopController::class, 'store'])->name('storeLicenseApplication');
     Route::get('/license/edit/{id}', [ShopPesticideShopController::class, 'licenseEditForm'])->name('licenseEditForm');
     Route::put('/shop/license/update/{id}', [ShopPesticideShopController::class, 'update'])->name('licenseUpdate');
+    Route::get('/fertilizer-licenses/apply', [ShopFertilizerLicenseController::class, 'create'])->name('fertilizer-licenses.create');
+    Route::post('/fertilizer-licenses', [ShopFertilizerLicenseController::class, 'store'])->name('fertilizer-licenses.store');
+    Route::post('/notifications/read-all', [ShopNotificationController::class, 'readAll'])->name('notifications.read-all');
+    Route::post('/notifications/{notification}/read', [ShopNotificationController::class, 'read'])->name('notifications.read');
     Route::get('pesticide-shops/{shop}/download-license', [AdminPesticideShopController::class, 'downloadLicense'])->name('licenseDownload');
 });
 
@@ -81,6 +88,10 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
     Route::middleware('feature:farmer_inquiries')->group(function () {
         Route::resource('inquiries', AgriculturalInquiryController::class)->only(['index', 'show', 'update']);
     });
+
+    Route::get('fertilizer-licenses', [AdminFertilizerLicenseController::class, 'index'])->name('fertilizer-licenses.index');
+    Route::get('fertilizer-licenses/{fertilizer_license}', [AdminFertilizerLicenseController::class, 'show'])->name('fertilizer-licenses.show');
+    Route::put('fertilizer-licenses/{fertilizer_license}/status', [AdminFertilizerLicenseController::class, 'updateStatus'])->name('fertilizer-licenses.update_status');
 
     Route::resource('announcements', AgriculturalAnnouncementController::class)->except(['show']);
 

@@ -31,10 +31,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('enabledModules', \App\Support\AgriculturalContentCatalog::enabledModules());
         });
 
-        View::composer('admin.layouts.root', function ($view) {
+        View::composer(['admin.layouts.root', 'shop.layouts.root'], function ($view) {
             $user = auth()->user();
 
-            if ($user && $user->isBackOffice()) {
+            if ($user) {
                 $view->with([
                     'unreadNotifications' => $user->unreadNotifications()->latest()->limit(10)->get(),
                     'unreadNotificationCount' => $user->unreadNotifications()->count(),

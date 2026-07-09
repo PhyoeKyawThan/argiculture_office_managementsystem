@@ -93,6 +93,11 @@ class User extends Authenticatable
         return $this->hasMany(AgriculturalAnnouncement::class);
     }
 
+    public function fertilizerDistributionLicenses(): HasMany
+    {
+        return $this->hasMany(FertilizerDistributionLicense::class);
+    }
+
     public function pesticideShop(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(PesticideShop::class);
