@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->text('permanent_address')->nullable();
             $table->text('distribution_location_address')->nullable();
             $table->string('building_type')->nullable();
+            $table->string('township')->nullable();
             $table->string('building_dimensions')->nullable();
             $table->json('attachment_nrc')->nullable(false); // nrc_front and nrc_end 
             $table->enum('status', ['pending', 'allowed', 'sending_to_regional_department', 'got_response_from_regional_department', 'completed', 'cancelled'])->default('pending');

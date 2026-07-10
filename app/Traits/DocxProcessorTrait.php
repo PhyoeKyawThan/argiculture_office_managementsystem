@@ -11,8 +11,10 @@ trait DocxProcessorTrait
     public function generatePurePhpDocx(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], array $tableData = [], string $disk = 'public'): string
     {
         // dd($templateDiskPath);
+        // $templateDiskPath = storage_path('app/public/' . $templateDiskPath);
         // dd(Storage::disk($disk)->allDirectories());
-        // dd(Storage::disk($disk)->exists('templates/sorrounding_agreement.docx'));
+        // dd(Storage::disk($disk)->path($templateDiskPath));
+        // dd(Storage::disk($disk)->exists($templateDiskPath));
         if (!Storage::disk($disk)->exists($templateDiskPath)) {
             throw new Exception("Template file context missing at: " . $templateDiskPath);
         }
@@ -67,9 +69,9 @@ trait DocxProcessorTrait
         return $tempDocxPath;
     }
 
-    public function generatePurePhpPdf(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], string $disk = 'public'): string
+    public function generatePurePhpPdf(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], array $tableData = [], string $disk = 'public'): string
     {
-        $tempDocxPath = $this->generatePurePhpDocx($templateDiskPath, $textReplacements, $imageReplacements, $disk);
+        $tempDocxPath = $this->generatePurePhpDocx($templateDiskPath, $textReplacements, $imageReplacements, $tableData, $disk);
 
         $tempDir = sys_get_temp_dir();
         $pathInfo = pathinfo($tempDocxPath);

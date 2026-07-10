@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             LandingSectionSeeder::class,
             StaffSeeder::class,
             AgriculturalAnnouncementSeeder::class,
+            FertilizerLicenseSeeder::class,
         ]);
     }
 }

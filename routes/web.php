@@ -91,6 +91,7 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
 
     Route::get('fertilizer-licenses', [AdminFertilizerLicenseController::class, 'index'])->name('fertilizer-licenses.index');
     Route::get('fertilizer-licenses/{fertilizer_license}', [AdminFertilizerLicenseController::class, 'show'])->name('fertilizer-licenses.show');
+    Route::get('fertilizer-licenses/{fertilizer_license}/generate', [AdminFertilizerLicenseController::class, 'generateDocx'])->name('fertilizer-licenses.generate');
     Route::put('fertilizer-licenses/{fertilizer_license}/status', [AdminFertilizerLicenseController::class, 'updateStatus'])->name('fertilizer-licenses.update_status');
 
     Route::resource('announcements', AgriculturalAnnouncementController::class)->except(['show']);
