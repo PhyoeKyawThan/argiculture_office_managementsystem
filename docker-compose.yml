@@ -14,7 +14,7 @@ services:
       SERVICE_TAGS: dev
     volumes:
       - .:/var/www
-    depends_on:      # <-- FIX 1: Explicitly tell the app to wait for DB to start (and stop after DB)
+    depends_on:     
       - db
       - redis
     networks:
@@ -32,12 +32,9 @@ services:
     depends_on:
       - app
       - redis
-      - db           # <-- FIX 2: Ensure queue stops before DB drops
+      - db           
     networks:
       - laravel-network
-
-  # Nginx Web Server
- # Nginx Web Server
   webserver:
     image: ghcr.io/phyoekyawthan/nginx:latest
     container_name: nginx
@@ -47,18 +44,16 @@ services:
       - "8000:80"
     volumes:
       - .:/var/www
-      - ./docker-compose/nginx/laravel.conf:/etc/nginx/conf.d/default.conf # <-- FIX THIS LINE
+      - ./docker-compose/nginx/laravel.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
     networks:
       - laravel-network
-
-  # Database
   db:
     image: ghcr.io/phyoekyawthan/mysql:latest
     container_name: mysql
     restart: unless-stopped
-    stop_grace_period: 2m # <-- FIX 3: Gives MySQL up to 2 minutes to flush data cleanly before a force-kill
+    stop_grace_period: 2m 
     ports:
       - "3306:3306"
     environment:
@@ -71,7 +66,6 @@ services:
     networks:
       - laravel-network
 
-  # Redis Cache & Queue Driver
   redis:
     image: ghcr.io/phyoekyawthan/redis:latest
     container_name: redis
