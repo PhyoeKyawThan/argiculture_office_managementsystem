@@ -46,7 +46,7 @@ class FertilizerLicenseController extends Controller
 
     public function generateDocx(FertilizerDistributionLicense $fertilizer_license, Request $request)
     {
-        $fertilizer_license->load(['user:id,name.email', 'items']);
+        $fertilizer_license->load(['user:id,name,email', 'items']);
         $requestedFormat = $request->query('format', 'pdf');
         $date_data_mm = DateHelper::getMyanmarFormattedDate($fertilizer_license->application_date);
         $letter_no_test = 129;
@@ -91,8 +91,8 @@ class FertilizerLicenseController extends Controller
             ];
         }
         $imageReplacements = [
-            'nrc_front' => $fertilizer_license->attachment_nrc['nrc_front'] ?? null,
-            'nrc_end' => $fertilizer_license->attachment_nrc['nrc_end'] ?? null,
+            'nrc_front' => $fertilizer_license->attachment_nrc['front'] ?? null,
+            'nrc_end' => $fertilizer_license->attachment_nrc['back'] ?? null,
         ];
         // dd($imageReplacements);
         $templatePath = 'templates/fertilizer_application.docx';

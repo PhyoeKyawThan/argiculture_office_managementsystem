@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
-                    @foreach(['nrc_front' => 'Front NRC', 'nrc_end' => 'Back NRC'] as $key => $label)
+                    @foreach(['front' => 'Front NRC', 'back' => 'Back NRC'] as $key => $label)
                         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
                             <span class="block text-sm font-bold text-slate-700">{{ $label }}</span>
                             @if(data_get($license->attachment_nrc, $key))

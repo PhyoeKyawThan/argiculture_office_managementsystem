@@ -83,6 +83,13 @@
 
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="township">Township</label>
+                        <select name="township" id="township" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('township') border-red-400 @enderror">
+                            <option value="Hinthada">Hinthada</option>
+                        </select>
+                        @error('township')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1" for="permanent_address">Permanent Address</label>
                         <textarea name="permanent_address" id="permanent_address" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('permanent_address') border-red-400 @enderror">{{ old('permanent_address') }}</textarea>
                         @error('permanent_address')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror

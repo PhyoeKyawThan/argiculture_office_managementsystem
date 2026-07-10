@@ -18,6 +18,7 @@ class StoreFertilizerLicenseRequest extends FormRequest
             'applicant_name' => ['required', 'string', 'max:255'],
             'shop_name' => ['nullable', 'string', 'max:255'],
             'nrc_number' => ['required', 'string', 'max:255'],
+            'township' => ['required', 'string', 'max:255'],
             'education_level' => ['nullable', 'string', 'max:255'],
             'work_experience' => ['nullable', 'boolean'],
             'permanent_address' => ['nullable', 'string'],

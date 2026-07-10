@@ -37,6 +37,7 @@ class FertilizerLicenseController extends Controller
                 'user_id' => $request->user()?->id,
                 'application_date' => $data['application_date'] ?? today()->toDateString(),
                 'applicant_name' => $data['applicant_name'],
+                'township' => $data['township'],
                 'shop_name' => $data['shop_name'] ?? null,
                 'nrc_number' => $data['nrc_number'],
                 'education_level' => $data['education_level'] ?? null,
