@@ -8,8 +8,17 @@ use Exception;
 
 trait DocxProcessorTrait
 {
-    public function generatePurePhpDocx(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], array $tableData = [], string $disk = 'public'): string
-    {
+    public function generatePurePhpDocx(
+        string $templateDiskPath,
+        array $textReplacements,
+        array $imageReplacements = [],
+        array $tableData = [],
+        string $disk = 'public',
+        array $imageDimensions = [
+            "width" => null,
+            "height" => null,
+        ]
+    ): string {
         // dd($templateDiskPath);
         // $templateDiskPath = storage_path('app/public/' . $templateDiskPath);
         // dd(Storage::disk($disk)->allDirectories());
@@ -45,8 +54,8 @@ trait DocxProcessorTrait
 
                 $imageOptions = [
                     'path' => $imagePath,
-                    'width' => 140,
-                    'height' => 70,
+                    'width' => $imageDimensions['width'] ?? 140,
+                    'height' => $imageDimensions['height'] ?? 70,
                     'ratio' => true
                 ];
 
@@ -69,9 +78,25 @@ trait DocxProcessorTrait
         return $tempDocxPath;
     }
 
-    public function generatePurePhpPdf(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], array $tableData = [], string $disk = 'public'): string
-    {
-        $tempDocxPath = $this->generatePurePhpDocx($templateDiskPath, $textReplacements, $imageReplacements, $tableData, $disk);
+    public function generatePurePhpPdf(
+        string $templateDiskPath,
+        array $textReplacements,
+        array $imageReplacements = [],
+        array $tableData = [],
+        string $disk = 'public',
+        array $imageDimensions = [
+            "width" => null,
+            "height" => null,
+        ]
+    ): string {
+        $tempDocxPath = $this->generatePurePhpDocx(
+            $templateDiskPath,
+            $textReplacements,
+            $imageReplacements,
+            $tableData,
+            $disk,
+            $imageDimensions
+        );
 
         $tempDir = sys_get_temp_dir();
         $pathInfo = pathinfo($tempDocxPath);

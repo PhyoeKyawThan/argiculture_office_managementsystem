@@ -39,7 +39,6 @@ class FertilizerLicenseController extends Controller
     public function show(FertilizerDistributionLicense $fertilizer_license): View
     {
         $fertilizer_license->load(['user:id,name,email', 'items']);
-
         return view('admin.fertilizer-licenses.show', [
             'license' => $fertilizer_license,
         ]);
@@ -78,7 +77,7 @@ class FertilizerLicenseController extends Controller
             'building_dimensions' => $fertilizer_license->building_dimensions,
         ];
         $tableData = [
-            'row_no' => [] 
+            'row_no' => []
         ];
 
         foreach ($fertilizer_license->items as $index => $item) {
@@ -87,19 +86,42 @@ class FertilizerLicenseController extends Controller
                 'fertilizer_name' => $item->fertilizer_name,
                 'chemical_formula' => $item->chemical_formula ?? '-',
                 'fertilizer_type' => $item->fertilizer_type ?? '-',
-                'packaging_material' => $item->packaging_size ?? '-', 
+                'packaging_material' => $item->packaging_size ?? '-',
                 'weight_volume' => $item->weight_volume ?? '-',
             ];
         }
+        $imageReplacements = [
+            'nrc_front' => $fertilizer_license->attachment_nrc['nrc_front'] ?? null,
+            'nrc_end' => $fertilizer_license->attachment_nrc['nrc_end'] ?? null,
+        ];
+        // dd($imageReplacements);
         $templatePath = 'templates/fertilizer_application.docx';
         try {
             if ($requestedFormat === 'docx') {
-                $filePath = $this->generatePurePhpDocx($templatePath, $textReplacements, tableData: $tableData);
+                $filePath = $this->generatePurePhpDocx(
+                    $templatePath,
+                    $textReplacements,
+                    $imageReplacements,
+                    $tableData,
+                    imageDimensions: [
+                        "width" => 600,
+                        "height" => 300,
+                    ]
+                );
                 return response()
                     ->download($filePath, "မြေသြဇာ လိုင်စင်လျှောက်လွှာ-{$fertilizer_license->shop_name}.docx")
                     ->deleteFileAfterSend(true);
             }
-            $filePath = $this->generatePurePhpPdf($templatePath, $textReplacements, tableData: $tableData);
+            $filePath = $this->generatePurePhpPdf(
+                $templatePath,
+                $textReplacements,
+                $imageReplacements,
+                $tableData,
+                imageDimensions: [
+                    "width" => 600,
+                    "height" => 300,
+                ]
+            );
 
             return response()
                 ->download($filePath, "မြေသြဇာ လိုင်စင်လျှောက်လွှာ-{$fertilizer_license->shop_name}.pdf", [
