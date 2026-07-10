@@ -17,6 +17,7 @@ class AgriculturalContentCatalog
     public const MODULE_PESTICIDES = 'pesticides';
 
     public const MODULE_CROP_DISEASES = 'crop_diseases';
+    public const MODULE_SEEDS = 'seeds';
 
     public const MODULES = [
         self::MODULE_NEWS,
@@ -26,6 +27,7 @@ class AgriculturalContentCatalog
         self::MODULE_PESTS,
         self::MODULE_PESTICIDES,
         self::MODULE_CROP_DISEASES,
+        self::MODULE_SEEDS
     ];
 
     public const MODULES_WITH_SUB_TYPES = [
@@ -33,6 +35,7 @@ class AgriculturalContentCatalog
         self::MODULE_PESTS,
         self::MODULE_PESTICIDES,
         self::MODULE_CROP_DISEASES,
+        self::MODULE_SEEDS,
     ];
 
     public const SUB_TYPE_RICE = 'rice';
@@ -94,6 +97,15 @@ class AgriculturalContentCatalog
         'registration_info',
     ];
 
+    // TODO: need to add at least 10 sub types which would main in ayeyarwaddy
+    public const SEED_SUB_TYPES = [
+        'high_yield_variety',
+        'hybrid_seed',
+        'local_variety',
+        'foundation_seed',
+        'certified_seed',
+    ];
+
     public const LEGACY_CATEGORY_MAP = [
         'news' => self::MODULE_NEWS,
         'weather_alert' => self::MODULE_WEATHER,
@@ -116,6 +128,7 @@ class AgriculturalContentCatalog
             self::MODULE_MAIN_CROPS, self::MODULE_CROP_DISEASES => self::CROP_SUB_TYPES,
             self::MODULE_PESTS => self::PEST_SUB_TYPES,
             self::MODULE_PESTICIDES => self::PESTICIDE_SUB_TYPES,
+            self::MODULE_SEEDS => self::SEED_SUB_TYPES,
             default => [],
         };
     }
@@ -127,7 +140,7 @@ class AgriculturalContentCatalog
 
     public static function isValidSubType(string $module, ?string $subType): bool
     {
-        if (! self::moduleHasSubTypes($module)) {
+        if (!self::moduleHasSubTypes($module)) {
             return $subType === null || $subType === '';
         }
 
@@ -136,14 +149,14 @@ class AgriculturalContentCatalog
 
     public static function featureKeyForModule(string $module): string
     {
-        return 'content_'.$module;
+        return 'content_' . $module;
     }
 
     public static function enabledModules(): array
     {
         return array_values(array_filter(
             self::MODULES,
-            fn (string $module) => Feature::enabled(self::featureKeyForModule($module))
+            fn(string $module) => Feature::enabled(self::featureKeyForModule($module))
         ));
     }
 }

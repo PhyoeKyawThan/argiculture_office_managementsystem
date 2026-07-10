@@ -423,6 +423,7 @@ return [
             'pests' => ['label' => 'ပိုးမွှားအကြောင်း', 'description' => 'ပိုးမွှားနှင့် ကာကွယ်နည်းများ။'],
             'pesticides' => ['label' => 'ပိုးသတ်ဆေးအကြောင်း', 'description' => 'ပိုးသတ်ဆေး လုံခြုံစိတ်ချရသော အသုံးပြုမှု။'],
             'crop_diseases' => ['label' => 'သီးနှံရောဂါများ', 'description' => 'အဓိကသီးနှံ ၁၀ မျိုးနှင့် သက်ဆိုင်သော ရောဂါများ။'],
+            'seeds' => ['label' => 'မျိုးစေ့များ', 'description' => 'အဓိကသီးနှံများအတွက် မျိုးစေ့ဆိုင်ရာအချက်အလက်များ။'],
         ],
         'sub_types' => [
             'rice' => 'ဆန်',
@@ -455,6 +456,7 @@ return [
             'spray_equipment' => 'ဖျန်းစက်',
             'safety_guideline' => 'လုံခြုံရေးလမ်းညွှန်',
             'registration_info' => 'မှတ်ပုံတင်အချက်အလက်',
+            // TODO: sub types translation for seeds
         ],
     ],
     'features' => [

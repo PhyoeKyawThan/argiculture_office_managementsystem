@@ -406,6 +406,7 @@ return [
             'pests' => ['label' => 'Pests & Insects', 'description' => 'Pest identification and management guidance.'],
             'pesticides' => ['label' => 'Pesticides Information', 'description' => 'Safe and legal pesticide use information.'],
             'crop_diseases' => ['label' => 'Crop Diseases', 'description' => 'Diseases affecting the ten main crops.'],
+            'seeds' => ['label' => 'Seeds', 'description' => 'Information about seeds.'],
         ],
         'sub_types' => [
             'rice' => 'Rice',
@@ -438,6 +439,8 @@ return [
             'spray_equipment' => 'Spray Equipment',
             'safety_guideline' => 'Safety Guidelines',
             'registration_info' => 'Registration Info',
+            // TODO: sub types translation for seeds
+            'high_yield_variety' => 'High',
         ],
     ],
     'features' => [
