@@ -8,7 +8,7 @@ use Exception;
 
 trait DocxProcessorTrait
 {
-    public function generatePurePhpDocx(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], string $disk = 'public'): string
+    public function generatePurePhpDocx(string $templateDiskPath, array $textReplacements, array $imageReplacements = [], array $tableData = [], string $disk = 'public'): string
     {
         // dd($templateDiskPath);
         // dd(Storage::disk($disk)->allDirectories());
@@ -20,21 +20,32 @@ trait DocxProcessorTrait
         $templateAbsolutePath = Storage::disk($disk)->path($templateDiskPath);
         $templateProcessor = new TemplateProcessor($templateAbsolutePath);
 
+        foreach ($tableData as $rowPlaceholder => $rows) {
+            $count = count($rows);
+            $templateProcessor->cloneRow($rowPlaceholder, $count);
+
+            foreach ($rows as $index => $rowData) {
+                $rowNumber = $index + 1;
+                foreach ($rowData as $key => $value) {
+                    $templateProcessor->setValue($key . '#' . $rowNumber, $value);
+                }
+            }
+        }
         foreach ($textReplacements as $key => $value) {
             $templateProcessor->setValue($key, (string) ($value ?? ''));
         }
 
         foreach ($imageReplacements as $key => $relativeStoragePath) {
             $normalizedKey = str_replace(['$', '{', '}', ' '], '', $key);
-            
+
             if ($relativeStoragePath && Storage::disk($disk)->exists($relativeStoragePath)) {
                 $imagePath = Storage::disk($disk)->path($relativeStoragePath);
-                
+
                 $imageOptions = [
-                    'path'   => $imagePath,
-                    'width'  => 140,
+                    'path' => $imagePath,
+                    'width' => 140,
                     'height' => 70,
-                    'ratio'  => true
+                    'ratio' => true
                 ];
 
                 try {
