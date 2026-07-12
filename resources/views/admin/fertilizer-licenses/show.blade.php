@@ -36,6 +36,9 @@
                         <p class="text-sm text-slate-500">Submitted by {{ $license->user?->name ?? 'Guest applicant' }}</p>
                     </div>
                     <span class="text-xs text-slate-500">Application #{{ $license->id }}</span>
+                    <a href="{{ route('admin.fertilizer-licenses.generate', $license) }}" title="Download Document">
+                        <i data-lucide="file-text" class="text-blue-400 hover:text-blue-700 transition"></i>
+                    </a>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5 text-sm">
