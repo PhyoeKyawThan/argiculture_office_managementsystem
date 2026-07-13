@@ -27,6 +27,7 @@ return [
         'news' => 'News',
         'inquiries' => 'Farmer Q&A',
         'announcements' => 'Announcements',
+        'categories' => "Categories",
         'shop_registrations' => 'Shop Registrations',
         'features' => 'Features',
         'soon' => 'SOON',
@@ -542,5 +543,13 @@ return [
         'shop_approved' => 'Shop registration approved and login account created.',
         'shop_rejected' => 'Shop registration rejected.',
         'shop_already_reviewed' => 'This application has already been reviewed.',
+    ],
+    'category' => [
+        'table' => [
+            'name' => 'Name',
+            'level' => 'Level',
+            // 'parent_id' => 'သက်ဆိုင်ရာ ဦးစား',
+        ],
+        'add_category' => 'Add New Category',
     ],
 ];

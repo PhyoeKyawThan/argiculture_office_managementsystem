@@ -2,10 +2,10 @@
     $u = auth()->user();
     $variant = $variant ?? 'bar';
 
-    $barLink = fn (bool $active) => 'admin-nav-link px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 flex items-center gap-2.5 '
+    $barLink = fn(bool $active) => 'admin-nav-link px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 flex items-center gap-2.5 '
         . ($active ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white');
 
-    $drawerLink = fn (bool $active) => 'flex items-center gap-3 px-4 py-3 mx-2 rounded-xl text-sm font-semibold transition '
+    $drawerLink = fn(bool $active) => 'flex items-center gap-3 px-4 py-3 mx-2 rounded-xl text-sm font-semibold transition '
         . ($active ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/70 hover:text-white');
 
     $navLink = $variant === 'drawer' ? $drawerLink : $barLink;
@@ -29,7 +29,8 @@
             </a>
         @endif
         @if(\App\Support\Feature::enabled('shop_inspections'))
-            <a href="{{ route('admin.pesticide-shop-inspections.index') }}" class="{{ $navLink(request()->routeIs('admin.pesticide-shop-inspections.*')) }}">
+            <a href="{{ route('admin.pesticide-shop-inspections.index') }}"
+                class="{{ $navLink(request()->routeIs('admin.pesticide-shop-inspections.*')) }}">
                 <i data-lucide="clipboard-check" class="{{ $iconClass }}"></i>
                 {{ __('messages.nav.inspections') }}
             </a>
@@ -40,16 +41,24 @@
                 {{ __('messages.nav.inquiries') }}
             </a>
         @endif
-            <a href="{{ route('admin.fertilizer-licenses.index') }}" class="{{ $navLink(request()->routeIs('admin.fertilizer-licenses.*')) }}">
-                <i data-lucide="truck" class="{{ $iconClass }}"></i>
-                Fertilizer Licenses
-            </a>
-        <a href="{{ route('admin.announcements.index') }}" class="{{ $navLink(request()->routeIs('admin.announcements.*')) }}">
+        <a href="{{ route('admin.fertilizer-licenses.index') }}"
+            class="{{ $navLink(request()->routeIs('admin.fertilizer-licenses.*')) }}">
+            <i data-lucide="truck" class="{{ $iconClass }}"></i>
+            Fertilizer Licenses
+        </a>
+        <a href="{{ route('admin.announcements.index') }}"
+            class="{{ $navLink(request()->routeIs('admin.announcements.*')) }}">
             <i data-lucide="newspaper" class="{{ $iconClass }}"></i>
             {{ __('messages.nav.announcements') }}
         </a>
+        <a href="{{ route('admin.categories.index') }}"
+            class="{{ $navLink(request()->routeIs('admin.categories.*')) }}">
+            <i data-lucide="list" class="{{ $iconClass }}"></i>
+            {{ __('messages.nav.categories') }}
+        </a>
         @if(\App\Support\Feature::enabled('shop_registration'))
-            <a href="{{ route('admin.pesticide-shops.index') }}" class="{{ $navLink(request()->routeIs('admin.pesticide-shops.*')) }}">
+            <a href="{{ route('admin.pesticide-shops.index') }}"
+                class="{{ $navLink(request()->routeIs('admin.pesticide-shops.*')) }}">
                 <i data-lucide="store" class="{{ $iconClass }}"></i>
                 {{ __('messages.nav.shop_registrations') }}
             </a>
@@ -57,12 +66,14 @@
     @endif
 
     @if($u && $u->isAdmin())
-        <a href="{{ route('admin.feature-settings.edit') }}" class="{{ $navLink(request()->routeIs('admin.feature-settings.*')) }}">
+        <a href="{{ route('admin.feature-settings.edit') }}"
+            class="{{ $navLink(request()->routeIs('admin.feature-settings.*')) }}">
             <i data-lucide="toggle-right" class="{{ $iconClass }}"></i>
             {{ __('messages.nav.features') }}
         </a>
         @if(\App\Support\Feature::enabled('landing_cms'))
-            <a href="{{ route('admin.landing-sections.index') }}" class="{{ $navLink(request()->routeIs('admin.landing-sections.*')) }}">
+            <a href="{{ route('admin.landing-sections.index') }}"
+                class="{{ $navLink(request()->routeIs('admin.landing-sections.*')) }}">
                 <i data-lucide="layout-template" class="{{ $iconClass }}"></i>
                 {{ __('messages.nav.landing_page') }}
             </a>
@@ -73,11 +84,10 @@
         </a>
     @endif
 
-    <a href="{{ route('landing.home') }}" target="_blank"
-        @class([
-            $navLink(false),
-            'admin-nav-link px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 text-emerald-100 hover:bg-emerald-800 hover:text-white flex items-center gap-2.5' => $variant === 'bar',
-        ])>
+    <a href="{{ route('landing.home') }}" target="_blank" @class([
+        $navLink(false),
+        'admin-nav-link px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 text-emerald-100 hover:bg-emerald-800 hover:text-white flex items-center gap-2.5' => $variant === 'bar',
+    ])>
         <i data-lucide="external-link" class="{{ $iconClass }}"></i>
         {{ __('messages.nav.view_site') }}
     </a>

@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
             FeatureSettingSeeder::class,
             LandingSectionSeeder::class,
             StaffSeeder::class,
-            AgriculturalAnnouncementSeeder::class,
+            // AgriculturalAnnouncementSeeder::class,
+            CategorySeeder::class,
             FertilizerLicenseSeeder::class,
         ]);
     }

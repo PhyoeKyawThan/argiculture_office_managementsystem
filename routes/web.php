@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\FarmerRegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ShopRegisterController;
@@ -112,6 +113,7 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
         Route::middleware('feature:landing_cms')->group(function () {
             Route::resource('landing-sections', LandingSectionController::class)->except(['show']);
         });
+        Route::resource('categories', CategoryController::class)->except(['show']);
 
         Route::resource('users', UserController::class)->except(['show']);
     });

@@ -1,5 +1,6 @@
 @php
     $item = $announcement ?? null;
+    $categories = \App\Models\Category::orderBy('level')->orderBy('name')->get();
 
     $labelClass = 'block text-sm font-bold text-slate-700 mb-1.5';
     $inputClass = 'w-full rounded-xl border border-slate-200 px-4 py-2.5 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition';
@@ -29,19 +30,15 @@
         <section class="{{ $sectionClass }}">
             <h3 class="{{ $sectionTitleClass }}">{{ __('messages.announcements.category_field') }}</h3>
             <div>
-                <label for="module" class="{{ $labelClass }}">{{ __('messages.announcements.module_field') }}</label>
-                <select name="module" id="module" required class="{{ $inputClass }}">
-                    @foreach(\App\Support\AgriculturalContentCatalog::modules() as $module)
-                        <option value="{{ $module }}" @selected(old('module', $item?->module) === $module)>
-                            {{ __('messages.content.modules.'.$module.'.label') }}
+                <label for="category_id" class="{{ $labelClass }}">Category</label>
+                <select name="category_id" id="category_id" required class="{{ $inputClass }}">
+                    <option value="">-- Select Category --</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category_id', $item?->category_id) == $category->id)>
+                            {{ str_repeat('— ', $category->level - 1) }} 
+                            {{ app()->getLocale() == 'mm' ? $category->name_mm : $category->name }}
                         </option>
                     @endforeach
-                </select>
-            </div>
-            <div id="subTypeWrap">
-                <label for="sub_type" class="{{ $labelClass }}">{{ __('messages.announcements.sub_type_field') }}</label>
-                <select name="sub_type" id="sub_type" class="{{ $inputClass }}">
-                    <option value="">{{ __('messages.common.all') }}</option>
                 </select>
             </div>
         </section>
@@ -88,71 +85,19 @@
 </div>
 
 @push('scripts')
-@php
-    $subTypeLabelMap = [];
-    foreach (\App\Support\AgriculturalContentCatalog::MODULES_WITH_SUB_TYPES as $moduleKey) {
-        foreach (\App\Support\AgriculturalContentCatalog::subTypesFor($moduleKey) as $subTypeKey) {
-            $subTypeLabelMap[$moduleKey.'.'.$subTypeKey] = __('messages.content.sub_types.'.$subTypeKey);
-        }
-    }
-@endphp
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const subTypes = @json(collect(\App\Support\AgriculturalContentCatalog::MODULES_WITH_SUB_TYPES)->mapWithKeys(fn ($m) => [$m => \App\Support\AgriculturalContentCatalog::subTypesFor($m)])->all());
-        const subTypeLabels = @json($subTypeLabelMap);
-        const moduleSelect = document.getElementById('module');
-        const subTypeSelect = document.getElementById('sub_type');
-        const subTypeWrap = document.getElementById('subTypeWrap');
-        const currentSubType = @json(old('sub_type', $item?->sub_type));
-
-        function refreshSubTypes() {
-            const module = moduleSelect.value;
-            const options = subTypes[module] || [];
-            subTypeSelect.innerHTML = '';
-            subTypeWrap.classList.toggle('hidden', options.length === 0);
-
-            if (options.length === 0) {
-                subTypeSelect.removeAttribute('required');
-                return;
-            }
-
-            subTypeSelect.setAttribute('required', 'required');
-            options.forEach(function (value) {
-                const option = document.createElement('option');
-                option.value = value;
-                option.textContent = subTypeLabels[module + '.' + value] || value;
-                option.selected = value === currentSubType;
-                subTypeSelect.appendChild(option);
-            });
-        }
-
-        moduleSelect.addEventListener('change', function () {
-            subTypeSelect.value = '';
-            refreshSubTypes();
-        });
-
-        refreshSubTypes();
-
         const contentTextarea = document.getElementById('content');
         const CONTENT_MIN_HEIGHT = 200;
 
         function autoResizeContent() {
-            if (!contentTextarea) {
-                return;
-            }
-
+            if (!contentTextarea) return;
             contentTextarea.style.height = CONTENT_MIN_HEIGHT + 'px';
-            const nextHeight = Math.max(CONTENT_MIN_HEIGHT, contentTextarea.scrollHeight);
-            contentTextarea.style.height = nextHeight + 'px';
+            contentTextarea.style.height = Math.max(CONTENT_MIN_HEIGHT, contentTextarea.scrollHeight) + 'px';
         }
 
         if (contentTextarea) {
             contentTextarea.addEventListener('input', autoResizeContent);
-            contentTextarea.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    window.requestAnimationFrame(autoResizeContent);
-                }
-            });
             autoResizeContent();
         }
     });

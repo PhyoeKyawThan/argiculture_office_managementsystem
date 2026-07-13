@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreAgriculturalAnnouncementRequest;
 use App\Http\Requests\Admin\UpdateAgriculturalAnnouncementRequest;
 use App\Models\AgriculturalAnnouncement;
+use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,9 +17,8 @@ class AgriculturalAnnouncementController extends Controller
     public function index(Request $request): View
     {
         $announcements = AgriculturalAnnouncement::query()
-            ->with('author:id,name')
-            ->when($request->filled('module'), fn ($q) => $q->where('module', $request->string('module')))
-            ->when($request->filled('sub_type'), fn ($q) => $q->where('sub_type', $request->string('sub_type')))
+            ->with(['author:id,name', 'category:id,name,name_mm'])
+            ->when($request->filled('category_id'), fn ($q) => $q->where('category_id', $request->category_id))
             ->when($request->filled('published'), function ($query) use ($request) {
                 if ($request->string('published') === 'yes') {
                     $query->where('is_published', true);
@@ -36,7 +36,8 @@ class AgriculturalAnnouncementController extends Controller
 
     public function create(): View
     {
-        return view('admin.announcements.create');
+        $categories = Category::orderBy('level')->get();
+        return view('admin.announcements.create', compact('categories'));
     }
 
     public function store(StoreAgriculturalAnnouncementRequest $request): RedirectResponse
@@ -50,14 +51,14 @@ class AgriculturalAnnouncementController extends Controller
 
         $announcement = AgriculturalAnnouncement::create($data);
 
-        return redirect()
-            ->route('admin.announcements.edit', $announcement)
+        return redirect()->route('admin.announcements.edit', $announcement)
             ->with('success', __('messages.flash.announcement_created'));
     }
 
     public function edit(AgriculturalAnnouncement $announcement): View
     {
-        return view('admin.announcements.edit', compact('announcement'));
+        $categories = Category::orderBy('level')->get();
+        return view('admin.announcements.edit', compact('announcement', 'categories'));
     }
 
     public function update(UpdateAgriculturalAnnouncementRequest $request, AgriculturalAnnouncement $announcement): RedirectResponse
@@ -73,14 +74,11 @@ class AgriculturalAnnouncementController extends Controller
             if ($announcement->featured_image_path) {
                 Storage::disk('public')->delete($announcement->featured_image_path);
             }
-
             $data['featured_image_path'] = $request->file('featured_image')->store('announcements', 'public');
         }
 
         $announcement->update($data);
-
-        return redirect()
-            ->route('admin.announcements.index')
+        return redirect()->route('admin.announcements.index')
             ->with('success', __('messages.flash.announcement_updated'));
     }
 
@@ -89,41 +87,20 @@ class AgriculturalAnnouncementController extends Controller
         if ($announcement->featured_image_path) {
             Storage::disk('public')->delete($announcement->featured_image_path);
         }
-
         $announcement->delete();
-
-        return redirect()
-            ->route('admin.announcements.index')
+        return redirect()->route('admin.announcements.index')
             ->with('success', __('messages.flash.announcement_deleted'));
     }
 
-    private function payloadFromRequest(
-        StoreAgriculturalAnnouncementRequest|UpdateAgriculturalAnnouncementRequest $request,
-        ?AgriculturalAnnouncement $announcement = null
-    ): array {
-        $data = $request->safe()->only([
-            'title',
-            'slug',
-            'content',
-            'module',
-            'sub_type',
-            'published_at',
-        ]);
-
+    private function payloadFromRequest($request, ?AgriculturalAnnouncement $announcement = null): array
+    {
+        $data = $request->safe()->only(['title', 'slug', 'content', 'category_id', 'published_at']);
         $data['is_published'] = $request->boolean('is_published');
-
-        if ($data['is_published'] && empty($data['published_at'])) {
-            $data['published_at'] = now();
-        }
-
-        if (! $data['is_published']) {
-            $data['published_at'] = $data['published_at'] ?? null;
-        }
-
+        if ($data['is_published'] && empty($data['published_at'])) $data['published_at'] = now();
+        if (! $data['is_published']) $data['published_at'] = $data['published_at'] ?? null;
         if (blank($data['slug'] ?? null) && filled($data['title'])) {
             $data['slug'] = AgriculturalAnnouncement::uniqueSlug($data['title'], $announcement?->id);
         }
-
         return $data;
     }
 }

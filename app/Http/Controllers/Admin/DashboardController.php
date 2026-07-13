@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AgriculturalAnnouncement;
 use App\Models\AgriculturalInquiry;
+use App\Models\Category;
 use App\Models\PesticideShop;
 use App\Models\PesticideShopInspection;
 use App\Models\User;
-use App\Support\AgriculturalContentCatalog;
 
 class DashboardController extends Controller
 {
@@ -40,7 +39,7 @@ class DashboardController extends Controller
                     AgriculturalInquiry::answered()->count(),
                 ],
             ],
-            'announcementsByModule' => $this->announcementsByModule(),
+            'announcementsByModule' => $this->announcementsByCategory(),
             'shopsByStatus' => $this->shopsByStatus(),
             'totals' => [
                 'farmers' => User::query()->where('role', User::ROLE_FARMER)->count(),
@@ -78,19 +77,15 @@ class DashboardController extends Controller
             ->all();
     }
 
-    private function announcementsByModule(): array
+    private function announcementsByCategory(): array
     {
-        $counts = AgriculturalAnnouncement::query()
-            ->selectRaw('module, COUNT(*) as total')
-            ->groupBy('module')
-            ->pluck('total', 'module');
-
+        $rootCategories = Category::where('level', 1)->get();
         $labels = [];
         $values = [];
 
-        foreach (AgriculturalContentCatalog::modules() as $module) {
-            $labels[] = __('messages.content.modules.'.$module.'.label');
-            $values[] = (int) ($counts[$module] ?? 0);
+        foreach ($rootCategories as $category) {
+            $labels[] = $category->name;
+            $values[] = AgriculturalAnnouncement::where('category_id', $category->id)->count();
         }
 
         return ['labels' => $labels, 'values' => $values];
