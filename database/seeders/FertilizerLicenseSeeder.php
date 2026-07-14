@@ -10,7 +10,6 @@ class FertilizerLicenseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create 5 licenses, each with 3 items
         FertilizerDistributionLicense::factory()
             ->count(5)
             ->has(

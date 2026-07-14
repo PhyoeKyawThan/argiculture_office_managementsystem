@@ -130,6 +130,21 @@
                     @endforeach
                 </div>
             </div>
+            <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
+                <div class="border-b border-emerald-50 pb-4">
+                    <h2 class="text-xl font-black text-slate-900">Township Recommendation Letter</h2>
+                    {{-- <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p> --}}
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-5">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                            {{-- <span class="block text-sm font-bold text-slate-700">Township Recommendation Letter</span> --}}
+                                <a href="{{ asset('storage/' . $license->township_recommendation_letter) }}" target="_blank" class="block rounded-xl overflow-hidden border border-slate-200 bg-white">
+                                    <img src="{{ asset('storage/' . $license->township_recommendation_letter) }}" alt="{{ $label }}" class="w-full max-h-72 object-contain bg-white">
+                                </a>
+                        </div>
+                </div>
+            </div>
         </div>
 
         <div class="space-y-6">

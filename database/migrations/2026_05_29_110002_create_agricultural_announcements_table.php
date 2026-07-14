@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['is_published', 'published_at']);
-            $table->index('category');
+            // $table->index('category');
         });
     }
 

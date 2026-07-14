@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             StaffSeeder::class,
             // AgriculturalAnnouncementSeeder::class,
             CategorySeeder::class,
-            FertilizerLicenseSeeder::class,
+            // FertilizerLicenseSeeder::class,
         ]);
     }
 }

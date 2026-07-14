@@ -45,6 +45,7 @@ class FertilizerDistributionLicense extends Model
         'building_dimensions',
         'attachment_nrc',
         'township',
+        'township_recommendation_letter',
         'status',
     ];
 
