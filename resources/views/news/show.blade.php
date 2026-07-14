@@ -4,7 +4,7 @@
 
 @section('content')
     <article class="max-w-3xl mx-auto px-4 py-8">
-        <a href="{{ route('news.index', ['module' => $announcement->category]) }}" 
+        <a href="{{ route('news.index', ['category' => $announcement->category->slug]) }}" 
            class="text-sm font-bold text-emerald-700 mb-6 inline-flex items-center gap-1 hover:text-emerald-900">
             ← {{ __('messages.common.back_to_list') }}
         </a>
