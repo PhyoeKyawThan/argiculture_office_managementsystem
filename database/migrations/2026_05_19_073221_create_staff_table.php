@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('current_office')->nullable(false);
             $table->string('current_branch')->nullable(false);
             $table->string('education_level')->nullable(false);
+            $table->bigInteger('salary')->default(0);
             $table->boolean('is_married')->default(false);
             $table->timestamps();
         });

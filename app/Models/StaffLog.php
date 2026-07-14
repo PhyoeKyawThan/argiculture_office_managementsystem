@@ -51,9 +51,10 @@ class StaffLog extends Model
 
     protected function actionBadgeClass(): Attribute
     {
-        return Attribute::get(fn () => match ($this->action) {
+        return Attribute::get(fn() => match ($this->action) {
             'created' => 'bg-emerald-100 text-emerald-900',
             'updated_profile' => 'bg-blue-100 text-blue-900',
+            'updated_salary' => 'bg-green-100 text-green-900',
             'promoted_demoted' => 'bg-amber-100 text-amber-900',
             'transferred' => 'bg-violet-100 text-violet-900',
             'deleted' => 'bg-red-100 text-red-900',
@@ -102,7 +103,7 @@ class StaffLog extends Model
                         'old' => $this->formatValue($delta['old']),
                         'new' => $this->formatValue($delta['new']),
                     ];
-                } elseif (! is_array($delta)) {
+                } elseif (!is_array($delta)) {
                     $rows[] = [
                         'field' => $this->translateField($field),
                         'old' => __('messages.common.em_dash'),
@@ -117,7 +118,7 @@ class StaffLog extends Model
 
     private function translateField(string $field): string
     {
-        $key = 'messages.staff.fields.'.$field;
+        $key = 'messages.staff.fields.' . $field;
         $label = __($key);
 
         return $label !== $key ? $label : Str::title(str_replace('_', ' ', $field));
@@ -142,6 +143,10 @@ class StaffLog extends Model
     {
         if (is_bool($value)) {
             return $value ? __('messages.common.yes') : __('messages.common.no');
+        }
+
+        if (is_numeric($value)) {
+            return number_format((float) $value);
         }
 
         if ($value === null || $value === '' || $value === '—') {

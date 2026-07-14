@@ -100,10 +100,16 @@
                     value="{{ old('current_office', $s?->current_office) }}" required
                     class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
-            <div class="sm:col-span-2">
+            <div>
                 <label for="current_branch" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.current_branch') }}</label>
                 <input type="text" name="current_branch" id="current_branch"
                     value="{{ old('current_branch', $s?->current_branch) }}" required
+                    class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+            <div>
+                <label for="current_salary" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.current_salary') }}</label>
+                <input type="number" name="salary" id="current_salary"
+                    value="{{ old('salary', $s?->salary) }}" required
                     class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
         </div>

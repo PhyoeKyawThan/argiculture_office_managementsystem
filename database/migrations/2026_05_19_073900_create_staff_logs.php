@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->uuid('staff_id'); 
             $table->enum('action', [
-                'created',          // Initial registration
-                'updated_profile',  // General info updates (name, education, marriage)
-                'promoted_demoted', // Changes to current_position / current_position_joining_date
-                'transferred',      // Changes to current_region, current_office, or current_branch
-                'deleted'           // Staff removal
+                'created',          
+                'updated_profile',  
+                'promoted_demoted', 
+                'transferred',      
+                'deleted'           
             ]);
 
-            // To store the exact delta (e.g., {"current_position": {"old": "Junior Officer", "new": "Senior Officer"}})
             $table->json('changes')->nullable(); 
             $table->uuid('user_id')->nullable()->comment('The admin/staff member who made the change');
 

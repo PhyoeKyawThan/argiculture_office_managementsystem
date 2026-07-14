@@ -21,29 +21,65 @@ class StaffObserver
         ]);
     }
 
-    /**
-     * Handle the Staff "updated" event.
-     */
+    // /**
+    //  * Handle the Staff "updated" event.
+    //  */
+    // public function updated(Staff $staff): void
+    // {
+    //     $dirtyFields = $staff->getDirty();
+
+    //     if (empty($dirtyFields)) {
+    //         return;
+    //     }
+
+    //     $changes = [];
+    //     foreach ($dirtyFields as $field => $newValue) {
+    //         if (in_array($field, ['updated_at', 'created_at'])) continue;
+
+    //         $changes[$field] = [
+    //             'old' => $staff->getOriginal($field),
+    //             'new' => $newValue
+    //         ];
+    //     }
+    //     $action = 'updated_profile';
+
+    //     if (array_key_exists('current_position', $changes)) {
+    //         $action = 'promoted_demoted';
+    //     } elseif (array_intersect_key(array_flip(['current_region', 'current_office', 'current_branch']), $changes)) {
+    //         $action = 'transferred';
+    //     }
+
+    //     StaffLog::create([
+    //         'staff_id' => $staff->id,
+    //         'action' => $action,
+    //         'changes' => $changes,
+    //         'user_id' => Auth::id(),
+    //     ]);
+    // }
     public function updated(Staff $staff): void
     {
         $dirtyFields = $staff->getDirty();
-        
+
         if (empty($dirtyFields)) {
             return;
         }
 
         $changes = [];
         foreach ($dirtyFields as $field => $newValue) {
-            if (in_array($field, ['updated_at', 'created_at'])) continue;
+            if (in_array($field, ['updated_at', 'created_at']))
+                continue;
 
             $changes[$field] = [
                 'old' => $staff->getOriginal($field),
                 'new' => $newValue
             ];
         }
+
         $action = 'updated_profile';
-        
-        if (array_key_exists('current_position', $changes)) {
+
+        if (array_key_exists('salary', $changes)) {
+            $action = 'updated_salary';
+        } elseif (array_key_exists('current_position', $changes)) {
             $action = 'promoted_demoted';
         } elseif (array_intersect_key(array_flip(['current_region', 'current_office', 'current_branch']), $changes)) {
             $action = 'transferred';

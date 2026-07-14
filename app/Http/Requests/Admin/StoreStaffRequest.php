@@ -29,6 +29,12 @@ class StoreStaffRequest extends FormRequest
             'current_office' => ['required', 'string', 'max:255'],
             'current_branch' => ['required', 'string', 'max:255'],
             'education_level' => ['required', 'string', 'max:255'],
+            'salary' => [
+                'required',
+                'integer',
+                'min:10000',     
+                'max:50000000',
+            ],
             'is_married' => ['sometimes', 'boolean'],
         ];
     }

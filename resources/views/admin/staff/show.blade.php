@@ -46,6 +46,7 @@
             <h2 class="text-sm font-black uppercase tracking-wider text-emerald-800 mb-4">{{ __('messages.staff.current_assignment') }}</h2>
             <dl class="grid gap-3 text-sm">
                 <div><dt class="text-slate-500">{{ __('messages.staff.position') }}</dt><dd class="font-semibold">{{ $staff->current_position }}</dd></div>
+                <div><dt class="text-slate-500">{{ __('messages.staff.current_salary') }}</dt><dd class="font-semibold">{{ $staff->salary }}</dd></div>
                 <div><dt class="text-slate-500">{{ __('messages.staff.since') }}</dt><dd class="font-semibold">{{ $staff->current_position_joining_date->format('M j, Y') }}</dd></div>
                 <div><dt class="text-slate-500">{{ __('messages.staff.region') }}</dt><dd class="font-semibold">{{ $staff->current_region }}</dd></div>
                 <div><dt class="text-slate-500">{{ __('messages.staff.office') }}</dt><dd class="font-semibold">{{ $staff->current_office }}</dd></div>

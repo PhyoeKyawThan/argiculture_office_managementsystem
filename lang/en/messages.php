@@ -173,6 +173,7 @@ return [
         'current_region' => 'Current Region',
         'current_office' => 'Current Office',
         'current_branch' => 'Current Branch',
+        'current_salary' => 'Current Salary',
         'male' => 'Male',
         'female' => 'Female',
         'no_staff_records' => 'No staff records found.',
@@ -192,6 +193,7 @@ return [
             'current_region' => 'Current Region',
             'current_office' => 'Current Office',
             'current_branch' => 'Current Branch',
+            'salary' => 'Current Salary',
         ],
     ],
     'staff_log' => [

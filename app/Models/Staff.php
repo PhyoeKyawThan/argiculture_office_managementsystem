@@ -31,6 +31,7 @@ class Staff extends Model
         'current_office',
         'current_branch',
         'education_level',
+        'salary',
         'is_married',
     ];
 
