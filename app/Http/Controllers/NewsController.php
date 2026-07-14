@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgriculturalAnnouncement;
-use App\Support\AgriculturalContentCatalog;
-use App\Support\Feature;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,27 +11,21 @@ class NewsController extends Controller
 {
     public function index(Request $request): View
     {
-        $module = $request->string('module')->toString() ?: AgriculturalContentCatalog::MODULE_NEWS;
-
-        abort_unless(AgriculturalContentCatalog::isValidModule($module), 404);
-        abort_unless(Feature::enabled(AgriculturalContentCatalog::featureKeyForModule($module)), 404);
-
-        $subType = $request->string('sub_type')->toString() ?: null;
-
-        if ($subType && ! AgriculturalContentCatalog::isValidSubType($module, $subType)) {
-            abort(404);
-        }
+        $categorySlug = $request->query('category');
 
         $announcements = AgriculturalAnnouncement::published()
-            ->forModule($module)
-            ->when($subType, fn ($q) => $q->forSubType($subType))
+            ->when($categorySlug, function ($query) use ($categorySlug) {
+                $query->inCategory($categorySlug);
+            })
             ->latest('published_at')
             ->paginate(9)
             ->withQueryString();
 
-        $enabledModules = AgriculturalContentCatalog::enabledModules();
-
-        return view('news.index', compact('announcements', 'module', 'subType', 'enabledModules'));
+        $allCategories = Category::with('children')->get();
+        $categories = Category::buildTree($allCategories, null);
+        $category = Category::get()->where('slug', '=', $categorySlug)->first();
+        $module = config('app.locale') === 'en' ? $category->name : $category->name_mm;
+        return view('news.index', compact('announcements', 'categories', 'categorySlug', 'module'));
     }
 
     public function show(AgriculturalAnnouncement $announcement): View
@@ -43,12 +36,9 @@ class NewsController extends Controller
             && $announcement->published_at->lte(now()),
             404
         );
-
-        abort_unless(Feature::enabled(AgriculturalContentCatalog::featureKeyForModule($announcement->module)), 404);
-
         $announcement->load('author:id,name');
-        $enabledModules = AgriculturalContentCatalog::enabledModules();
+        $categories = Category::with('children')->whereNull('parent_id')->get();
 
-        return view('news.show', compact('announcement', 'enabledModules'));
+        return view('news.show', compact('announcement', 'categories'));
     }
 }

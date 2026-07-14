@@ -1,19 +1,21 @@
 @extends(auth()->check() && auth()->user()->isFarmer() ? 'farmer.layouts.app' : 'landing.layout')
 
-@section('title', __('messages.content.modules.'.$module.'.label'))
+@section('title', $module)
 
 @section('content')
     <section class="max-w-5xl mx-auto px-0 sm:px-0 py-4 sm:py-6">
         <div class="text-center mb-6">
-            <h1 class="text-3xl font-black text-emerald-900">{{ __('messages.content.modules.'.$module.'.label') }}</h1>
-            <p class="text-slate-600 mt-2">{{ __('messages.content.modules.'.$module.'.description') }}</p>
+            <h1 class="text-3xl font-black text-emerald-900">
+                {{ $module }}
+            </h1>
         </div>
 
         <x-content-module-nav
             context="page"
-            :modules="$enabledModules"
-            :current-module="$module"
-            :current-sub-type="$subType"
+            :modules="$enabledModules ?? []" 
+            :categories="$categories"
+            :current-module="$module ?? 'news'"
+            :current-sub-type="$subType ?? null"
         />
 
         <div class="grid sm:grid-cols-2 gap-6">
@@ -26,10 +28,7 @@
                     @endif
                     <div class="p-5 flex flex-col flex-1">
                         <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ __('messages.content.modules.'.$article->module.'.label') }}</span>
-                            @if($article->sub_type)
-                                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">{{ __('messages.content.sub_types.'.$article->sub_type) }}</span>
-                            @endif
+                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ $article->category->path }}</span>
                         </div>
                         <h2 class="text-lg font-bold text-slate-900 mb-2">
                             <a href="{{ route('news.show', $article) }}" class="hover:text-emerald-800">{{ $article->title }}</a>

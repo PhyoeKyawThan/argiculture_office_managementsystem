@@ -19,6 +19,11 @@
                 </div>
 
                 <div class="mb-4">
+                    <label class="block text-sm font-bold text-emerald-900 mb-2">Category Name (MM)</label>
+                    <input type="text" name="name_mm" class="w-full rounded-xl border-emerald-100 focus:ring-emerald-500 focus:border-emerald-500" required>
+                </div>
+
+                <div class="mb-4">
                     <label class="block text-sm font-bold text-emerald-900 mb-2">Slug</label>
                     <input type="text" name="slug" class="w-full rounded-xl border-emerald-100 focus:ring-emerald-500 focus:border-emerald-500" required>
                 </div>

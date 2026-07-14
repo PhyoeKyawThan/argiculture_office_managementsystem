@@ -52,9 +52,16 @@ class AgriculturalAnnouncement extends Model
             ->where('published_at', '<=', now());
     }
 
-    public function scopeInCategory(Builder $query, int $categoryId): Builder
+    public function scopeInCategory(Builder $query, string $categorySlug): Builder
     {
-        return $query->where('category_id', $categoryId);
+        $category = \App\Models\Category::where('slug', $categorySlug)->first();
+
+        if (!$category) {
+            return $query->whereRaw('0=1');
+        }
+        $allIds = collect([$category->id])->merge($category->getAllDescendantsAttribute()->pluck('id'));
+
+        return $query->whereIn('category_id', $allIds);
     }
 
     public function featuredImageUrl(): ?string

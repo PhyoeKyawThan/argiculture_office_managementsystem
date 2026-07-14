@@ -23,18 +23,28 @@
     </div>
 
     <form method="GET" class="mb-6 flex flex-wrap gap-3">
-        <select name="module" class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="">{{ __('messages.announcements.all_modules') }}</option>
-            @foreach(\App\Support\AgriculturalContentCatalog::modules() as $module)
-                <option value="{{ $module }}" @selected(request('module') === $module)>{{ __('messages.content.modules.'.$module.'.label') }}</option>
+        <select name="category_id"
+            class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="">{{ __('messages.announcements.all_categories') }}</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}" @selected((int) request('category_id') === $category->id)>
+                    {{ $category->path }}
+                </option>
             @endforeach
         </select>
-        <select name="published" class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+
+        <select name="published"
+            class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
             <option value="">{{ __('messages.announcements.all_published') }}</option>
-            <option value="yes" @selected(request('published') === 'yes')>{{ __('messages.announcements.published_yes') }}</option>
-            <option value="no" @selected(request('published') === 'no')>{{ __('messages.announcements.published_no') }}</option>
+            <option value="yes" @selected(request('published') === 'yes')>{{ __('messages.announcements.published_yes') }}
+            </option>
+            <option value="no" @selected(request('published') === 'no')>{{ __('messages.announcements.published_no') }}
+            </option>
         </select>
-        <button type="submit" class="px-4 py-2 bg-emerald-100 text-emerald-900 font-bold rounded-xl text-sm">{{ __('messages.common.filter') }}</button>
+
+        <button type="submit" class="px-4 py-2 bg-emerald-100 text-emerald-900 font-bold rounded-xl text-sm">
+            {{ __('messages.common.filter') }}
+        </button>
     </form>
 
     <div class="bg-white rounded-2xl border border-emerald-100 overflow-hidden shadow-sm">
@@ -43,7 +53,8 @@
                 <tr>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.title_field') }}</th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.module_field') }}</th>
-                    <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.published_at_field') }}</th>
+                    <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.announcements.published_at_field') }}
+                    </th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.common.actions') }}</th>
                 </tr>
             </thead>
@@ -52,10 +63,9 @@
                     <tr class="hover:bg-emerald-50/50">
                         <td class="px-4 py-3 font-semibold">{{ $announcement->title }}</td>
                         <td class="px-4 py-3">
-                            <div>{{ __('messages.content.modules.'.$announcement->module.'.label') }}</div>
-                            @if($announcement->sub_type)
-                                <div class="text-xs text-slate-500">{{ __('messages.content.sub_types.'.$announcement->sub_type) }}</div>
-                            @endif
+                            {{-- <div>{{ config('app.locale') ?? 'en' ? $announcement->category->name :
+                                $announcement->category->name_mm }}</div> --}}
+                            <div>{{ $announcement->category->path }}</div>'
                         </td>
                         <td class="px-4 py-3">
                             @if($announcement->is_published)
@@ -66,18 +76,21 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-2">
-                            <a href="{{ route('admin.announcements.edit', $announcement) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
-                            <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST" class="inline"
-                                onsubmit="return confirm(@json(__('messages.announcements.confirm_delete')))">
+                            <a href="{{ route('admin.announcements.edit', $announcement) }}"
+                                class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
+                            <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST"
+                                class="inline" onsubmit="return confirm(@json(__('messages.announcements.confirm_delete')))">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 font-bold hover:underline">{{ __('messages.common.delete') }}</button>
+                                <button type="submit"
+                                    class="text-red-600 font-bold hover:underline">{{ __('messages.common.delete') }}</button>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-4 py-8 text-center text-slate-500">{{ __('messages.announcements.no_records') }}</td>
+                        <td colspan="4" class="px-4 py-8 text-center text-slate-500">
+                            {{ __('messages.announcements.no_records') }}</td>
                     </tr>
                 @endforelse
             </tbody>

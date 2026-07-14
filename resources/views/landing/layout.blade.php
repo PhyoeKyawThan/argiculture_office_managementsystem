@@ -19,8 +19,6 @@
 
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
                     @include('components.locale-switcher')
-
-                    {{-- Desktop auth actions --}}
                     <div class="hidden md:flex items-center gap-1 sm:gap-2 text-sm">
                         @auth
                             @if(auth()->user()->isBackOffice())
@@ -44,8 +42,6 @@
                             <a href="{{ route('login') }}" class="px-3 py-2 rounded-lg border border-emerald-700 hover:bg-emerald-800 font-semibold transition whitespace-nowrap">{{ __('messages.auth.sign_in_title') }}</a>
                         @endauth
                     </div>
-
-                    {{-- Mobile hamburger --}}
                     <button type="button" id="publicMobileNavBtn"
                         class="md:hidden p-2 rounded-lg hover:bg-emerald-800 transition"
                         aria-label="{{ __('messages.nav.open_menu') }}"

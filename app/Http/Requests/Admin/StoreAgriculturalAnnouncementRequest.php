@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\AgriculturalAnnouncement;
-use App\Support\AgriculturalContentCatalog;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -20,13 +19,12 @@ class StoreAgriculturalAnnouncementRequest extends FormRequest
             'title' => ['required', 'string', 'max:200'],
             'slug' => ['nullable', 'string', 'max:200', 'alpha_dash', 'unique:agricultural_announcements,slug'],
             'content' => ['required', 'string', 'max:50000'],
-            'module' => ['required', Rule::in(AgriculturalContentCatalog::modules())],
-            'sub_type' => [
-                Rule::requiredIf(fn () => AgriculturalContentCatalog::moduleHasSubTypes($this->input('module', ''))),
-                'nullable',
-                'string',
-                Rule::in(AgriculturalContentCatalog::subTypesFor($this->input('module', ''))),
+            
+            'category_id' => [
+                'required', 
+                Rule::exists('categories', 'id'),
             ],
+
             'featured_image' => ['nullable', 'image', 'max:5120', 'mimes:jpg,jpeg,png,webp'],
             'published_at' => ['nullable', 'date'],
             'is_published' => ['sometimes', 'boolean'],
@@ -39,8 +37,7 @@ class StoreAgriculturalAnnouncementRequest extends FormRequest
             'title' => __('messages.announcements.title_field'),
             'slug' => __('messages.announcements.slug_field'),
             'content' => __('messages.announcements.content_field'),
-            'module' => __('messages.announcements.module_field'),
-            'sub_type' => __('messages.announcements.sub_type_field'),
+            'category_id' => __('messages.announcements.category_field'), 
             'featured_image' => __('messages.announcements.image_field'),
             'published_at' => __('messages.announcements.published_at_field'),
             'is_published' => __('messages.announcements.publish_field'),

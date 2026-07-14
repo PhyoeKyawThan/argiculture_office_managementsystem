@@ -8,22 +8,24 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
+ public function index(Request $request)
     {
-        $categories = Category::query()
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_mm', 'like', '%' . $request->search . '%');
-            })
-            ->when($request->filled('parent_id'), function ($query) use ($request) {
-                $query->where('parent_id', $request->parent_id);
-            })
-            ->orderBy('level')
-            ->get();
+        $rootId = $request->input('root_id');
+        $allCategories = Category::withCount('children')->get();
+        $rootCategories = Category::whereNull('parent_id')->get();
 
-        return view('admin.categories.index', compact('categories'));
+        if ($rootId) {
+            $selectedRoot = $allCategories->firstWhere('id', $rootId);
+            $tree = Category::buildTree($allCategories, $rootId);
+            $selectedRoot->setRelation('children', $tree);
+            $categories = collect([$selectedRoot]);
+        } else {
+            $categories = Category::buildTree($allCategories, null);
+        }
+
+        return view('admin.categories.index', compact('categories', 'rootCategories'));
     }
-
+    
     public function create()
     {
         $allCategories = Category::where('level', '<', 5)->get();

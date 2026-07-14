@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->string('category', 40);
             $table->string('featured_image_path')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->boolean('is_published')->default(false);

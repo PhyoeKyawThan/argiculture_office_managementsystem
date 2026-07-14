@@ -35,8 +35,7 @@
                     <option value="">-- Select Category --</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" @selected(old('category_id', $item?->category_id) == $category->id)>
-                            {{ str_repeat('— ', $category->level - 1) }} 
-                            {{ app()->getLocale() == 'mm' ? $category->name_mm : $category->name }}
+                            {{ $category->path }}
                         </option>
                     @endforeach
                 </select>

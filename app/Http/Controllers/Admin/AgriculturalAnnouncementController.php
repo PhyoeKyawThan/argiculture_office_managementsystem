@@ -16,27 +16,32 @@ class AgriculturalAnnouncementController extends Controller
 {
     public function index(Request $request): View
     {
+        $categoryId = $request->input('category_id');
+        $categoryIds = [$categoryId];
+
+        if ($categoryId) {
+            $category = Category::find($categoryId);
+
+            if ($category) {
+                $descendants = $category->getAllDescendantsAttribute();
+                $categoryIds = array_merge([$categoryId], $descendants->pluck('id')->toArray());
+            }
+        }
         $announcements = AgriculturalAnnouncement::query()
-            ->with(['author:id,name', 'category:id,name,name_mm'])
-            ->when($request->filled('category_id'), fn ($q) => $q->where('category_id', $request->category_id))
-            ->when($request->filled('published'), function ($query) use ($request) {
-                if ($request->string('published') === 'yes') {
-                    $query->where('is_published', true);
-                } elseif ($request->string('published') === 'no') {
-                    $query->where('is_published', false);
-                }
-            })
+            ->with([
+                'author:id,name',
+                'category' => fn($query) => $query->withRecursiveParents()
+            ])
+            ->when($request->filled('category_id'), fn($q) => $q->whereIn('category_id', $categoryIds))
             ->latest('published_at')
-            ->latest('id')
             ->paginate(15)
             ->withQueryString();
-
         return view('admin.announcements.index', compact('announcements'));
     }
 
     public function create(): View
     {
-        $categories = Category::orderBy('level')->get();
+        $categories = Category::with('parent')->get()->sortBy('path');
         return view('admin.announcements.create', compact('categories'));
     }
 
@@ -96,8 +101,10 @@ class AgriculturalAnnouncementController extends Controller
     {
         $data = $request->safe()->only(['title', 'slug', 'content', 'category_id', 'published_at']);
         $data['is_published'] = $request->boolean('is_published');
-        if ($data['is_published'] && empty($data['published_at'])) $data['published_at'] = now();
-        if (! $data['is_published']) $data['published_at'] = $data['published_at'] ?? null;
+        if ($data['is_published'] && empty($data['published_at']))
+            $data['published_at'] = now();
+        if (!$data['is_published'])
+            $data['published_at'] = $data['published_at'] ?? null;
         if (blank($data['slug'] ?? null) && filled($data['title'])) {
             $data['slug'] = AgriculturalAnnouncement::uniqueSlug($data['title'], $announcement?->id);
         }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\LandingSection;
 use App\Models\Staff;
 use App\Observers\LandingSectionObserver;
@@ -27,8 +28,11 @@ class AppServiceProvider extends ServiceProvider
         Staff::observe(StaffObserver::class);
         LandingSection::observe(LandingSectionObserver::class);
 
-        View::composer(['landing.layout', 'landing.partials.nav', 'farmer.layouts.app', 'farmer.layouts.partials.nav'], function ($view) {
-            $view->with('enabledModules', \App\Support\AgriculturalContentCatalog::enabledModules());
+        View::composer(['components.content-module-nav', 'admin.announcements.index'], function ($view) {
+            $view->with('categories', Category::with('children.children.children')
+                ->whereNull('parent_id')
+                ->orderBy('name')
+                ->get());
         });
 
         View::composer(['admin.layouts.root', 'shop.layouts.root'], function ($view) {
