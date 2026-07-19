@@ -121,7 +121,7 @@ return [
         'stat_total_inquiries' => 'Total Inquiries',
         'stat_total_announcements' => 'Total Articles',
         'stat_total_inspections' => 'Inspections',
-        'stat_total_shops' => 'Shop Applications',
+        'stat_total_shops' => 'Shop Applications (Approved)',
     ],
     'landing' => [
         'platform_capabilities' => 'Platform Capabilities',

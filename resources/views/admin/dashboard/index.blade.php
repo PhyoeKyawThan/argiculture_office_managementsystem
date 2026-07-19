@@ -160,6 +160,7 @@
                 const emeraldLight = '#34d399';
                 const teal = '#0d9488';
                 const amber = '#d97706';
+                const red = '#ef4444';
 
                 const baseOptions = {
                     responsive: true,
@@ -169,69 +170,61 @@
                             labels: { boxWidth: 12, padding: 16, font: { weight: '600' } },
                         },
                     },
-                    scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: { maxRotation: 45, minRotation: 0 },
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: gridColor },
-                            ticks: { precision: 0 },
-                        },
-                    },
                 };
-
                 new Chart(document.getElementById('monthlyActivityChart'), {
-                    type: 'bar',
+                    type: 'pie',
                     data: {
-                        labels: stats.monthLabels,
-                        datasets: [
-                            {
-                                label: @json(__('messages.dashboard.chart_inquiries')),
-                                data: stats.monthlyInquiries,
-                                backgroundColor: emerald,
-                                borderRadius: 6,
-                            },
-                            {
-                                label: @json(__('messages.dashboard.chart_announcements')),
-                                data: stats.monthlyAnnouncements,
-                                backgroundColor: emeraldLight,
-                                borderRadius: 6,
-                            },
-                            {
-                                label: @json(__('messages.dashboard.chart_inspections')),
-                                data: stats.monthlyInspections,
-                                backgroundColor: teal,
-                                borderRadius: 6,
-                            },
-                        ],
-                    },
-                    options: {
-                        ...baseOptions,
-                        plugins: {
-                            ...baseOptions.plugins,
-                            legend: { position: 'bottom' },
-                        },
-                    },
-                });
-
-                new Chart(document.getElementById('inquiryStatusChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: stats.inquiryStatus.labels,
+                        labels: ['Inquiries', 'Announcements', 'Inspections'],
                         datasets: [{
-                            label: @json(__('messages.dashboard.chart_inquiries')),
-                            data: stats.inquiryStatus.values,
-                            backgroundColor: [amber, emerald],
-                            borderRadius: 8,
-                            barThickness: 48,
+                            data: [
+                                stats.monthlyInquiries.reduce((a, b) => a + b, 0),
+                                stats.monthlyAnnouncements.reduce((a, b) => a + b, 0),
+                                stats.monthlyInspections.reduce((a, b) => a + b, 0)
+                            ],
+                            backgroundColor: [emerald, emeraldLight, teal],
+                            borderColor: ['#ffffff', '#ffffff', '#ffffff'],
+                            borderWidth: 2,
                         }],
                     },
                     options: {
                         ...baseOptions,
                         plugins: {
-                            legend: { display: false },
+                            ...baseOptions.plugins,
+                            legend: { 
+                                position: 'bottom',
+                                labels: {
+                                    padding: 16,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                }
+                            },
+                        },
+                    },
+                });
+
+                new Chart(document.getElementById('inquiryStatusChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: stats.inquiryStatus.labels,
+                        datasets: [{
+                            data: stats.inquiryStatus.values,
+                            backgroundColor: [amber, emerald, '#f59e0b', '#10b981', '#6b7280'],
+                            borderColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                            borderWidth: 2,
+                        }],
+                    },
+                    options: {
+                        ...baseOptions,
+                        plugins: {
+                            ...baseOptions.plugins,
+                            legend: { 
+                                position: 'bottom',
+                                labels: {
+                                    padding: 16,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                }
+                            },
                         },
                     },
                 });
@@ -274,7 +267,7 @@
                         datasets: [{
                             label: @json(__('messages.dashboard.stat_total_shops')),
                             data: stats.shopsByStatus.values,
-                            backgroundColor: [amber, emerald, '#ef4444'],
+                            backgroundColor: [amber, emerald, red],
                             borderRadius: 8,
                             barThickness: 40,
                         }],
@@ -283,6 +276,17 @@
                         ...baseOptions,
                         plugins: {
                             legend: { display: false },
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { maxRotation: 45, minRotation: 0 },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: gridColor },
+                                ticks: { precision: 0 },
+                            },
                         },
                     },
                 });

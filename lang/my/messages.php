@@ -121,7 +121,7 @@ return [
         'stat_total_inquiries' => 'စုစုပေါင်းမေးခွန်း',
         'stat_total_announcements' => 'စုစုပေါင်းဆောင်းပါး',
         'stat_total_inspections' => 'စစ်ဆေးမှု',
-        'stat_total_shops' => 'ဆိုင်လျှောက်လွှာ',
+        'stat_total_shops' => 'မှတ်ပုံတင်ပြီး ဆိုင်',
     ],
     'landing' => [
         'platform_capabilities' => 'စနစ်အင်္ဂါရပ်များ',
