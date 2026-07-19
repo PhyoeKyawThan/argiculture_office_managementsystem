@@ -611,6 +611,9 @@ return [
         'township' => 'မြို့နယ်',
         'proposed_selling_address' => 'ရောင်းချမည့်ဆိုင်လိပ်စာ',
         'rejection_reason' => 'ငြင်းပယ်ရသည့်အကြောင်းရင်း',
+        'distribution_address' => 'ဖြန့်ဖြူးရောင်းချမည့်နေရာလိပ်စာ',
+        'applicant' => 'လျှောက်ထားသူ',
+
     ],
     'pesticide_shops' => [
         'download' => 'လိုင်စင်လျှောက်လွှာ ဒေါင်းလုပ်လုပ်ရန်',

@@ -235,7 +235,7 @@
             </div>
 
             <button type="submit" class="w-full py-4 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-950/20 text-center">
-                ပြင်ဆင်ချက်များကို သိမ်းဆည်းမည် (Update Form 7 Changes)
+                ပြင်ဆင်ချက်များကို သိမ်းဆည်းမည်
             </button>
         </form>
     </div>

@@ -597,6 +597,8 @@ return [
         'township' => 'Township',
         'proposed_selling_address' => 'Proposed Selling Address',
         'rejection_reason' => 'Rejection Reason',
+        'applicant' => 'Applicant',
+        'distribution_address' => 'Distribution Address',
     ],
     'pesticide_shops' => [
         'download' => 'Download License Application',

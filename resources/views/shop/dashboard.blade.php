@@ -90,12 +90,20 @@
                 @if($latestFertilizerLicense)
                     <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600 flex-grow">
                         <div>
-                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Applicant</span>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.applicant') }}</span>
                             <span class="font-semibold text-slate-800">{{ $latestFertilizerLicense->applicant_name }}</span>
                         </div>
+                        <div>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.nrc_number') }}</span>
+                            <span class="font-semibold text-slate-800">{{ $latestFertilizerLicense->nrc_number }}</span>
+                        </div>
+                        <div>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.distribution_address') }}</span>
+                            <span class="font-semibold text-slate-800">{{ $latestFertilizerLicense->distribution_location_address }}</span>
+                        </div>
                         @if($latestFertilizerLicense->isCancelled() && $latestFertilizerLicense->cancelled_reason)
-                            <div class="sm:col-span-2">
-                                <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.fertilizer_license.cancelled_reason') }}</span>
+                            <div class="sm:col-span-2 bg-red-200 p-4 rounded-xl gap-4">
+                                <span class="font-bold text-red-800 block text-xs uppercase tracking-wide">{{ __('messages.fertilizer_license.cancelled_reason') }}</span>
                                 <span class="font-semibold text-red-700">{{ $latestFertilizerLicense->cancelled_reason }}</span>
                             </div>
                         @endif

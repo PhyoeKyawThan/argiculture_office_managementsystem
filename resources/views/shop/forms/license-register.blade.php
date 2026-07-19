@@ -208,7 +208,7 @@
             </div>
 
             <button type="submit" class="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-700/20 text-center">
-                လိုင်စင်လျှောက်လွှာ တင်သွင်းမည် (Submit Form 7)
+                လိုင်စင်လျှောက်လွှာ တင်သွင်းမည်
             </button>
         </form>
     </div>
@@ -222,8 +222,7 @@
         const naingSelect = document.getElementById('naing');
         const nrcInput = document.getElementById('nrc_number');
         const hiddenNrcInput = document.getElementById('nrc');
-        
-        // Trackers for preservation logic redirection
+    
         const oldDistrictTracker = document.getElementById('district_old_val');
         const oldNaingTracker = document.getElementById('naing_old_val');
         const oldSerialTracker = document.getElementById('nrc_serial_val');
@@ -250,8 +249,6 @@
             const district = districtSelect.value;
             const naing = naingSelect.value;
             const serial = nrcInput.value.trim();
-
-            // Store single breakdown points inside session track fields
             oldDistrictTracker.value = district;
             oldNaingTracker.value = naing;
             oldSerialTracker.value = serial;
@@ -275,7 +272,6 @@
                 districtSelect.appendChild(option);
             });
 
-            // If there's an old value after validation fallback, match it safely here
             const cachedTarget = districtSelect.getAttribute('data-old-value');
             if (cachedTarget) {
                 districtSelect.value = cachedTarget;
@@ -283,7 +279,7 @@
             updateFullNrcValue();
         }
 
-        // Live Image Preview engine block
+
         document.querySelectorAll('.previewable-input').forEach(input => {
             input.addEventListener('change', function() {
                 const targetId = this.getAttribute('data-target');
@@ -305,7 +301,7 @@
         });
 
         stateNumberSelect.addEventListener('change', () => {
-            districtSelect.removeAttribute('data-old-value'); // Wipe obsolete track
+            districtSelect.removeAttribute('data-old-value'); 
             populateDistricts();
         });
         districtSelect.addEventListener('change', updateFullNrcValue);

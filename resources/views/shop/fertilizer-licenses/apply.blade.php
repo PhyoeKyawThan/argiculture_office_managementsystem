@@ -81,9 +81,31 @@
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1"
                             for="nrc_number">{{ __('messages.shop.application_form.nrc_number') }}</label>
-                        <input type="text" name="nrc_number" id="nrc_number"
-                            value="{{ old('nrc_number', $latestLicense->nrc_number ?? '') }}"
-                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('nrc_number') border-red-400 @enderror">
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <select id="state-number" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                                @foreach (['၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉', '၁၀', '၁၁', '၁၂', '၁၃', '၁၄'] as $nrc_code)
+                                    <option value="{{ $nrc_code }}" {{ old('state_number', $nrcState) === $nrc_code ? 'selected' : '' }}>{{ $nrc_code }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-slate-400">/</span>
+
+                            <select id="district" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none min-w-[120px]" data-old-value="{{ old('district_old_val', $nrcDistrict) }}">
+                                <option value="" selected>{{ __('messages.shop.select_nrc_code_first') }}</option>
+                            </select>
+                            <input type="hidden" name="district_old_val" id="district_old_val" value="{{ old('district_old_val', $nrcDistrict) }}">
+
+                            <select id="naing" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                                @foreach(['နိုင်', 'ပြု', 'ဧည့်', 'သာ'] as $status_type)
+                                    <option value="{{ $status_type }}" {{ old('naing_old_val', $nrcNaing) === $status_type ? 'selected' : '' }}>({{ $status_type }})</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="naing_old_val" id="naing_old_val" value="{{ old('naing_old_val', $nrcNaing) }}">
+
+                            <input type="text" id="nrc_number" placeholder="၁၂၃၄၅၆" value="{{ old('nrc_serial_val', $nrcSerial) }}" required class="flex-1 min-w-[150px] rounded-xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <input type="hidden" name="nrc_serial_val" id="nrc_serial_val" value="{{ old('nrc_serial_val', $nrcSerial) }}">
+
+                            <input type="hidden" name="nrc_number" id="nrc" value="{{ old('nrc_number', $latestLicense->nrc_number ?? '') }}" class="@error('nrc_number') border-red-400 @enderror">
+                        </div>
                     </div>
                 </div>
 
@@ -264,7 +286,84 @@
 
 @section('scripts')
     <script>
+        const nrc_formats = @json($nrc_formats);
+        const stateNumberSelect = document.getElementById('state-number');
+        const districtSelect = document.getElementById('district');
+        const naingSelect = document.getElementById('naing');
+        const nrcInput = document.getElementById('nrc_number');
+        const hiddenNrcInput = document.getElementById('nrc');
+
+        const oldDistrictTracker = document.getElementById('district_old_val');
+        const oldNaingTracker = document.getElementById('naing_old_val');
+        const oldSerialTracker = document.getElementById('nrc_serial_val');
+
+        function mmToEn(mm) {
+            const mmNumbers = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
+            return mm.split('').map(char => {
+                const index = mmNumbers.indexOf(char);
+                return index !== -1 ? index : char;
+            }).join('');
+        }
+
+        function enToMm(en) {
+            if (!en) return '';
+            const mmNumbers = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
+            return en.split('').map(char => {
+                const num = parseInt(char, 10);
+                return (!isNaN(num) && char.trim() !== '') ? mmNumbers[num] : char;
+            }).join('');
+        }
+
+        function updateFullNrcValue() {
+            const state = stateNumberSelect.value;
+            const district = districtSelect.value;
+            const naing = naingSelect.value;
+            const serial = nrcInput.value.trim();
+
+            oldDistrictTracker.value = district;
+            oldNaingTracker.value = naing;
+            oldSerialTracker.value = serial;
+
+            if (state && district && naing && serial) {
+                hiddenNrcInput.value = `${state}/${district}(${naing})${serial}`;
+            } else {
+                hiddenNrcInput.value = '';
+            }
+        }
+
+        function populateDistricts() {
+            const selectedNrcCode = mmToEn(stateNumberSelect.value);
+            const districts = nrc_formats.districts.filter(d => d.nrc_code === selectedNrcCode);
+
+            districtSelect.innerHTML = '';
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.name_mm;
+                option.textContent = district.name_mm;
+                districtSelect.appendChild(option);
+            });
+
+            const cachedTarget = districtSelect.getAttribute('data-old-value');
+            if (cachedTarget) {
+                districtSelect.value = cachedTarget;
+            }
+            updateFullNrcValue();
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            stateNumberSelect.addEventListener('change', () => {
+                districtSelect.removeAttribute('data-old-value');
+                populateDistricts();
+            });
+            districtSelect.addEventListener('change', updateFullNrcValue);
+            naingSelect.addEventListener('change', updateFullNrcValue);
+            nrcInput.addEventListener('input', function () {
+                this.value = enToMm(this.value);
+                updateFullNrcValue();
+            });
+
+            populateDistricts();
+
             const rowsContainer = document.getElementById('fertilizerRows');
             const addButton = document.getElementById('addFertilizerRow');
             const template = document.getElementById('fertilizerRowTemplate').innerHTML;

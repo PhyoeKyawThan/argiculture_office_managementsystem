@@ -28,7 +28,12 @@ class FertilizerLicenseController extends Controller
             ->latest()
             ->first();
 
-        return view('shop.fertilizer-licenses.apply', compact('latestLicense'));
+        $nrcData = $this->resolveNrcData($latestLicense?->nrc_number);
+
+        return view('shop.fertilizer-licenses.apply', array_merge(
+            compact('latestLicense'),
+            $nrcData
+        ));
     }
 
     public function store(StoreFertilizerLicenseRequest $request): RedirectResponse
@@ -95,11 +100,44 @@ class FertilizerLicenseController extends Controller
                 'weight_volume' => $i->weight_volume,
             ];
         });
-        return view('shop.fertilizer-licenses.apply', [
-            'latestLicense' => $fertilizer_license,
-            'editing' => true,
-            'existingItems' => $existingItems
-        ]);
+        $nrcData = $this->resolveNrcData($fertilizer_license->nrc_number);
+        return view('shop.fertilizer-licenses.apply', array_merge(
+            [
+                'latestLicense' => $fertilizer_license,
+                'editing' => true,
+                'existingItems' => $existingItems,
+            ],
+            $nrcData
+        ));
+    }
+
+    private function resolveNrcData(?string $nrc): array
+    {
+        $nrc_formats = get_formatted_nrc_suits(config('app.nrc_formats'));
+        $nrcState = '၁၂';
+        $nrcDistrict = '';
+        $nrcNaing = 'နိုင်';
+        $nrcSerial = '';
+
+        if (!empty($nrc)) {
+            preg_match('/^([၁-၉]|၁[၀-၄])\/([^\s\(\)]+)\((နိုင်|ပြု|ဧည့်|သာ)\)([၀-၉]+)$/u', $nrc, $matches);
+            if (count($matches) === 5) {
+                $nrcState = $matches[1];
+                $nrcDistrict = $matches[2];
+                $nrcNaing = $matches[3];
+                $nrcSerial = $matches[4];
+            }
+            if (!empty($nrcDistrict)) {
+                foreach ($nrc_formats['districts'] as $district) {
+                    if (str_contains($district['name_mm'], $nrcDistrict)) {
+                        $nrcDistrict = $district['name_mm'];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return compact('nrc_formats', 'nrcState', 'nrcDistrict', 'nrcNaing', 'nrcSerial');
     }
 
     public function update(UpdateFertilizerLicenseRequest $request, FertilizerDistributionLicense $fertilizer_license): RedirectResponse
