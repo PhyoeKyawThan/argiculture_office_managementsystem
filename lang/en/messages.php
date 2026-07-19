@@ -592,6 +592,11 @@ return [
         'pending_review' => 'Your shop registration is pending review. You will be notified after the office reviews your application.',
         'approved_notice' => 'Your shop registration has been approved. You can download your license certificate below.',
         'rejected_notice' => 'Your shop registration has been rejected. Please contact the agriculture office for more information.',
+        'submitted' => 'Submitted',
+        'nrc_number' => 'NRC Number',
+        'township' => 'Township',
+        'proposed_selling_address' => 'Proposed Selling Address',
+        'rejection_reason' => 'Rejection Reason',
     ],
     'pesticide_shops' => [
         'download' => 'Download License Application',

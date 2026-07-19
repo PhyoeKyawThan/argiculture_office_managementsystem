@@ -606,6 +606,11 @@ return [
         'pending_review' => 'စောင့်ဆိုင်းနေ',
         'status_approved' => 'အတည်ပြုပြီး',
         'status_rejected' => 'ငြင်းပယ်ပြီး',
+        'submitted' => 'တင်သွင်းခဲ့သည်',
+        'nrc_number' => 'မှတ်ပုံတင်အမှတ်',
+        'township' => 'မြို့နယ်',
+        'proposed_selling_address' => 'ရောင်းချမည့်ဆိုင်လိပ်စာ',
+        'rejection_reason' => 'ငြင်းပယ်ရသည့်အကြောင်းရင်း',
     ],
     'pesticide_shops' => [
         'download' => 'လိုင်စင်လျှောက်လွှာ ဒေါင်းလုပ်လုပ်ရန်',

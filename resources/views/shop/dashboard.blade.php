@@ -18,14 +18,14 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-2 gap-6">
         <div class="flex flex-col">
             @if($shop = auth()->user()->pesticideShop)
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4 flex flex-col h-full">
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-50 pb-4">
                         <div>
                             <h2 class="text-xl font-black text-slate-900">{{ $shop->name }}</h2>
-                            <p class="text-xs text-slate-400 mt-0.5">Submitted: {{ $shop->created_at->format('M j, Y') }}</p>
+                            <p class="text-xs text-slate-400 mt-0.5">{{ __('messages.shop_dashboard.submitted') }}: {{ $shop->created_at->format('M j, Y') }}</p>
                         </div>
                         <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
                                     @if($shop->status === 'approved') bg-emerald-100 text-emerald-800
@@ -37,22 +37,28 @@
 
                     <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600 flex-grow">
                         <div>
-                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.nrc_number') }}</span>
                             <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->nrc }}</span>
                         </div>
                         <div>
-                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Township</span>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.township') }}</span>
                             <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->township }}</span>
                         </div>
                         <div class="sm:col-span-2">
-                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Proposed Selling Address</span>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.shop_dashboard.proposed_selling_address') }}</span>
                             <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->requested_selling_address }}</span>
                         </div>
+                    </div>
+                    <div class="grid sm_grid-cols-1 gap-4 text-md text-red-400 flex-grow p-4 bg-red-200 rounded-xl">
+                        @if($shop->status === 'rejected' && $shop->rejection_reason)
+                            <span class="font-bold text-red-700 block text-md uppercase tracking-wide">{{ __('messages.shop_dashboard.rejection_reason') }}</span>
+                            <p class="font-bold underline text-red-400">{{ $shop->rejection_reason }}</p>
+                        @endif
                     </div>
 
                     <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4 mt-auto">
                         @if($shop->status === 'pending' || $shop->status === 'rejected')
-                            <a href="{{ route('shop.licenseEditForm', $shop->id) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm">Update &rarr;</a>
+                            <a href="{{ route('shop.licenseEditForm', $shop->id) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm">{{ __('messages.common.update') }} &rarr;</a>
                         @else
                             <a href="{{ route('shop.licenseDownload', $shop->id) }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm">Download &rarr;</a>
                         @endif
@@ -100,7 +106,7 @@
 
                 <div class="pt-2 border-t border-slate-50 flex items-center justify-end mt-auto">
                     @if($latestFertilizerLicense)
-                        <a href="{{ route('shop.fertilizer-licenses.edit', $latestFertilizerLicense) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">Update Application</a>
+                        <a href="{{ route('shop.fertilizer-licenses.edit', $latestFertilizerLicense) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">{{ __('messages.common.update') }}</a>
                     @else
                         <a href="{{ route('shop.fertilizer-licenses.create') }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition">
                             {{ __('messages.shop.to_fill_application') }}</a>
