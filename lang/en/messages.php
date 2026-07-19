@@ -315,6 +315,11 @@ return [
     'shop' => [
         'title' => 'AgriManage Shop',
         'dashboard' => 'Dashboard',
+        'fertilizer_application' => 'Fertilizer Distribution License',
+        'pesticide_application' => 'Pesticide Retail License',
+        'no_application_pesticide' => 'Apply to register your pesticide retail shop by completing the required information.',
+        'no_application_fertilizer' => 'Apply to register your fertilizer distribution shop by completing the required information.',
+        'to_fill_application' => 'Apply',
         'welcome' => 'Welcome, :name',
         'go_back_home' => 'Site Home',
         'portal_desc' => 'Shop operator portal.',

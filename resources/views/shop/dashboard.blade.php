@@ -18,145 +18,85 @@
         </div>
     @endif
 
-    @if($shop = auth()->user()->pesticideShop)
-        <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
-
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-50 pb-4">
-                <div>
-                    <h2 class="text-xl font-black text-slate-900">{{ $shop->name }}</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Submitted: {{ $shop->created_at->format('M j, Y') }}</p>
-                </div>
-
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
-                            @if($shop->status === 'approved') bg-emerald-100 text-emerald-800
-                            @elseif($shop->status === 'rejected') bg-red-100 text-red-800
-                            @else bg-amber-100 text-amber-800 @endif">
-                    {{  __('messages.pesticide_shops.status_' . $shop->status) }}
-                </span>
-            </div>
-
-            <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->nrc }}</span>
-                </div>
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Township</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->township }}</span>
-                </div>
-                <div class="sm:col-span-2">
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Proposed Selling Address</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->requested_selling_address }}</span>
-                </div>
-                @if($shop->license)
-                    <div class="sm:col-span-2">
-                        <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">License Number</span>
-                        <span class="font-semibold text-slate-800 mt-0.5 inline-block bg-blue-100 px-2 py-1 rounded">{{ $shop->license->license_number }}</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex flex-col">
+            @if($shop = auth()->user()->pesticideShop)
+                <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4 flex flex-col h-full">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-50 pb-4">
+                        <div>
+                            <h2 class="text-xl font-black text-slate-900">{{ $shop->name }}</h2>
+                            <p class="text-xs text-slate-400 mt-0.5">Submitted: {{ $shop->created_at->format('M j, Y') }}</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
+                                    @if($shop->status === 'approved') bg-emerald-100 text-emerald-800
+                                    @elseif($shop->status === 'rejected') bg-red-100 text-red-800
+                                    @else bg-amber-100 text-amber-800 @endif">
+                            {{ __('messages.pesticide_shops.status_' . $shop->status) }}
+                        </span>
                     </div>
-                @endif
-            </div>
 
-            @if($shop->status === 'rejected' && $shop->rejection_reason)
-                <div class="p-4 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-800">
-                    <p class="font-bold mb-1">Rejection Reason Note from Agriculture Inspector:</p>
-                    <p class="text-xs text-slate-700 bg-white/50 p-2.5 rounded-xl border border-red-200/40 mt-1">
-                        {{ $shop->rejection_reason }}</p>
-                </div>
-            @endif
+                    <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600 flex-grow">
+                        <div>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
+                            <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->nrc }}</span>
+                        </div>
+                        <div>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Township</span>
+                            <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->township }}</span>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Proposed Selling Address</span>
+                            <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->requested_selling_address }}</span>
+                        </div>
+                    </div>
 
-            <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4">
-                @if($shop->status === 'pending' || $shop->status === 'rejected')
-                    <div class="text-xs text-slate-400">
-                        @if($shop->status === 'pending')
-                            <span class="text-amber-600 font-bold">※ Under Review:</span> You can modify your responses while the
-                            application is pending review.
+                    <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4 mt-auto">
+                        @if($shop->status === 'pending' || $shop->status === 'rejected')
+                            <a href="{{ route('shop.licenseEditForm', $shop->id) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm">Update &rarr;</a>
                         @else
-                            <span class="text-red-600 font-bold">※ Action Required:</span> Please update and fix the elements requested
-                            by the inspector.
+                            <a href="{{ route('shop.licenseDownload', $shop->id) }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm">Download &rarr;</a>
                         @endif
                     </div>
-                    <a href="{{ route('shop.licenseEditForm', $shop->id) }}"
-                        class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm whitespace-nowrap">
-                        Update Application Data &rarr;
-                    </a>
-                @else
-                    <div class="text-xs text-emerald-700 bg-emerald-50 border border-emerald-100/60 px-3 py-2 rounded-xl w-full">
-                        ✔ {{ __('messages.shop_dashboard.approved_notice') }}
-                    </div>
-                    <a href="{{ route('shop.licenseDownload', $shop->id) }}"
-                        class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm whitespace-nowrap">
-                        Download License Certificate &rarr;
-                    </a>
-                @endif
-            </div>
-
-        </div>
-    @else
-        <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm text-center max-w-xl mx-auto space-y-4 my-6">
-            <div
-                class="h-12 w-12 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-xl font-bold">
-                ၇
-            </div>
-            <div>
-                <h3 class="text-base font-black text-slate-900">No Submitted Form 7 Applications Found</h3>
-                <p class="text-xs text-slate-400 mt-1">You have not registered your pesticide shop details yet. Please complete
-                    your profile layout to gain access to trading allocations.</p>
-            </div>
-            <a href="{{ route('shop.licenseRegisterationForm') }}"
-                class="inline-block px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black rounded-xl transition shadow-md shadow-emerald-700/10">
-                Complete Form 7 License Profile
-            </a>
-        </div>
-    @endif
-
-    <div class="mt-8 bg-white rounded-3xl border border-emerald-100 p-6 shadow-sm space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-4">
-            <div>
-                <h2 class="text-xl font-black text-slate-900">Fertilizer Distribution License</h2>
-                <p class="text-xs text-slate-400 mt-0.5">Manage your fertilizer distribution application from here.</p>
-            </div>
-
-            @if($latestFertilizerLicense)
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
-                    {{ $latestFertilizerLicense->status === 'completed' ? 'bg-emerald-100 text-emerald-800' : ($latestFertilizerLicense->status === 'sending_to_regional_department' ? 'bg-blue-100 text-blue-800' : ($latestFertilizerLicense->status === 'allowed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800')) }}">
-                    {{ ucfirst(str_replace('_', ' ', $latestFertilizerLicense->status)) }}
-                </span>
+                </div>
+            @else
+                <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm text-center flex flex-col justify-center items-center h-full">
+                    <h3 class="font-black text-slate-900">{{ __('messages.shop.no_application_pesticide') }}</h3>
+                    <a href="{{ route('shop.licenseRegisterationForm') }}" class="mt-4 px-5 py-3 bg-emerald-700 text-white text-xs font-black rounded-xl">
+                        {{ __('messages.shop.to_fill_application') }}</a>
+                </div>
             @endif
         </div>
 
-        @if($latestFertilizerLicense)
-            <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Applicant</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->applicant_name }}</span>
+        <div class="flex flex-col">
+            <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-sm space-y-4 flex flex-col h-full">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-4">
+                    <div>
+                        <h2 class="text-xl font-black text-slate-900">{{ __('messages.shop.fertilizer_application') }}</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">Manage distribution applications.</p>
+                    </div>
+                    @if($latestFertilizerLicense)
+                        <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                            {{ ucfirst(str_replace('_', ' ', $latestFertilizerLicense->status)) }}
+                        </span>
+                    @endif
                 </div>
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Submitted</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ optional($latestFertilizerLicense->application_date)->format('M j, Y') ?? __('messages.common.em_dash') }}</span>
-                </div>
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">NRC Number</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->nrc_number }}</span>
-                </div>
-                <div>
-                    <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Items</span>
-                    <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $latestFertilizerLicense->items->count() }}</span>
-                </div>
-            </div>
-            <div class="text-sm text-slate-600 bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
-                {{ $latestFertilizerLicense->status === 'sending_to_regional_department'
-                    ? 'Your application is being transferred to the Regional Department.'
-                    : 'Your current application status will appear here after submission.' }}
-            </div>
-        @else
-            <p class="text-sm text-slate-600">Submit a new fertilizer distribution license application to start the review process.</p>
-        @endif
 
-        <div class="pt-2 border-t border-slate-50 flex items-center justify-end gap-3">
-            <a href="{{ route('shop.fertilizer-licenses.create') }}"
-                class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm whitespace-nowrap">
-                Apply for Fertilizer License →
-            </a>
+                @if($latestFertilizerLicense)
+                    <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600 flex-grow">
+                        <div>
+                            <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Applicant</span>
+                            <span class="font-semibold text-slate-800">{{ $latestFertilizerLicense->applicant_name }}</span>
+                        </div>
+                    </div>
+                @else
+                    <p class="text-sm text-slate-600 flex-grow">{{ __('messages.shop.no_application_fertilizer') }}</p>
+                @endif
+
+                <div class="pt-2 border-t border-slate-50 flex items-center justify-end mt-auto">
+                    <a href="{{ route('shop.fertilizer-licenses.create') }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition">
+                        {{ __('messages.shop.to_fill_application') }}</a>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
