@@ -46,7 +46,7 @@ class DashboardController extends Controller
                 'inquiries' => AgriculturalInquiry::query()->count(),
                 'announcements' => AgriculturalAnnouncement::query()->count(),
                 'inspections' => PesticideShopInspection::query()->count(),
-                'shops' => PesticideShop::query()->count(),
+                'shops' => PesticideShop::query()->where('status', '=', PesticideShop::STATUS_APPROVED)->count(),
             ],
         ];
     }

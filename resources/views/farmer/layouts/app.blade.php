@@ -21,16 +21,12 @@
                 <div class="flex items-center gap-1 shrink-0">
                     @include('components.locale-switcher')
                     @include('farmer.partials.notifications')
-
-                    {{-- Desktop logout --}}
                     <form method="POST" action="{{ route('logout') }}" class="hidden md:inline">
                         @csrf
                         <button type="submit" class="p-2 rounded-lg hover:bg-emerald-800" title="{{ __('messages.auth.sign_out') }}">
                             <i data-lucide="log-out" class="w-5 h-5"></i>
                         </button>
                     </form>
-
-                    {{-- Mobile hamburger --}}
                     <button type="button" id="farmerMobileNavBtn"
                         class="md:hidden p-2 rounded-lg hover:bg-emerald-800 transition"
                         aria-label="{{ __('messages.nav.open_menu') }}"
