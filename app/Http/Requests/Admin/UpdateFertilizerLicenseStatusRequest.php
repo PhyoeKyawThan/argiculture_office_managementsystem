@@ -17,6 +17,7 @@ class UpdateFertilizerLicenseStatusRequest extends FormRequest
     {
         return [
             'status' => ['required', Rule::in(FertilizerDistributionLicense::STATUSES)],
+            'cancelled_reason' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }

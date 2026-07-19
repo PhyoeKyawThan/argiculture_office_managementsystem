@@ -138,16 +138,15 @@ class FertilizerLicenseController extends Controller
     {
         $previousStatus = $fertilizer_license->status;
         $newStatus = $request->string('status')->toString();
+        if($newStatus === FertilizerDistributionLicense::STATUS_CANCELLED){
+            $fertilizer_license->update(['status' => $newStatus, 'cancelled_reason' => $request->string('cancelled_reason')]);
+        } else {
+            $fertilizer_license->update([
+                'status' => $newStatus,
+            ]);
+        }
 
-        $fertilizer_license->update([
-            'status' => $newStatus,
-        ]);
-
-        if (
-            in_array($previousStatus, [FertilizerDistributionLicense::STATUS_PENDING, FertilizerDistributionLicense::STATUS_ALLOWED], true)
-            && in_array($newStatus, [FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT, FertilizerDistributionLicense::STATUS_CANCELLED], true)
-            && $fertilizer_license->user
-        ) {
+        if ($previousStatus !== $newStatus && $fertilizer_license->user) {
             $fertilizer_license->user->notify(new LicenseStatusUpdatedNotification($fertilizer_license, $previousStatus));
         }
 

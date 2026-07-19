@@ -61,6 +61,8 @@ Route::middleware(['auth', 'role:shop'])->prefix('shop')->name('shop.')->group(f
     Route::put('/shop/license/update/{id}', [ShopPesticideShopController::class, 'update'])->name('licenseUpdate');
     Route::get('/fertilizer-licenses/apply', [ShopFertilizerLicenseController::class, 'create'])->name('fertilizer-licenses.create');
     Route::post('/fertilizer-licenses', [ShopFertilizerLicenseController::class, 'store'])->name('fertilizer-licenses.store');
+    Route::get('/fertilizer-licenses/{fertilizer_license}/edit', [ShopFertilizerLicenseController::class, 'edit'])->name('fertilizer-licenses.edit');
+    Route::put('/fertilizer-licenses/{fertilizer_license}', [ShopFertilizerLicenseController::class, 'update'])->name('fertilizer-licenses.update');
     Route::post('/notifications/read-all', [ShopNotificationController::class, 'readAll'])->name('notifications.read-all');
     Route::post('/notifications/{notification}/read', [ShopNotificationController::class, 'read'])->name('notifications.read');
     Route::get('pesticide-shops/{shop}/download-license', [AdminPesticideShopController::class, 'downloadLicense'])->name('licenseDownload');

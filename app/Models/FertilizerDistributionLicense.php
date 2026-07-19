@@ -47,6 +47,7 @@ class FertilizerDistributionLicense extends Model
         'township',
         'township_recommendation_letter',
         'status',
+        'cancelled_reason'
     ];
 
     protected $casts = [

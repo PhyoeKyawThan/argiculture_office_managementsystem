@@ -1,31 +1,38 @@
 @extends('shop.layouts.root')
 
-@section('title', __('messages.shop.application_form.fertilizer_license_application'))
+@section('title', $editing ?? false ? __('messages.shop.application_form.edit_fertilizer_application') : __('messages.shop.application_form.fertilizer_license_application'))
 
 @section('breadcumb')
     <a href="{{ route('shop.dashboard') }}" class="hover:underline">{{ __('messages.shop.dashboard') }}</a>
     <span>&middot;</span>
-    <span>{{ __('messages.shop.application_form.fertilizer_license_application') }}</span>
+    <span>{{ $editing ?? false ? __('messages.shop.application_form.edit_fertilizer_application') : __('messages.shop.application_form.fertilizer_license_application') }}</span>
 @endsection
 
 @section('content')
     <div class="max-w-5xl mx-auto py-6 sm:py-8 px-0 sm:px-4">
         <div class="mb-8">
-            <p class="text-xs font-bold uppercase tracking-[0.25em] text-emerald-700">{{ __('messages.shop.portal_desc') }}</p>
-            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2">{{ __('messages.shop.application_form.fertilizer_distribution_license_application') }}</h1>
+            <p class="text-xs font-bold uppercase tracking-[0.25em] text-emerald-700">{{ __('messages.shop.portal_desc') }}
+            </p>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2">
+                {{ $editing ?? false ? __('messages.shop.application_form.edit_fertilizer_application') : __('messages.shop.application_form.fertilizer_distribution_license_application') }}
+            </h1>
             <p class="text-sm text-slate-600 mt-2 max-w-3xl">{{ __('messages.shop.application_form.fertilizer_desc') }}</p>
         </div>
 
-        @if($latestLicense)
+        @if($latestLicense && !($editing ?? false))
             <div class="mb-6 bg-emerald-50 border border-emerald-100 rounded-3xl p-5 text-sm text-emerald-900">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <p class="font-black text-base">{{ __('messages.shop.application_form.most_recent_submission') }}</p>
                         <p class="text-emerald-700 mt-1">
-                            {{ $latestLicense->application_date?->format('M j, Y') ?? __('messages.shop.application_form.no_date') }} ·
-                            {{ ucfirst(str_replace('_', ' ', $latestLicense->status)) }}</p>
+                            {{ $latestLicense->application_date?->format('M j, Y') ?? __('messages.shop.application_form.no_date') }}
+                            ·
+                            {{ ucfirst(str_replace('_', ' ', $latestLicense->status)) }}
+                        </p>
                     </div>
-                    <span class="px-3 py-1 rounded-full bg-white text-emerald-800 font-black text-xs uppercase tracking-wider border border-emerald-100">{{ $latestLicense->items->count() }} {{ __('messages.shop.application_form.items') }}</span>
+                    <span
+                        class="px-3 py-1 rounded-full bg-white text-emerald-800 font-black text-xs uppercase tracking-wider border border-emerald-100">{{ $latestLicense->items->count() }}
+                        {{ __('messages.shop.application_form.items') }}</span>
                 </div>
             </div>
         @endif
@@ -41,67 +48,103 @@
             </div>
         @endif
 
-        <form action="{{ route('shop.fertilizer-licenses.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form
+            action="{{ $editing ?? false ? route('shop.fertilizer-licenses.update', $latestLicense) : route('shop.fertilizer-licenses.store') }}"
+            method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+            @if($editing ?? false)
+                @method('PUT')
+            @endif
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 sm:p-8 space-y-6">
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="application_date">{{ __('messages.shop.application_form.application_date') }}</label>
-                        <input type="date" name="application_date" id="application_date" value="{{ old('application_date', now()->toDateString()) }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('application_date') border-red-400 @enderror">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="application_date">{{ __('messages.shop.application_form.application_date') }}</label>
+                        <input type="date" name="application_date" id="application_date"
+                            value="{{ old('application_date', ($latestLicense->application_date ?? now())->toDateString()) }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('application_date') border-red-400 @enderror">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="applicant_name">{{ __('messages.shop.application_form.applicant_name') }}</label>
-                        <input type="text" name="applicant_name" id="applicant_name" value="{{ old('applicant_name', auth()->user()->name) }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('applicant_name') border-red-400 @enderror">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="applicant_name">{{ __('messages.shop.application_form.applicant_name') }}</label>
+                        <input type="text" name="applicant_name" id="applicant_name"
+                            value="{{ old('applicant_name', $latestLicense->applicant_name ?? auth()->user()->name) }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('applicant_name') border-red-400 @enderror">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="shop_name">{{ __('messages.shop.application_form.shop_name') }}</label>
-                        <input type="text" name="shop_name" id="shop_name" value="{{ old('shop_name') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('shop_name') border-red-400 @enderror">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="shop_name">{{ __('messages.shop.application_form.shop_name') }}</label>
+                        <input type="text" name="shop_name" id="shop_name"
+                            value="{{ old('shop_name', $latestLicense->shop_name ?? '') }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('shop_name') border-red-400 @enderror">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="nrc_number">{{ __('messages.shop.application_form.nrc_number') }}</label>
-                        <input type="text" name="nrc_number" id="nrc_number" value="{{ old('nrc_number') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('nrc_number') border-red-400 @enderror">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="nrc_number">{{ __('messages.shop.application_form.nrc_number') }}</label>
+                        <input type="text" name="nrc_number" id="nrc_number"
+                            value="{{ old('nrc_number', $latestLicense->nrc_number ?? '') }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('nrc_number') border-red-400 @enderror">
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="education_level">{{ __('messages.shop.application_form.education_level') }}</label>
-                        <input type="text" name="education_level" id="education_level" value="{{ old('education_level') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('education_level') border-red-400 @enderror">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="education_level">{{ __('messages.shop.application_form.education_level') }}</label>
+                        <input type="text" name="education_level" id="education_level"
+                            value="{{ old('education_level', $latestLicense->education_level ?? '') }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none @error('education_level') border-red-400 @enderror">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="work_experience">{{ __('messages.shop.application_form.work_experience') }}</label>
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="work_experience">{{ __('messages.shop.application_form.work_experience') }}</label>
                         <label class="flex items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 bg-slate-50">
-                            <input type="checkbox" name="work_experience" id="work_experience" value="1" @checked(old('work_experience')) class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
-                            <span class="text-sm text-slate-700">{{ __('messages.shop.application_form.have_experience') }}</span>
+                            <input type="checkbox" name="work_experience" id="work_experience" value="1"
+                                @checked(old('work_experience', $latestLicense->work_experience ?? false))
+                                class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                            <span
+                                class="text-sm text-slate-700">{{ __('messages.shop.application_form.have_experience') }}</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="township">{{ __('messages.shop.application_form.township') }}</label>
-                        <select name="township" id="township" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <option value="Hinthada">{{ __('messages.shop.application_form.hinthada') }}</option>
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="township">{{ __('messages.shop.application_form.township') }}</label>
+                        <select name="township" id="township"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="Hinthada" {{ (old('township', $latestLicense->township ?? '') === 'Hinthada') ? 'selected' : '' }}>{{ __('messages.shop.application_form.hinthada') }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="permanent_address">{{ __('messages.shop.application_form.permanent_address') }}</label>
-                        <textarea name="permanent_address" id="permanent_address" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('permanent_address') }}</textarea>
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="permanent_address">{{ __('messages.shop.application_form.permanent_address') }}</label>
+                        <textarea name="permanent_address" id="permanent_address" rows="3"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('permanent_address', $latestLicense->permanent_address ?? '') }}</textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="distribution_location_address">{{ __('messages.shop.application_form.distribution_location') }}</label>
-                        <textarea name="distribution_location_address" id="distribution_location_address" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('distribution_location_address') }}</textarea>
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="distribution_location_address">{{ __('messages.shop.application_form.distribution_location') }}</label>
+                        <textarea name="distribution_location_address" id="distribution_location_address" rows="3"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('distribution_location_address', $latestLicense->distribution_location_address ?? '') }}</textarea>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="building_type">{{ __('messages.shop.application_form.building_type') }}</label>
-                        <input type="text" name="building_type" id="building_type" value="{{ old('building_type') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="building_type">{{ __('messages.shop.application_form.building_type') }}</label>
+                        <input type="text" name="building_type" id="building_type"
+                            value="{{ old('building_type', $latestLicense->building_type ?? '') }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="building_dimensions">{{ __('messages.shop.application_form.building_dimensions') }}</label>
-                        <input type="text" name="building_dimensions" id="building_dimensions" value="{{ old('building_dimensions') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="building_dimensions">{{ __('messages.shop.application_form.building_dimensions') }}</label>
+                        <input type="text" name="building_dimensions" id="building_dimensions"
+                            value="{{ old('building_dimensions', $latestLicense->building_dimensions ?? '') }}"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                 </div>
             </div>
@@ -109,10 +152,12 @@
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 sm:p-8 space-y-5">
                 <div class="flex items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-xl font-black text-slate-900">{{ __('messages.shop.application_form.fertilizer_items') }}</h2>
+                        <h2 class="text-xl font-black text-slate-900">
+                            {{ __('messages.shop.application_form.fertilizer_items') }}</h2>
                         <p class="text-sm text-slate-500">{{ __('messages.shop.application_form.add_items_desc') }}</p>
                     </div>
-                    <button type="button" id="addFertilizerRow" class="px-4 py-2.5 rounded-xl bg-emerald-100 text-emerald-900 font-bold text-sm hover:bg-emerald-200 transition">{{ __('messages.shop.application_form.add_row') }}</button>
+                    <button type="button" id="addFertilizerRow"
+                        class="px-4 py-2.5 rounded-xl bg-emerald-100 text-emerald-900 font-bold text-sm hover:bg-emerald-200 transition">{{ __('messages.shop.application_form.add_row') }}</button>
                 </div>
                 <div id="fertilizerRows" class="space-y-4"></div>
             </div>
@@ -120,27 +165,56 @@
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 sm:p-8 space-y-5">
                 <div class="flex items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-xl font-black text-slate-900">{{ __('messages.shop.application_form.nrc_attachments') }}</h2>
+                        <h2 class="text-xl font-black text-slate-900">
+                            {{ __('messages.shop.application_form.nrc_attachments') }}</h2>
                         <p class="text-sm text-slate-500">{{ __('messages.shop.application_form.upload_nrc_desc') }}</p>
                     </div>
                 </div>
                 <div class="grid sm:grid-cols-2 gap-5">
                     @foreach(['front' => __('messages.shop.application_form.front_nrc'), 'back' => __('messages.shop.application_form.back_nrc')] as $side => $label)
                         <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-1" for="attachment_nrc_{{ $side }}">{{ $label }}</label>
-                            <input type="file" name="attachment_nrc[{{ $side }}]" id="attachment_nrc_{{ $side }}" accept="image/*" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <label class="block text-sm font-bold text-slate-700 mb-1"
+                                for="attachment_nrc_{{ $side }}">{{ $label }}</label>
+                            @if($editing ?? false && data_get($latestLicense->attachment_nrc, $side))
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . data_get($latestLicense->attachment_nrc, $side)) }}"
+                                        alt="{{ $label }}"
+                                        class="w-full max-h-32 object-contain rounded-xl border border-slate-200 bg-white">
+                                </div>
+                            @endif
+                            <input type="file" name="attachment_nrc[{{ $side }}]" id="attachment_nrc_{{ $side }}"
+                                accept="image/*"
+                                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                            @if($editing ?? false && data_get($latestLicense->attachment_nrc, $side))
+                                <p class="text-xs text-slate-400 mt-1">{{ __('messages.common.optional') }}</p>
+                            @endif
                         </div>
                     @endforeach
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="township_recommendation_letter">{{ __('messages.shop.application_form.recommendation_letter') }}</label>
-                        <input type="file" name="township_recommendation_letter" id="township_recommendation_letter" accept="image/*" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-sm font-bold text-slate-700 mb-1"
+                            for="township_recommendation_letter">{{ __('messages.shop.application_form.recommendation_letter') }}</label>
+                        @if($editing ?? false && $latestLicense->township_recommendation_letter)
+                            <div class="mb-2">
+                                <img src="{{ asset('storage/' . $latestLicense->township_recommendation_letter) }}"
+                                    alt="{{ __('messages.shop.application_form.recommendation_letter') }}"
+                                    class="w-full max-h-32 object-contain rounded-xl border border-slate-200 bg-white">
+                            </div>
+                        @endif
+                        <input type="file" name="township_recommendation_letter" id="township_recommendation_letter"
+                            accept="image/*"
+                            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                        @if($editing ?? false && $latestLicense->township_recommendation_letter)
+                            <p class="text-xs text-slate-400 mt-1">{{ __('messages.common.optional') }}</p>
+                        @endif
                     </div>
                 </div>
             </div>
 
             <div class="flex items-center justify-end gap-3 pb-6">
-                <a href="{{ route('shop.dashboard') }}" class="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50">{{ __('messages.common.cancel') }}</a>
-                <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-700 text-white font-black hover:bg-emerald-800">{{ __('messages.common.submit') }}</button>
+                <a href="{{ route('shop.dashboard') }}"
+                    class="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50">{{ __('messages.common.cancel') }}</a>
+                <button type="submit"
+                    class="px-6 py-3 rounded-xl bg-emerald-700 text-white font-black hover:bg-emerald-800">{{ $editing ?? false ? __('messages.common.update') : __('messages.common.submit') }}</button>
             </div>
         </form>
     </div>
@@ -149,28 +223,39 @@
         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4" data-fertilizer-row>
             <div class="flex items-center justify-between gap-3">
                 <h3 class="font-black text-slate-900">{{ __('messages.shop.application_form.fertilizer_item') }}</h3>
-                <button type="button" class="text-sm font-bold text-red-600 hover:text-red-700" data-remove-row>{{ __('messages.common.remove') }}</button>
+                <button type="button" class="text-sm font-bold text-red-600 hover:text-red-700"
+                    data-remove-row>{{ __('messages.common.remove') }}</button>
             </div>
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.fertilizer_name') }}</label>
-                    <input type="text" name="fertilizer_license_items[__INDEX__][fertilizer_name]" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label
+                        class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.fertilizer_name') }}</label>
+                    <input type="text" name="fertilizer_license_items[__INDEX__][fertilizer_name]"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.chemical_formula') }}</label>
-                    <input type="text" name="fertilizer_license_items[__INDEX__][chemical_formula]" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label
+                        class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.chemical_formula') }}</label>
+                    <input type="text" name="fertilizer_license_items[__INDEX__][chemical_formula]"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.fertilizer_type') }}</label>
-                    <input type="text" name="fertilizer_license_items[__INDEX__][fertilizer_type]" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label
+                        class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.fertilizer_type') }}</label>
+                    <input type="text" name="fertilizer_license_items[__INDEX__][fertilizer_type]"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.packaging_size') }}</label>
-                    <input type="text" name="fertilizer_license_items[__INDEX__][packaging_size]" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label
+                        class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.packaging_size') }}</label>
+                    <input type="text" name="fertilizer_license_items[__INDEX__][packaging_size]"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.weight_volume') }}</label>
-                    <input type="text" name="fertilizer_license_items[__INDEX__][weight_volume]" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label
+                        class="block text-xs font-bold text-slate-500 mb-1">{{ __('messages.shop.application_form.weight_volume') }}</label>
+                    <input type="text" name="fertilizer_license_items[__INDEX__][weight_volume]"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
             </div>
         </div>
@@ -184,6 +269,7 @@
             const addButton = document.getElementById('addFertilizerRow');
             const template = document.getElementById('fertilizerRowTemplate').innerHTML;
             const oldItems = @json(old('fertilizer_license_items', []));
+            const existingItems = @json($existingItems ?? []);
 
             function renderRow(index, preset = {}) {
                 const wrapper = document.createElement('div');
@@ -191,9 +277,8 @@
                 const row = wrapper.firstElementChild;
 
                 row.querySelectorAll('input').forEach(function (input) {
-                    const keyMatch = input.name.match(/\[(.*?)\]$/);
+                    const keyMatch = input.name.match(/\[([^\]]+)\]$/);
                     const key = keyMatch ? keyMatch[1] : null;
-
                     if (key && Object.prototype.hasOwnProperty.call(preset, key)) {
                         input.value = preset[key] ?? '';
                     }
@@ -210,6 +295,10 @@
 
             if (Array.isArray(oldItems) && oldItems.length > 0) {
                 oldItems.forEach(function (item, index) {
+                    renderRow(index, item || {});
+                });
+            } else if (Array.isArray(existingItems) && existingItems.length > 0) {
+                existingItems.forEach(function (item, index) {
                     renderRow(index, item || {});
                 });
             } else {

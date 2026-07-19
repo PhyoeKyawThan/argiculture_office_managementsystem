@@ -87,14 +87,24 @@
                             <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">Applicant</span>
                             <span class="font-semibold text-slate-800">{{ $latestFertilizerLicense->applicant_name }}</span>
                         </div>
+                        @if($latestFertilizerLicense->isCancelled() && $latestFertilizerLicense->cancelled_reason)
+                            <div class="sm:col-span-2">
+                                <span class="font-bold text-slate-400 block text-xs uppercase tracking-wide">{{ __('messages.fertilizer_license.cancelled_reason') }}</span>
+                                <span class="font-semibold text-red-700">{{ $latestFertilizerLicense->cancelled_reason }}</span>
+                            </div>
+                        @endif
                     </div>
                 @else
                     <p class="text-sm text-slate-600 flex-grow">{{ __('messages.shop.no_application_fertilizer') }}</p>
                 @endif
 
                 <div class="pt-2 border-t border-slate-50 flex items-center justify-end mt-auto">
-                    <a href="{{ route('shop.fertilizer-licenses.create') }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition">
-                        {{ __('messages.shop.to_fill_application') }}</a>
+                    @if($latestFertilizerLicense)
+                        <a href="{{ route('shop.fertilizer-licenses.edit', $latestFertilizerLicense) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">Update Application</a>
+                    @else
+                        <a href="{{ route('shop.fertilizer-licenses.create') }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition">
+                            {{ __('messages.shop.to_fill_application') }}</a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -16,8 +16,8 @@
         </div>
 
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.fertilizer-licenses.index') }}" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">Back to list</a>
-            <a href="{{ route('shop.dashboard') }}" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-bold hover:bg-emerald-200">Open shop dashboard</a>
+            <a href="{{ route('admin.fertilizer-licenses.index') }}" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">{{ __('messages.fertilizer_license.back_to_list') }}</a>
+            {{-- <a href="{{ route('shop.dashboard') }}" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-bold hover:bg-emerald-200">{{ __('messages.fertilizer_license.open_shop_dashboard') }}</a> --}}
         </div>
     </div>
 
@@ -32,10 +32,10 @@
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="flex items-center justify-between gap-3 border-b border-emerald-50 pb-4">
                     <div>
-                        <h2 class="text-xl font-black text-slate-900">Applicant Details</h2>
-                        <p class="text-sm text-slate-500">Submitted by {{ $license->user?->name ?? 'Guest applicant' }}</p>
+                        <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.applicant_details') }}</h2>
+                        <p class="text-sm text-slate-500">{{ __('messages.fertilizer_license.submitted_by', ['name' => $license->user?->name ?? 'Guest applicant']) }}</p>
                     </div>
-                    <span class="text-xs text-slate-500">Application #{{ $license->id }}</span>
+                    <span class="text-xs text-slate-500">{{ __('messages.fertilizer_license.application_id', ['id' => $license->id]) }}</span>
                     <a href="{{ route('admin.fertilizer-licenses.generate', $license) }}" title="Download Document">
                         <i data-lucide="file-text" class="text-blue-400 hover:text-blue-700 transition"></i>
                     </a>
@@ -82,13 +82,19 @@
                         <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Building Dimensions</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->building_dimensions ?? '—' }}</span>
                     </div>
+                    @if($license->isCancelled() && $license->cancelled_reason)
+                        <div class="sm:col-span-2">
+                            <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">{{ __('messages.fertilizer_license.cancelled_reason') }}</span>
+                            <span class="mt-1 block font-semibold text-slate-900 whitespace-pre-line">{{ $license->cancelled_reason }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
 
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="border-b border-emerald-50 pb-4">
-                    <h2 class="text-xl font-black text-slate-900">Fertilizer Items</h2>
-                    <p class="text-sm text-slate-500">All fertilizer items declared in the application.</p>
+                    <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.fertilizer_items') }}</h2>
+                    <p class="text-sm text-slate-500">{{ __('messages.fertilizer_license.items_description') }}</p>
                 </div>
 
                 <div class="space-y-4">
@@ -111,8 +117,8 @@
 
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="border-b border-emerald-50 pb-4">
-                    <h2 class="text-xl font-black text-slate-900">NRC Attachments</h2>
-                    <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p>
+                    <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.nrc_attachments') }}</h2>
+                    <p class="text-sm text-slate-500">{{ __('messages.fertilizer_license.attachments_description') }}</p>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
@@ -132,7 +138,7 @@
             </div>
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="border-b border-emerald-50 pb-4">
-                    <h2 class="text-xl font-black text-slate-900">Township Recommendation Letter</h2>
+                    <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.township_recommendation_letter') }}</h2>
                     {{-- <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p> --}}
                 </div>
 
@@ -150,43 +156,47 @@
         <div class="space-y-6">
             <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-4 sticky top-6">
                 <div class="border-b border-emerald-50 pb-4">
-                    <h2 class="text-xl font-black text-slate-900">Status Actions</h2>
-                    <p class="text-sm text-slate-500">Move the application through the review workflow.</p>
+                    <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.status_actions') }}</h2>
+                    <p class="text-sm text-slate-500">{{ __('messages.fertilizer_license.status_actions_subtitle') }}</p>
                 </div>
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="allowed">
-                    <button type="submit" class="w-full rounded-xl bg-emerald-700 text-white font-black px-4 py-3 hover:bg-emerald-800">Mark as Allowed</button>
+                    <button type="submit" class="w-full rounded-xl bg-emerald-700 text-white font-black px-4 py-3 hover:bg-emerald-800">{{ __('messages.fertilizer_license.mark_allowed') }}</button>
                 </form>
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="sending_to_regional_department">
-                    <button type="submit" class="w-full rounded-xl bg-blue-600 text-white font-black px-4 py-3 hover:bg-blue-700">Transfer to Regional Department</button>
+                    <button type="submit" class="w-full rounded-xl bg-blue-600 text-white font-black px-4 py-3 hover:bg-blue-700">{{ __('messages.fertilizer_license.transfer_to_regional') }}</button>
                 </form>
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="got_response_from_regional_department">
-                    <button type="submit" class="w-full rounded-xl bg-indigo-600 text-white font-black px-4 py-3 hover:bg-indigo-700">Mark Regional Response Received</button>
+                    <button type="submit" class="w-full rounded-xl bg-indigo-600 text-white font-black px-4 py-3 hover:bg-indigo-700">{{ __('messages.fertilizer_license.mark_regional_response') }}</button>
                 </form>
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="completed">
-                    <button type="submit" class="w-full rounded-xl bg-slate-900 text-white font-black px-4 py-3 hover:bg-slate-800">Mark as Completed</button>
+                    <button type="submit" class="w-full rounded-xl bg-slate-900 text-white font-black px-4 py-3 hover:bg-slate-800">{{ __('messages.fertilizer_license.mark_completed') }}</button>
                 </form>
 
-                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3" onsubmit="return confirm('Cancel this application and send it back to the user?')">
+                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3" onsubmit="return confirm('{{ __('messages.fertilizer_license.cancel_confirm') }}')">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="cancelled">
-                    <button type="submit" class="w-full rounded-xl bg-red-600 text-white font-black px-4 py-3 hover:bg-red-700">Cancel and Send Back</button>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.fertilizer_license.cancelled_reason') }}</label>
+                        <textarea name="cancelled_reason" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="{{ __('messages.fertilizer_license.cancelled_reason_placeholder') }}"></textarea>
+                    </div>
+                    <button type="submit" class="w-full rounded-xl bg-red-600 text-white font-black px-4 py-3 hover:bg-red-700">{{ __('messages.fertilizer_license.cancel_and_send_back') }}</button>
                 </form>
             </div>
         </div>
