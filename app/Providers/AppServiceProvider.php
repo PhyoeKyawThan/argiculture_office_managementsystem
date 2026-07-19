@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
                 ->get());
         });
 
-        View::composer(['admin.layouts.root', 'shop.layouts.root'], function ($view) {
+        View::composer(['admin.layouts.root', 'shop.layouts.root', 'farmer.layouts.app'], function ($view) {
             $user = auth()->user();
 
             if ($user) {

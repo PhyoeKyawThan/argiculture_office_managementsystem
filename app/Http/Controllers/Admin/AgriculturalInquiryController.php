@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReplyAgriculturalInquiryRequest;
 use App\Models\AgriculturalInquiry;
-use App\Models\User;
+use App\Notifications\ReplyFarmerInquiryNotification;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -57,17 +59,19 @@ class AgriculturalInquiryController extends Controller
 
             if ($data['status'] === AgriculturalInquiry::STATUS_ANSWERED) {
                 $inquiry->answered_by = $request->user()->id;
-                $inquiry->answered_at = now();
+                $inquiry->answered_at = Carbon::now();
             } else {
                 $inquiry->answered_by = null;
                 $inquiry->answered_at = null;
             }
 
             $inquiry->save();
-            
-            $farmer = User::findOrFail($inquiry->farmer_id);
 
-            Notification::send($farmer, new NewAgriculturalInquiryReplyNotification($inquiry));
+            $farmer = $inquiry->farmer;
+
+            if ($farmer) {
+                Notification::send($farmer, new ReplyFarmerInquiryNotification($inquiry));
+            }
         });
 
         return redirect()

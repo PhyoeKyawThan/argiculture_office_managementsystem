@@ -578,6 +578,10 @@ return [
         'update_shop_registration' => 'ဆိုင်မှတ်ပုံတင်ပြင်ခဲ့သည် — :shop (ပိုင်ရှင်: :owner)',
         'new_fertilizer_license' => 'ဓာတ်မြေဩဇာလုပ်ငန်းလိုင်စင်အသစ် — :shop (ပိုင်ရှင်: :owner)',
         'update_fertilizer_license' => 'ဓာတ်မြေဩဇာလုပ်ငန်းလိုင်စင်ပြင်ခဲ့သည် — :shop (ပိုင်ရှင်: :owner)',
+        'inquiry_replied' => ':responder မှ သင့်မေးခွန်းကို ဖြေကြားပေးပြီး — :title',
+        'shop_status_approved' => 'သင့် ပိုးသတ်ဆေးဆိုင် မှတ်ပုံတင်ခြင်း အတည်ပြုပြီးပါပြီ — :shop',
+        'shop_status_rejected' => 'သင့် ပိုးသတ်ဆေးဆိုင် မှတ်ပုံတင်ခြင်း ငြင်းပယ်ပြီးပါပြီ — :shop',
+        'shop_status_updated' => 'သင့် ပိုးသတ်ဆေးဆိုင် မှတ်ပုံတင်ခြင်း အခြေအနေ ပြောင်းလဲပြီးပါပြီ — :shop',
     ],
     'flash' => [
         'feature_settings_updated' => 'အင်္ဂါရပ်ဆက်တင်များ သိမ်းဆည်းပြီးပါပြီ။',

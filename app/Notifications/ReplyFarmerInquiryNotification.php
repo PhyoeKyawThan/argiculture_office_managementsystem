@@ -10,7 +10,7 @@ class ReplyFarmerInquiryNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public AgriculturalInquiry $inquiry, ) {}
+    public function __construct(public AgriculturalInquiry $inquiry) {}
 
     public function via(object $notifiable): array
     {
@@ -19,17 +19,19 @@ class ReplyFarmerInquiryNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
-        $this->inquiry->loadMissing('farmer:id,name');
+        $this->inquiry->loadMissing(['farmer:id,name', 'responder:id,name']);
+
+        $responderName = $this->inquiry->responder?->name ?? 'Agriculture Office';
 
         return [
             'inquiry_id' => $this->inquiry->id,
             'title' => $this->inquiry->title,
-            'answered_by' => $this->inquiry->responder()->name,
-            'message' => __('messages.notifications.response_farmer_inquiry', [
-                'responder' => $this->inquiry->farmer->name,
+            'responder_name' => $responderName,
+            'message' => __('messages.notifications.inquiry_replied', [
+                'responder' => $responderName,
                 'title' => $this->inquiry->title,
             ]),
-            'url' => route('admin.inquiries.show', $this->inquiry),
+            'url' => route('farmer.inquiries.show', $this->inquiry),
         ];
     }
 }

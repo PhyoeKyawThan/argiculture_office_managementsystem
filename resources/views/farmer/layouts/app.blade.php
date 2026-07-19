@@ -20,6 +20,7 @@
 
                 <div class="flex items-center gap-1 shrink-0">
                     @include('components.locale-switcher')
+                    @include('farmer.partials.notifications')
 
                     {{-- Desktop logout --}}
                     <form method="POST" action="{{ route('logout') }}" class="hidden md:inline">

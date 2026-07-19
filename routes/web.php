@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Farmer\DashboardController as FarmerDashboardController;
 use App\Http\Controllers\Farmer\InquiryController as FarmerInquiryController;
+use App\Http\Controllers\Farmer\NotificationController as FarmerNotificationController;
 use App\Http\Controllers\Shop\FertilizerLicenseController as ShopFertilizerLicenseController;
 use App\Http\Controllers\Shop\NotificationController as ShopNotificationController;
 use App\Http\Controllers\LandingController;
@@ -71,6 +72,9 @@ Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->g
     Route::middleware('feature:farmer_inquiries')->group(function () {
         Route::resource('inquiries', FarmerInquiryController::class)->only(['index', 'create', 'store', 'show']);
     });
+
+    Route::post('notifications/read-all', [FarmerNotificationController::class, 'readAll'])->name('notifications.read-all');
+    Route::post('notifications/{notification}/read', [FarmerNotificationController::class, 'read'])->name('notifications.read');
 });
 
 Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {

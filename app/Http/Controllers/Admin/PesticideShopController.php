@@ -8,6 +8,7 @@ use App\Models\PesticideShop;
 use App\Models\PesticideShopLicense;
 use App\Models\PesticideShopsLicense;
 use App\Models\User;
+use App\Notifications\ShopStatusUpdatedNotification;
 use App\Traits\DateConverterTrait;
 use App\Traits\DocxProcessorTrait;
 use Illuminate\Http\RedirectResponse;
@@ -63,6 +64,7 @@ class PesticideShopController extends Controller
     {
         $validated = $request->validated();
         $status = $validated['status'];
+        $previousStatus = $shop->status;
         $updatePayload = [
             'status' => $status,
         ];
@@ -74,6 +76,14 @@ class PesticideShopController extends Controller
         }
         $updatePayload['reviewed_by'] = auth()->id();
         $shop->update($updatePayload);
+
+        if (
+            $previousStatus === PesticideShop::STATUS_PENDING
+            && in_array($status, [PesticideShop::STATUS_APPROVED, PesticideShop::STATUS_REJECTED], true)
+            && $shop->user
+        ) {
+            $shop->user->notify(new ShopStatusUpdatedNotification($shop, $previousStatus));
+        }
         if($status === 'approved') {
             if($shop->license) {
                 $shop->license->update([

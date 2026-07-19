@@ -558,6 +558,10 @@ return [
         'update_shop_registration' => 'Update shop registration: :shop (Owner: :owner)',
         'new_fertilizer_license' => 'New fertilizer distribution license: :shop (Owner: :owner)',
         'update_fertilizer_license' => 'Update fertilizer distribution license: :shop (Owner: :owner)',
+        'inquiry_replied' => ':responder replied to your question: :title',
+        'shop_status_approved' => 'Your pesticide shop registration has been approved: :shop',
+        'shop_status_rejected' => 'Your pesticide shop registration was rejected: :shop',
+        'shop_status_updated' => 'Your pesticide shop registration status was updated: :shop',
     ],
     'flash' => [
         'staff_created' => 'Staff record created successfully.',
