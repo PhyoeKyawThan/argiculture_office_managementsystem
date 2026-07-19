@@ -17,7 +17,7 @@ class StoreShopRegistrationRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:200'],
             // 'shop_name' => ['required', 'string', 'max:200'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email', 'ends_with:@gmail.com'],
             'password' => ['required', 'string', 'confirmed', Password::defaults()],
             // 'phone' => ['required', 'string', 'max:30'],
             // 'address' => ['required', 'string', 'max:500'],
