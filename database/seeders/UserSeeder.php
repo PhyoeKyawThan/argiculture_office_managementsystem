@@ -14,25 +14,25 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'System Administrator',
-                'email' => 'admin@agrimanage.local',
+                'email' => 'admin@gmail.com',
                 'role' => User::ROLE_ADMIN,
                 'password' => 'password',
             ],
             [
                 'name' => 'Office Staff',
-                'email' => 'staff@agrimanage.local',
+                'email' => 'staff@gmail.com',
                 'role' => User::ROLE_STAFF,
                 'password' => 'password',
             ],
             [
                 'name' => 'Shop Operator',
-                'email' => 'shop@agrimanage.local',
+                'email' => 'shop@gmail.com',
                 'role' => User::ROLE_SHOP,
                 'password' => 'password',
             ],
             [
                 'name' => 'U Aung Farmer',
-                'email' => 'farmer@agrimanage.local',
+                'email' => 'farmer@gmail.com',
                 'role' => User::ROLE_FARMER,
                 'password' => 'password',
             ],
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
 
         if ($linkedStaff) {
             User::query()
-                ->where('email', 'staff@agrimanage.local')
+                ->where('email', 'staff@gmail.com')
                 ->update(['staff_id' => $linkedStaff->id]);
         }
     }
