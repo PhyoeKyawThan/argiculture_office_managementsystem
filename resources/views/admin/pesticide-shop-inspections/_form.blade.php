@@ -149,7 +149,7 @@
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
-            <div>
+            {{-- <div>
                 <label for="action_taken" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.inspections.action_taken') }}</label>
                 <input type="text" name="action_taken" id="action_taken" value="{{ old('action_taken', $record?->action_taken) }}"
                     class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none @error('action_taken') border-red-400 @enderror">
@@ -164,7 +164,7 @@
                 @error('remarks')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
-            </div>
+            </div> --}}
         </div>
     </section>
 </div>

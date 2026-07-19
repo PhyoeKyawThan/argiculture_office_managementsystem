@@ -32,8 +32,8 @@ class StorePesticideShopInspectionRequest extends FormRequest
             'raw_findings_notes' => ['nullable', 'string'],
             'photos' => ['nullable', 'array', 'max:2'], 
             'photos.*' => ['file', 'image', 'max:5120'],
-            'action_taken' => ['nullable', 'string', 'max:255'],
-            'remarks' => ['nullable', 'string'],
+            // 'action_taken' => ['nullable', 'string', 'max:255'],
+            // 'remarks' => ['nullable', 'string'],
         ];
     }
 
