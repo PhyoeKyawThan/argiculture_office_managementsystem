@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\FarmerRegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ShopRegisterController;
 use App\Http\Controllers\Admin\AgriculturalAnnouncementController;
 use App\Http\Controllers\Admin\AgriculturalInquiryController;
@@ -37,6 +39,11 @@ Route::get('/news/{announcement:slug}', [NewsController::class, 'show'])->name('
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->name('password.store');
+    Route::get('/reset-password', [ResetPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.reset.store');
 
     Route::middleware('feature:farmer_registration')->group(function () {
         Route::get('/farmer/register', [FarmerRegisterController::class, 'create'])->name('farmer.register');

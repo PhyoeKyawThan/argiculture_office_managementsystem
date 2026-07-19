@@ -29,10 +29,13 @@
                         <input type="password" name="password" id="password" required
                             class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
                     </div>
-                    <label class="flex items-center gap-2 text-sm text-slate-600">
-                        <input type="checkbox" name="remember" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
-                        {{ __('messages.auth.remember_me') }}
-                    </label>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 text-sm text-slate-600">
+                            <input type="checkbox" name="remember" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                            {{ __('messages.auth.remember_me') }}
+                        </label>
+                        <a href="{{ route('password.request') }}" class="text-sm text-emerald-700 font-bold hover:underline">{{ __('messages.auth.forgot_password_title') }}</a>
+                    </div>
                     <button type="submit"
                         class="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition">
                         {{ __('messages.auth.sign_in') }}
