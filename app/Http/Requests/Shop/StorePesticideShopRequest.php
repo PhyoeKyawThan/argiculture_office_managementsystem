@@ -33,15 +33,15 @@ class StorePesticideShopRequest extends FormRequest
             'surrounding_agreements.location.township'        => ['required', 'string', 'max:255'],
             'surrounding_agreements.location.region_state'    => ['required', 'string', 'max:255'],
             
-            'surrounding_agreements.boundaries'               => ['required', 'array', 'size:4'],
-            'surrounding_agreements.boundaries.*.name'        => ['required', 'string', 'max:255'],
-            'surrounding_agreements.boundaries.*.nrc'         => ['required', 'string', 'max:100'],
+            // 'surrounding_agreements.boundaries'               => ['required', 'array', 'size:4'],
+            // 'surrounding_agreements.boundaries.*.name'        => ['required', 'string', 'max:255'],
+            // 'surrounding_agreements.boundaries.*.nrc'         => ['required', 'string', 'max:100'],
 
-            'surrounding_agreements_signatures'               => ['required', 'array', 'size:4'],
-            'surrounding_agreements_signatures.store_front'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            'surrounding_agreements_signatures.store_end'     => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            'surrounding_agreements_signatures.store_south'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            'surrounding_agreements_signatures.store_north'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            // 'surrounding_agreements_signatures'               => ['required', 'array', 'size:4'],
+            // 'surrounding_agreements_signatures.store_front'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            // 'surrounding_agreements_signatures.store_end'     => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            // 'surrounding_agreements_signatures.store_south'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            // 'surrounding_agreements_signatures.store_north'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
 
             'attachments'                 => ['required', 'array', 'size:4'],
             'attachments.card_front'      => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],

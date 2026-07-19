@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReplyAgriculturalInquiryRequest;
 use App\Models\AgriculturalInquiry;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,10 @@ class AgriculturalInquiryController extends Controller
             }
 
             $inquiry->save();
+            
+            $farmer = User::findOrFail($inquiry->farmer_id);
+
+            Notification::send($farmer, new NewAgriculturalInquiryReplyNotification($inquiry));
         });
 
         return redirect()

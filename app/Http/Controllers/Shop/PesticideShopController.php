@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReviewPesticideShopRequest;
 use App\Models\PesticideShop;
 use App\Models\User;
+use App\Notifications\NewShopRegistrationNotification;
+use App\Notifications\UpdateShopRegistrationNotification;
 use App\Traits\DocxProcessorTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -70,7 +73,11 @@ class PesticideShopController extends Controller
                 'surrounding_agreements' => $agreementData,
                 'status' => 'pending',
             ]);
+            $backOfficeUsers = User::query()
+                ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
+                ->get();
 
+            Notification::send($backOfficeUsers, new NewShopRegistrationNotification($pesticideShop));
             return redirect()
                 ->route('shop.dashboard')
                 ->with('success', 'Application submitted successfully to the Agriculture Office!');
@@ -187,6 +194,10 @@ class PesticideShopController extends Controller
         $updateData['surrounding_agreements'] = $agreements;
         $pesticideShop->update($updateData);
 
+        $backOfficeUsers = User::query()
+            ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
+            ->get();
+        Notification::send($backOfficeUsers, new UpdateShopRegistrationNotification($pesticideShop));
         return redirect()
             ->route('shop.dashboard')
             ->with('success', 'လိုင်စင်လျှောက်လွှာ အချက်အလက်များကို အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။');

@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreFertilizerLicenseRequest;
 use App\Models\FertilizerDistributionLicense;
+use App\Models\User;
+use App\Notifications\NewFertilizerLicenseNotification;
 use App\Traits\HandlesFileUploads;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 
 class FertilizerLicenseController extends Controller
@@ -18,7 +21,7 @@ class FertilizerLicenseController extends Controller
     public function create(): View
     {
         $latestLicense = auth()->user()
-            ?->fertilizerDistributionLicenses()
+                ?->fertilizerDistributionLicenses()
             ->with('items')
             ->latest()
             ->first();
@@ -63,8 +66,12 @@ class FertilizerLicenseController extends Controller
                     'weight_volume',
                 ]);
             }, $data['fertilizer_license_items']));
-        });
+            $backOfficeUsers = User::query()
+                ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
+                ->get();
 
+            Notification::send($backOfficeUsers, new NewFertilizerLicenseNotification($license));
+        });
         return redirect()
             ->route('shop.dashboard')
             ->with('success', 'Fertilizer distribution license application submitted successfully.');

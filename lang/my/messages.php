@@ -575,6 +575,9 @@ return [
         'mark_all_read' => 'အားလုံးဖတ်ပြီးဟု မှတ်ရန်',
         'new_farmer_inquiry' => ':farmer မှ မေးခွန်းအသစ် — :title',
         'new_shop_registration' => 'ဆိုင်မှတ်ပုံတင်အသစ် — :shop (ပိုင်ရှင်: :owner)',
+        'update_shop_registration' => 'ဆိုင်မှတ်ပုံတင်ပြင်ခဲ့သည် — :shop (ပိုင်ရှင်: :owner)',
+        'new_fertilizer_license' => 'ဓာတ်မြေဩဇာလုပ်ငန်းလိုင်စင်အသစ် — :shop (ပိုင်ရှင်: :owner)',
+        'update_fertilizer_license' => 'ဓာတ်မြေဩဇာလုပ်ငန်းလိုင်စင်ပြင်ခဲ့သည် — :shop (ပိုင်ရှင်: :owner)',
     ],
     'flash' => [
         'feature_settings_updated' => 'အင်္ဂါရပ်ဆက်တင်များ သိမ်းဆည်းပြီးပါပြီ။',

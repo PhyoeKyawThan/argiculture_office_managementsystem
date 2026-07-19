@@ -555,6 +555,9 @@ return [
         'mark_all_read' => 'Mark all read',
         'new_farmer_inquiry' => ':farmer submitted a new question: :title',
         'new_shop_registration' => 'New shop registration: :shop (Owner: :owner)',
+        'update_shop_registration' => 'Update shop registration: :shop (Owner: :owner)',
+        'new_fertilizer_license' => 'New fertilizer distribution license: :shop (Owner: :owner)',
+        'update_fertilizer_license' => 'Update fertilizer distribution license: :shop (Owner: :owner)',
     ],
     'flash' => [
         'staff_created' => 'Staff record created successfully.',
