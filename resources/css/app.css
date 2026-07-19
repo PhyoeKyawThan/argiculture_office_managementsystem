@@ -17,6 +17,9 @@
 
     .admin-header {
         @apply sticky top-0 z-50 bg-emerald-900 text-white transition-all duration-300 ease-in-out;
+        will-change: transform, padding;
+        transform: translateZ(0);
+        backface-visibility: hidden;
     }
 
     .admin-header-inner {
@@ -29,6 +32,7 @@
         row-gap: 0;
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
+        will-change: padding;
     }
 
     .admin-header-brand {
@@ -51,6 +55,7 @@
         opacity: 1;
         padding-top: 0.625rem;
         margin-top: 0.625rem;
+        will-change: max-height, opacity, margin-top, padding-top;
     }
 
     .admin-header-hamburger {
@@ -60,6 +65,7 @@
     .admin-header-subtitle {
         @apply transition-all duration-300 ease-in-out;
         max-height: 1.25rem;
+        will-change: max-height, opacity;
     }
 
     .admin-header-logo-wrap {
@@ -102,7 +108,6 @@
         @apply shadow-md;
     }
 
-    /* Scrolled: compact top bar, hide secondary nav row */
     .admin-header[data-scrolled='true'] .admin-header-inner {
         grid-template-rows: auto;
         padding-top: 0.5rem;
@@ -138,14 +143,22 @@
         pointer-events: none;
     }
 
-    /* Mobile: nav row always hidden — hamburger always visible */
+    .admin-header[data-nav-collapsed='true'] .admin-header-nav {
+        max-height: 0;
+        opacity: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-top-width: 0;
+        pointer-events: none;
+    }
+
     @media (max-width: 767px) {
         .admin-header-hamburger {
             @apply flex;
         }
     }
 
-    /* Desktop: hamburger only when scrolled */
     @media (min-width: 768px) {
         .admin-header[data-scrolled='true'] .admin-header-hamburger {
             @apply flex;

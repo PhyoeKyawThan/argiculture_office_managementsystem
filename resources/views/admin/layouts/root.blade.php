@@ -15,7 +15,6 @@
 
     <header id="adminHeader" class="admin-header" data-scrolled="false">
         <div class="admin-header-inner">
-            {{-- Brand + hamburger (left) --}}
             <div class="admin-header-brand flex items-center gap-1 sm:gap-2">
                 <button type="button" id="adminNavMenuBtn"
                     class="admin-header-hamburger"
@@ -33,13 +32,15 @@
                 </div>
             </div>
 
-            {{-- Full navigation bar (desktop, hidden when scrolled) --}}
             <div class="admin-header-nav">
                 @include('admin.layouts.nav', ['variant' => 'bar'])
             </div>
-
-            {{-- Actions (right) --}}
             <div class="admin-header-actions flex items-center gap-2 md:gap-3 shrink-0">
+                <button type="button" id="navCollapseBtn"
+                    class="p-2 rounded-lg hover:bg-emerald-800 transition-all duration-300 ease-in-out text-emerald-300 hover:text-white hidden md:flex items-center gap-1"
+                    aria-label="Toggle navigation collapse">
+                    <i data-lucide="chevron-up" class="w-4 h-4"></i>
+                </button>
                 @include('components.locale-switcher')
                 @include('admin.partials.notifications')
                 @if($u)
@@ -74,8 +75,6 @@
             </div>
         </div>
     </header>
-
-    {{-- Slide-out navigation drawer --}}
     <div id="adminNavOverlay"
         class="admin-nav-overlay fixed inset-0 bg-black/50 z-[60] hidden opacity-0 pointer-events-none"
         aria-hidden="true"></div>
@@ -101,6 +100,12 @@
         @include('admin.partials.alerts')
         @yield('content')
     </main>
+
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 p-3 bg-emerald-900 text-white rounded-full shadow-lg hover:bg-emerald-800 transition-all duration-300 opacity-0 pointer-events-none z-40"
+        aria-label="Scroll to top">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
 
     @stack('scripts')
 
@@ -138,6 +143,46 @@
                     if (wrap && !wrap.contains(e.target)) {
                         notifMenu.classList.add('hidden');
                     }
+                });
+            }
+
+            const navCollapseBtn = document.getElementById('navCollapseBtn');
+            const header = document.getElementById('adminHeader');
+            let isNavCollapsed = false;
+
+            if (navCollapseBtn && header) {
+                navCollapseBtn.addEventListener('click', function() {
+                    isNavCollapsed = !isNavCollapsed;
+                    if (isNavCollapsed) {
+                        header.dataset.navCollapsed = 'true';
+                        this.querySelector('i').setAttribute('data-lucide', 'chevron-down');
+                    } else {
+                        header.dataset.navCollapsed = 'false';
+                        this.querySelector('i').setAttribute('data-lucide', 'chevron-up');
+                    }
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                });
+            }
+
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                        scrollToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                        scrollToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
             }
         });
