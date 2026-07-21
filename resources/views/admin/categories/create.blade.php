@@ -35,7 +35,7 @@
                     <option value="">-- Root Level (No Parent) --</option>
                     @foreach($allCategories as $category)
                         <option value="{{ $category->id }}">
-                            {{ str_repeat('— ', $category->level - 1) }} {{ $category->name }}
+                            {{ str_repeat('— ', $category->level - 1) }} {{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}
                         </option>
                     @endforeach
                 </select>

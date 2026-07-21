@@ -14,15 +14,15 @@
         </div>
     </td>
     
-    <td class="p-4 text-center text-emerald-600 font-bold">{{ $category->level }}</td>
+    <td class="p-4 text-emerald-600 font-bold">{{ $category->level }}</td>
 
-    <td class="p-4 text-center">
+    <td class="p-4">
         <span class="px-3 py-1 rounded-full text-xs font-bold {{ $isRoot ? 'bg-emerald-600 text-white' : 'bg-emerald-100 text-emerald-800' }}">
             {{ $category->children_count }}
         </span>
     </td>
 
-    <td class="p-4 flex justify-center items-center gap-3">
+    <td class="p-4 flex justify-end items-center gap-3">
         {{-- @if($category->level < 5)
             <a href="{{ route('admin.categories.create', ['parent_id' => $category->id]) }}" 
                class="text-emerald-600 hover:text-emerald-800 transition" title="Add Sub-category">

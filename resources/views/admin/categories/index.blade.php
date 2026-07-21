@@ -27,6 +27,7 @@
             <tr>
                 <th class="px-6 py-4">Name</th>
                 <th class="px-6 py-4">Level</th>
+                <th class="px-6 py-4">Children(Sub Categories)</th>
                 <th class="px-6 py-4 text-right">Actions</th>
             </tr>
         </thead>
