@@ -87,7 +87,7 @@
         </section>
     @endif
 
-    @if($latestNews->isNotEmpty())
+    @if(\App\Support\Feature::enabled('content_news') && $latestNews->isNotEmpty())
         <section class="max-w-6xl mx-auto px-4 py-16">
             <div class="flex items-center justify-between mb-8">
                 <div>

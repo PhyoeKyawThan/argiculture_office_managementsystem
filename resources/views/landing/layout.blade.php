@@ -52,12 +52,12 @@
                 </div>
             </div>
 
-            @include('landing.partials.nav', ['context' => 'desktop'])
+            @include('landing.partials.nav', ['context' => 'desktop', 'categories' => $categories ?? []])
         </div>
     </header>
 
     <x-mobile-nav-drawer id="publicMobileNav" :title="__('messages.app.brand')">
-        @include('landing.partials.nav', ['context' => 'drawer'])
+        @include('landing.partials.nav', ['context' => 'drawer', 'categories' => $categories ?? []])
     </x-mobile-nav-drawer>
 
     <main class="flex-1 w-full">

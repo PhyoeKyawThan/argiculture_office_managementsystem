@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AgriculturalAnnouncement;
 use App\Models\Category;
+use App\Support\Feature;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,6 +13,19 @@ class NewsController extends Controller
     public function index(Request $request): View
     {
         $categorySlug = $request->query('category');
+
+        if ($categorySlug) {
+            $category = Category::where('slug', $categorySlug)->first();
+
+            if (!$category) {
+                abort(404);
+            }
+
+            $module = str_replace('-', '_', $category->slug);
+            if (!Feature::enabled('content_' . $module)) {
+                abort(404);
+            }
+        }
 
         $announcements = AgriculturalAnnouncement::published()
             ->when($categorySlug, function ($query) use ($categorySlug) {
@@ -36,6 +50,19 @@ class NewsController extends Controller
             && $announcement->published_at->lte(now()),
             404
         );
+
+        $announcement->load('category.parent.parent.parent');
+        $category = $announcement->category;
+
+        while ($category && $category->parent_id) {
+            $category = $category->parent;
+        }
+
+        if ($category) {
+            $module = str_replace('-', '_', $category->slug);
+            abort_unless(Feature::enabled('content_' . $module), 404);
+        }
+
         $announcement->load('author:id,name');
         $categories = Category::with('children')->whereNull('parent_id')->get();
 

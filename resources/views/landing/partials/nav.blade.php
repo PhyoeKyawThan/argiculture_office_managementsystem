@@ -9,6 +9,11 @@
         . ($active ? 'bg-emerald-800 text-white' : 'text-emerald-200 hover:bg-emerald-800 hover:text-white');
 
     $modules = $enabledModules ?? AgriculturalContentCatalog::enabledModules();
+    $categories = $categories ?? collect();
+    $enabledCategories = $categories->filter(function ($category) use ($modules) {
+        $module = str_replace('-', '_', $category->slug);
+        return in_array($module, $modules);
+    })->values();
 @endphp
 
 @if($context === 'desktop')
@@ -17,7 +22,7 @@
             <i data-lucide="home" class="w-4 h-4"></i>
             {{ __('messages.nav.home') }}
         </a>
-        <x-content-module-nav context="desktop-header" :modules="$modules" />
+        <x-content-module-nav context="desktop-header" :categories="$enabledCategories" />
     </nav>
 @else
     <nav class="flex flex-col gap-0.5" aria-label="{{ __('messages.nav.main_menu') }}">
@@ -25,7 +30,7 @@
             <i data-lucide="home" class="w-5 h-5"></i>
             {{ __('messages.nav.home') }}
         </a>
-        <x-content-module-nav context="mobile-drawer" :modules="$modules" />
+        <x-content-module-nav context="mobile-drawer" :categories="$enabledCategories" />
     </nav>
 
     <div class="my-3 mx-4 border-t border-emerald-800/80"></div>

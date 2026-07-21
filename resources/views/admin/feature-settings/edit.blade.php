@@ -16,7 +16,8 @@
             <section>
                 <h2 class="text-lg font-black text-emerald-900 mb-4">{{ __('messages.features.content_section') }}</h2>
                 <div class="space-y-3">
-                    @foreach(\App\Support\AgriculturalContentCatalog::modules() as $module)
+                    @foreach($contentCategories as $category)
+                        @php $module = str_replace('-', '_', $category->slug); @endphp
                         @php $key = 'content_'.$module; @endphp
                         <label class="flex items-start gap-3 p-3 rounded-xl border border-emerald-50 hover:bg-emerald-50/50 cursor-pointer">
                             <input type="checkbox" name="features[{{ $key }}]" value="1"
@@ -48,7 +49,7 @@
             <section>
                 <h2 class="text-lg font-black text-emerald-900 mb-4">{{ __('messages.features.admin_section') }}</h2>
                 <div class="space-y-3">
-                    @foreach(['staff_management', 'shop_inspections', 'landing_cms'] as $key)
+                    @foreach(['shop_inspections', 'staff_management', 'landing_cms'] as $key)
                         <label class="flex items-start gap-3 p-3 rounded-xl border border-emerald-50 hover:bg-emerald-50/50 cursor-pointer">
                             <input type="checkbox" name="features[{{ $key }}]" value="1"
                                 @checked(old('features.'.$key, optional($settings->get($key))->is_enabled ?? true))

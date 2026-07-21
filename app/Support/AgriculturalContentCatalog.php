@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\Category;
+
 class AgriculturalContentCatalog
 {
     public const MODULE_NEWS = 'news';
@@ -114,7 +116,7 @@ class AgriculturalContentCatalog
 
     public static function modules(): array
     {
-        return self::MODULES;
+        return static::publishedModules();
     }
 
     public static function moduleHasSubTypes(string $module): bool
@@ -155,8 +157,18 @@ class AgriculturalContentCatalog
     public static function enabledModules(): array
     {
         return array_values(array_filter(
-            self::MODULES,
+            static::modules(),
             fn(string $module) => Feature::enabled(self::featureKeyForModule($module))
         ));
+    }
+
+    public static function publishedModules(): array
+    {
+        return Category::whereNull('parent_id')
+            ->pluck('slug')
+            ->map(fn(string $slug) => str_replace('-', '_', $slug))
+            ->filter(fn(string $module) => static::isValidModule($module))
+            ->values()
+            ->toArray();
     }
 }

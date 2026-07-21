@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateFeatureSettingsRequest;
+use App\Models\Category;
 use App\Models\FeatureSetting;
 use App\Support\Feature;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,11 @@ class FeatureSettingController extends Controller
             ->get()
             ->keyBy('key');
 
-        return view('admin.feature-settings.edit', compact('settings'));
+        $contentCategories = Category::whereNull('parent_id')
+            ->orderBy('id')
+            ->get();
+
+        return view('admin.feature-settings.edit', compact('settings', 'contentCategories'));
     }
 
     public function update(UpdateFeatureSettingsRequest $request): RedirectResponse

@@ -45,20 +45,18 @@ class Feature
 
     public static function keys(): array
     {
-        return [
-            'content_news',
-            'content_weather_advisory',
-            'content_farming_advisory',
-            'content_main_crops',
-            'content_pests',
-            'content_pesticides',
-            'content_crop_diseases',
+        $contentKeys = array_map(
+            [AgriculturalContentCatalog::class, 'featureKeyForModule'],
+            AgriculturalContentCatalog::publishedModules()
+        );
+
+        return array_merge($contentKeys, [
             'farmer_inquiries',
             'farmer_registration',
             'shop_registration',
             'shop_inspections',
             'staff_management',
             'landing_cms',
-        ];
+        ]);
     }
 }

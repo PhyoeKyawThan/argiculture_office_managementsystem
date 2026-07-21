@@ -7,6 +7,7 @@ use App\Models\LandingSection;
 use App\Models\Staff;
 use App\Observers\LandingSectionObserver;
 use App\Observers\StaffObserver;
+use App\Support\AgriculturalContentCatalog;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,8 +30,13 @@ class AppServiceProvider extends ServiceProvider
         LandingSection::observe(LandingSectionObserver::class);
 
         View::composer(['components.content-module-nav', 'admin.announcements.index'], function ($view) {
+            $enabledSlugs = collect(AgriculturalContentCatalog::enabledModules())
+                ->map(fn(string $module) => str_replace('_', '-', $module))
+                ->toArray();
+
             $view->with('categories', Category::with('children.children.children')
                 ->whereNull('parent_id')
+                ->whereIn('slug', $enabledSlugs)
                 ->orderBy('name')
                 ->get());
         });
