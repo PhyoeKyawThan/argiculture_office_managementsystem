@@ -35,11 +35,13 @@ class DateHelper
             'year_range' => self::convertToMyanmarNumber($year) . '-' .self::convertToMyanmarNumber($year + 1)
         ];
     }
-    public static function convertToMyanmarNumber(string $number): string
+    public static function convertToMyanmarNumber(string $number, bool $is_formatted=False): string
     {
         $en_digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         $mm_digits = ['၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉'];
-
+        if ($is_formatted) {
+            return str_replace($en_digits, $mm_digits, number_format($number));
+        }
         return str_replace($en_digits, $mm_digits, $number);
     }
 }

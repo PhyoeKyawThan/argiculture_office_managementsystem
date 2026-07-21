@@ -24,7 +24,7 @@ class StaffController extends Controller
             })
             ->when($request->filled('region'), fn ($q) => $q->where('current_region', $request->string('region')))
             ->when($request->filled('office'), fn ($q) => $q->where('current_office', 'like', '%' . $request->string('office') . '%'))
-            ->orderBy('name')
+            ->orderBy('personal_no')
             ->paginate(15)
             ->withQueryString();
 

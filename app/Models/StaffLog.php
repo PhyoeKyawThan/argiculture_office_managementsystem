@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -146,7 +147,7 @@ class StaffLog extends Model
         }
 
         if (is_numeric($value)) {
-            return number_format((float) $value);
+            return config('app.locale') == 'en' ? number_format((float) $value) : DateHelper::convertToMyanmarNumber((float) $value, true);
         }
 
         if ($value === null || $value === '' || $value === '—') {
