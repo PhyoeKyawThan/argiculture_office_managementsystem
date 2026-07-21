@@ -52,7 +52,7 @@
     </section>
     @endif
 
-    <section>
+    {{-- <section>
         <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-black text-emerald-900">{{ __('messages.farmer.latest_news') }}</h2>
             <a href="{{ route('news.index') }}" class="text-sm font-bold text-emerald-700">{{ __('messages.farmer.view_all_news') }}</a>
@@ -74,5 +74,5 @@
                 <p class="text-sm text-slate-500 bg-white rounded-2xl border border-emerald-100 p-4">{{ __('messages.announcements.no_public_records') }}</p>
             @endforelse
         </div>
-    </section>
+    </section> --}}
 @endsection
