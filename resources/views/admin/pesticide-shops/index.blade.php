@@ -39,9 +39,9 @@
             <tbody class="divide-y divide-emerald-50">
                 @forelse($shops as $shop)
                     <tr class="hover:bg-emerald-50/50 {{ $shop->isPending() ? 'bg-amber-50/30' : '' }}">
-                        <td class="px-4 py-3 font-semibold">{{ $shop->shop_name }}</td>
-                        <td class="px-4 py-3">{{ $shop->owner_name }}</td>
-                        <td class="px-4 py-3">{{ $shop->license_number }}</td>
+                        <td class="px-4 py-3 font-semibold">{{ $shop->name ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $shop->user->name ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $shop->license?->license_number ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="px-2 py-0.5 rounded-full text-xs font-bold uppercase
                                 @if($shop->isApproved()) bg-emerald-100 text-emerald-800
