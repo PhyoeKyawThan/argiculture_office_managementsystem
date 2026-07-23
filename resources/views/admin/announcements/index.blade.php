@@ -78,12 +78,10 @@
                         <td class="px-4 py-3 space-x-2">
                             <a href="{{ route('admin.announcements.edit', $announcement) }}"
                                 class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
-                            <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST"
-                                class="inline" onsubmit="return confirm(@json(__('messages.announcements.confirm_delete')))">
+                            <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                    class="text-red-600 font-bold hover:underline">{{ __('messages.common.delete') }}</button>
+                                <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.announcements.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
                             </form>
                         </td>
                     </tr>

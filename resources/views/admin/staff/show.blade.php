@@ -15,12 +15,11 @@
                 <i data-lucide="pencil" class="w-4 h-4"></i> {{ __('messages.common.edit') }}
             </a>
             @if(auth()->user()->isAdmin())
-                <form action="{{ route('admin.staff.destroy', $staff) }}" method="POST"
-                    onsubmit="return confirm(@json(__('messages.staff.confirm_delete_staff')))">
+                <form action="{{ route('admin.staff.destroy', $staff) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 border border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-50 transition text-sm">
+                        class="inline-flex items-center gap-2 px-4 py-2.5 border border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-50 transition text-sm" data-confirm data-confirm-message="@json(__('messages.staff.confirm_delete_staff'))" data-confirm-title="@json(__('messages.common.delete'))">
                         <i data-lucide="trash-2" class="w-4 h-4"></i> {{ __('messages.common.delete') }}
                     </button>
                 </form>

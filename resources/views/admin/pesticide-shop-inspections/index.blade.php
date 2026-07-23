@@ -63,11 +63,10 @@
                         <td class="px-4 py-3 text-right space-x-2 whitespace-nowrap">
                             <a href="{{ route('admin.pesticide-shop-inspections.show', $inspection) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.view') }}</a>
                             <a href="{{ route('admin.pesticide-shop-inspections.edit', $inspection) }}" class="text-slate-600 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
-                            <form action="{{ route('admin.pesticide-shop-inspections.destroy', $inspection) }}" method="POST" class="inline"
-                                onsubmit="return confirm(@json(__('messages.inspections.confirm_delete')))">
+                            <form action="{{ route('admin.pesticide-shop-inspections.destroy', $inspection) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 font-bold hover:underline">{{ __('messages.common.delete') }}</button>
+                                <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.inspections.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
                             </form>
                         </td>
                     </tr>

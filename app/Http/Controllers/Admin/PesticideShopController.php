@@ -109,6 +109,18 @@ class PesticideShopController extends Controller
             ->with('success', __('Application status has been updated successfully.'));
     }
 
+    public function destroy(PesticideShop $shop): RedirectResponse
+    {
+        if ($shop->license) {
+            $shop->license->delete();
+        }
+        $shop->delete();
+
+        return redirect()
+            ->route('admin.pesticide-shops.index')
+            ->with('success', __('messages.flash.shop_deleted'));
+    }
+
     public function downloadLicense(Request $request, PesticideShop $shop)
     {
         if ($shop->status !== PesticideShop::STATUS_APPROVED) {

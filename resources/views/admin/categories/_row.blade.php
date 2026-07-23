@@ -35,10 +35,10 @@
             <i data-lucide="edit" class="w-5 h-5"></i>
         </a>
         
-        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Delete">
+            <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Delete" data-confirm data-confirm-message="@json(__('messages.common.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">
                 <i data-lucide="trash-2" class="w-5 h-5"></i>
             </button>
         </form>

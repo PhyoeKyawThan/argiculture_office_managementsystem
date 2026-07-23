@@ -20,12 +20,10 @@
                 class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-700 text-white font-bold rounded-xl hover:bg-emerald-800 transition text-sm">
                 <i data-lucide="pencil" class="w-4 h-4"></i> {{ __('messages.common.edit') }}
             </a>
-            <form action="{{ route('admin.pesticide-shop-inspections.destroy', $inspection) }}" method="POST"
-                onsubmit="return confirm(@json(__('messages.inspections.confirm_delete')))">
+            <form action="{{ route('admin.pesticide-shop-inspections.destroy', $inspection) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 border border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-50 transition text-sm">
+                <button type="submit" class="inline-flex items-center gap-2 px-4 py-2.5 border border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-50 transition text-sm" data-confirm data-confirm-message="@json(__('messages.inspections.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">
                     <i data-lucide="trash-2" class="w-4 h-4"></i> {{ __('messages.common.delete') }}
                 </button>
             </form>

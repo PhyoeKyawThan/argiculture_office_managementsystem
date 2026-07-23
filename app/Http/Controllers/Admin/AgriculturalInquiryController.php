@@ -78,4 +78,13 @@ class AgriculturalInquiryController extends Controller
             ->route('admin.inquiries.show', $inquiry)
             ->with('success', __('messages.flash.inquiry_replied'));
     }
+
+    public function destroy(AgriculturalInquiry $inquiry): RedirectResponse
+    {
+        $inquiry->delete();
+
+        return redirect()
+            ->route('admin.inquiries.index')
+            ->with('success', __('messages.flash.inquiry_deleted'));
+    }
 }

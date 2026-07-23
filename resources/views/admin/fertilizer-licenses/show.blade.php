@@ -15,13 +15,16 @@
             </span>
         </div>
 
-        <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.fertilizer-licenses.index') }}" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">{{ __('messages.fertilizer_license.back_to_list') }}</a>
-            {{-- <a href="{{ route('shop.dashboard') }}" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-bold hover:bg-emerald-200">{{ __('messages.fertilizer_license.open_shop_dashboard') }}</a> --}}
-        </div>
-    </div>
+    <div class="flex flex-wrap gap-3">
+        <a href="{{ route('admin.fertilizer-licenses.index') }}" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">{{ __('messages.fertilizer_license.back_to_list') }}</a>
+        <span class="text-slate-300 mx-2">|</span>
+        <form action="{{ route('admin.fertilizer-licenses.destroy', $license) }}" method="POST" class="inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="px-4 py-2 rounded-xl border border-red-200 text-red-700 font-bold hover:bg-red-50" data-confirm data-confirm-message="@json(__('messages.fertilizer_license.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
+        </form>
 
-    @if(session('success'))
+        @if(session('success'))
         <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold">
             {{ session('success') }}
         </div>
@@ -188,7 +191,7 @@
                     <button type="submit" class="w-full rounded-xl bg-slate-900 text-white font-black px-4 py-3 hover:bg-slate-800">{{ __('messages.fertilizer_license.mark_completed') }}</button>
                 </form>
 
-                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3" onsubmit="return confirm('{{ __('messages.fertilizer_license.cancel_confirm') }}')">
+                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="cancelled">
@@ -196,7 +199,7 @@
                         <label class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.fertilizer_license.cancelled_reason') }}</label>
                         <textarea name="cancelled_reason" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="{{ __('messages.fertilizer_license.cancelled_reason_placeholder') }}"></textarea>
                     </div>
-                    <button type="submit" class="w-full rounded-xl bg-red-600 text-white font-black px-4 py-3 hover:bg-red-700">{{ __('messages.fertilizer_license.cancel_and_send_back') }}</button>
+                    <button type="submit" class="w-full rounded-xl bg-red-600 text-white font-black px-4 py-3 hover:bg-red-700" data-confirm data-confirm-message="@json(__('messages.fertilizer_license.cancel_confirm'))" data-confirm-title="@json(__('messages.fertilizer_license.cancel_and_send_back'))">{{ __('messages.fertilizer_license.cancel_and_send_back') }}</button>
                 </form>
             </div>
         </div>

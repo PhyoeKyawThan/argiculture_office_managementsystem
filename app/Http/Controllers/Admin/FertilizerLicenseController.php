@@ -134,6 +134,15 @@ class FertilizerLicenseController extends Controller
         }
     }
 
+    public function destroy(FertilizerDistributionLicense $fertilizer_license): RedirectResponse
+    {
+        $fertilizer_license->delete();
+
+        return redirect()
+            ->route('admin.fertilizer-licenses.index')
+            ->with('success', __('messages.flash.fertilizer_license_deleted'));
+    }
+
     public function updateStatus(UpdateFertilizerLicenseStatusRequest $request, FertilizerDistributionLicense $fertilizer_license): RedirectResponse
     {
         $previousStatus = $fertilizer_license->status;

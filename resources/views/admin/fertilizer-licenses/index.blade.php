@@ -80,6 +80,12 @@
                                 </select>
                                 <button type="submit" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">{{ __('messages.common.update') }}</button>
                             </form>
+                            <span class="text-slate-300 mx-1">|</span>
+                            <form action="{{ route('admin.fertilizer-licenses.destroy', $license) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.fertilizer_license.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
+                            </form>
                         </td>
                     </tr>
                 @empty

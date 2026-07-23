@@ -101,20 +101,21 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
     });
 
     Route::middleware('feature:farmer_inquiries')->group(function () {
-        Route::resource('inquiries', AgriculturalInquiryController::class)->only(['index', 'show', 'update']);
+        Route::resource('inquiries', AgriculturalInquiryController::class)->only(['index', 'show', 'update', 'destroy']);
     });
 
     Route::get('fertilizer-licenses', [AdminFertilizerLicenseController::class, 'index'])->name('fertilizer-licenses.index');
     Route::get('fertilizer-licenses/{fertilizer_license}', [AdminFertilizerLicenseController::class, 'show'])->name('fertilizer-licenses.show');
     Route::get('fertilizer-licenses/{fertilizer_license}/generate', [AdminFertilizerLicenseController::class, 'generateDocx'])->name('fertilizer-licenses.generate');
     Route::put('fertilizer-licenses/{fertilizer_license}/status', [AdminFertilizerLicenseController::class, 'updateStatus'])->name('fertilizer-licenses.update_status');
+    Route::delete('fertilizer-licenses/{fertilizer_license}', [AdminFertilizerLicenseController::class, 'destroy'])->name('fertilizer-licenses.destroy');
 
     Route::resource('announcements', AgriculturalAnnouncementController::class)->except(['show']);
 
     Route::middleware('feature:shop_registration')->group(function () {
         Route::put('pesticide-shops/{shop}/update-status', [AdminPesticideShopController::class, 'update_status'])
             ->name('pesticide-shops.update_status');
-        Route::resource('pesticide-shops', AdminPesticideShopController::class)->only(['index', 'show']);
+        Route::resource('pesticide-shops', AdminPesticideShopController::class)->only(['index', 'show', 'destroy']);
         Route::get('pesticide-shops/{shop}/download-agreements', [AdminPesticideShopController::class, 'downloadSurroundingAgreements'])->name('pesticide-shops.download_agreements');
         Route::get('pesticide-shops/{id}/download', [AdminPesticideShopController::class, 'downloadDocument'])->name('pesticide-shops.download');
         Route::get('pesticide-shops/{shop}/download-license', [AdminPesticideShopController::class, 'downloadLicense'])->name('pesticide-shops.download_license');

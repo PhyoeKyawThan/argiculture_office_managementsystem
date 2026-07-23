@@ -107,6 +107,8 @@
         <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </button>
 
+    @include('components.confirmation-modal')
+
     @stack('scripts')
 
     @include('partials.admin-header-scroll')
@@ -185,6 +187,65 @@
                     });
                 });
             }
+
+            const modal = document.getElementById('confirmModal');
+            const backdrop = document.getElementById('confirmModalBackdrop');
+            const panel = document.getElementById('confirmModalPanel');
+            const cancelBtn = document.getElementById('confirmModalCancel');
+            const confirmBtn = document.getElementById('confirmModalConfirm');
+            const messageEl = document.getElementById('confirmModalMessage');
+            const titleEl = document.getElementById('confirmModalTitle');
+            let currentForm = null;
+
+            function openModal(message, title, form) {
+                messageEl.textContent = message;
+                titleEl.textContent = title || 'Confirm Action';
+                currentForm = form;
+                modal.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('scale-95', 'opacity-0');
+                    panel.classList.add('scale-100', 'opacity-100');
+                });
+            }
+
+            function closeModal() {
+                backdrop.classList.add('opacity-0');
+                panel.classList.remove('scale-100', 'opacity-100');
+                panel.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    currentForm = null;
+                }, 200);
+            }
+
+            document.querySelectorAll('[data-confirm]').forEach((trigger) => {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const formId = this.getAttribute('data-form-id');
+                    const form = formId ? document.getElementById(formId) : this.closest('form');
+                    if (!form) return;
+                    const message = this.getAttribute('data-confirm-message') || 'Are you sure?';
+                    const title = this.getAttribute('data-confirm-title') || 'Confirm Action';
+                    openModal(message, title, form);
+                });
+            });
+
+            cancelBtn.addEventListener('click', closeModal);
+            backdrop.addEventListener('click', closeModal);
+
+            confirmBtn.addEventListener('click', function () {
+                if (currentForm) {
+                    currentForm.submit();
+                }
+                closeModal();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
         });
     </script>
 </body>

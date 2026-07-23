@@ -53,11 +53,10 @@
                             <a href="{{ route('admin.staff.show', $member) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.view') }}</a>
                             <a href="{{ route('admin.staff.edit', $member) }}" class="text-slate-600 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
                             @if(auth()->user()->isAdmin())
-                                <form action="{{ route('admin.staff.destroy', $member) }}" method="POST" class="inline"
-                                    onsubmit="return confirm(@json(__('messages.staff.confirm_delete_staff')))">
+                                <form action="{{ route('admin.staff.destroy', $member) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 font-bold hover:underline">{{ __('messages.common.delete') }}</button>
+                                    <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.staff.confirm_delete_staff'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
                                 </form>
                             @endif
                         </td>

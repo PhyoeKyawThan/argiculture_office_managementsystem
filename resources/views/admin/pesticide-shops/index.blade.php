@@ -52,6 +52,12 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <a href="{{ route('admin.pesticide-shops.show', $shop) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.view') }}</a>
+                            <span class="text-slate-300 mx-1">|</span>
+                            <form action="{{ route('admin.pesticide-shops.destroy', $shop) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.shop_reg.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
+                            </form>
                         </td>
                     </tr>
                 @empty

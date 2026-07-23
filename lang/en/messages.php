@@ -36,6 +36,8 @@ return [
     ],
     'common' => [
         'filter' => 'Filter',
+        'confirm_action' => 'Confirm Action',
+        'confirm_message_default' => 'Are you sure?',
         'cancel' => 'Cancel',
         'save' => 'Save',
         'remove' => 'Remove',
@@ -407,6 +409,7 @@ return [
         'all_statuses' => 'All statuses',
         'farmer' => 'Farmer',
         'save_reply' => 'Save Reply',
+        'confirm_delete' => 'Delete this inquiry?',
     ],
     'announcements' => [
         'title' => 'News & Announcements',
@@ -545,6 +548,7 @@ return [
         'review_action' => 'Review Action',
         'reviewed_by' => 'Reviewed by :name on :date',
         'no_records' => 'No shop registrations found.',
+        'confirm_delete' => 'Delete this shop registration?',
         'statuses' => [
             'pending' => 'Pending',
             'approved' => 'Approved',
@@ -599,6 +603,7 @@ return [
             'view_details' => 'View Details',
             'no_records' => 'No fertilizer license applications found.',
         ],
+        'confirm_delete' => 'Delete this fertilizer license application?',
     ],
     'shop_dashboard' => [
         'title' => 'Shop Dashboard',
@@ -655,14 +660,17 @@ return [
         'inspection_deleted' => 'Inspection record deleted successfully.',
         'inquiry_created' => 'Your question was submitted successfully.',
         'inquiry_replied' => 'Reply saved successfully.',
+        'inquiry_deleted' => 'Inquiry deleted successfully.',
         'announcement_created' => 'Announcement created successfully.',
         'announcement_updated' => 'Announcement updated successfully.',
         'announcement_deleted' => 'Announcement deleted successfully.',
         'feature_settings_updated' => 'Feature settings saved successfully.',
+        'fertilizer_license_deleted' => 'Fertilizer license application deleted successfully.',
         'shop_registration_submitted' => 'Your shop registration was submitted. You will be notified after review.',
         'shop_approved' => 'Shop registration approved and login account created.',
         'shop_rejected' => 'Shop registration rejected.',
         'shop_already_reviewed' => 'This application has already been reviewed.',
+        'shop_deleted' => 'Shop registration deleted successfully.',
     ],
     'category' => [
         'table' => [

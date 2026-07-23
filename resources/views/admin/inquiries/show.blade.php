@@ -5,6 +5,12 @@
 @section('content')
     <div class="mb-4">
         <a href="{{ route('admin.inquiries.index') }}" class="text-sm font-bold text-emerald-700">{{ __('messages.common.back_to_list') }}</a>
+        <span class="text-slate-300 mx-2">|</span>
+        <form action="{{ route('admin.inquiries.destroy', $inquiry) }}" method="POST" class="inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="text-sm font-bold text-red-600 hover:underline" data-confirm data-confirm-message="@json(__('messages.inquiries.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
+        </form>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-6">
