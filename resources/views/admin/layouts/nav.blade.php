@@ -44,7 +44,7 @@
         <a href="{{ route('admin.fertilizer-licenses.index') }}"
             class="{{ $navLink(request()->routeIs('admin.fertilizer-licenses.*')) }}">
             <i data-lucide="truck" class="{{ $iconClass }}"></i>
-            Fertilizer Licenses
+            {{ __('messages.nav.fertilizer_licenses') }}
         </a>
         <a href="{{ route('admin.announcements.index') }}"
             class="{{ $navLink(request()->routeIs('admin.announcements.*')) }}">

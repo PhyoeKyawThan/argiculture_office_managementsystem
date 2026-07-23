@@ -174,7 +174,7 @@
                 new Chart(document.getElementById('monthlyActivityChart'), {
                     type: 'pie',
                     data: {
-                        labels: ['Inquiries', 'Announcements', 'Inspections'],
+                        labels: ['{{ __('messages.dashboard.stat_total_inquiries') }}', '{{ __('messages.dashboard.stat_total_announcements') }}', '{{ __('messages.dashboard.stat_total_inspections') }}'],
                         datasets: [{
                             data: [
                                 stats.monthlyInquiries.reduce((a, b) => a + b, 0),
