@@ -104,7 +104,7 @@
                             <img src="{{ $article->featuredImageUrl() }}" alt="" class="w-full h-40 object-cover">
                         @endif
                         <div class="p-5 flex flex-col flex-1">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ __('messages.content.modules.'.$article->module.'.label') }}</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ config('app.locale') === 'en' ? $article->category->name : $article->category->name_mm }}</span>
                             <h3 class="font-bold text-slate-900 mt-1 mb-2 line-clamp-2">{{ $article->title }}</h3>
                             <time class="text-xs text-slate-500 mt-auto">{{ $article->published_at?->format('M j, Y') }}</time>
                         </div>

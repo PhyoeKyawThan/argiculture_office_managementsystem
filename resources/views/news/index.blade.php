@@ -28,7 +28,7 @@
                     @endif
                     <div class="p-5 flex flex-col flex-1">
                         <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ $article->category->path }}</span>
+                            <a href="{{ route('news.category', $article->category->slug) }}" class="text-[10px] font-black uppercase tracking-wider text-emerald-600">{{ $article->category->path }}</a>
                         </div>
                         <h2 class="text-lg font-bold text-slate-900 mb-2">
                             <a href="{{ route('news.show', $article) }}" class="hover:text-emerald-800">{{ $article->title }}</a>

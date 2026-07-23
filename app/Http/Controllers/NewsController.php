@@ -10,9 +10,9 @@ use Illuminate\View\View;
 
 class NewsController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, $categorySlug = null): View
     {
-        $categorySlug = $request->query('category');
+        $category = null;
 
         if ($categorySlug) {
             $category = Category::where('slug', $categorySlug)->first();
@@ -37,8 +37,11 @@ class NewsController extends Controller
 
         $allCategories = Category::with('children')->get();
         $categories = Category::buildTree($allCategories, null);
-        $category = Category::get()->where('slug', '=', $categorySlug)->first();
-        $module = config('app.locale') === 'en' ? $category->name : $category->name_mm;
+
+        $module = $category 
+            ? (config('app.locale') === 'en' ? $category->name : $category->name_mm) 
+            : __('messages.nav.news');
+
         return view('news.index', compact('announcements', 'categories', 'categorySlug', 'module'));
     }
 

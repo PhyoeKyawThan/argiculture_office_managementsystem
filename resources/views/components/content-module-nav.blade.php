@@ -26,9 +26,10 @@
     @foreach($categories as $category)
         @if($category->children->isNotEmpty())
             <div class="relative shrink-0" data-content-nav-dropdown>
-                <a href="{{ route('news.index', ['category' => $category->slug]) }}"
-                    class="{{ $itemBase }} {{ request('category') == $category->slug ? $itemActive : $itemIdle }}">
+                <a href="{{ route('news.category', $category->slug) }}"
+                    class="{{ $itemBase }} {{ request('categorySlug') == $category->slug ? $itemActive : $itemIdle }}">
                     {{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}
+                    <i data-lucide="chevron-down" class="w-3 h-3 ml-1"></i>
                 </a>
                 <div data-content-nav-dropdown-panel
                     class="content-nav-dropdown-panel absolute left-0 top-full pt-1.5 hidden opacity-0 transition-opacity duration-200 ease-out z-[110] pointer-events-none">
@@ -40,8 +41,8 @@
                 </div>
             </div>
         @else
-            <a href="{{ route('news.index', ['category' => $category->slug]) }}"
-                class="{{ $itemBase }} {{ request('category') == $category->slug ? $itemActive : $itemIdle }} shrink-0">
+            <a href="{{ route('news.category', $category->slug) }}"
+                class="{{ $itemBase }} {{ request('categorySlug') == $category->slug ? $itemActive : $itemIdle }} shrink-0">
                 {{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}
             </a>
         @endif
@@ -63,8 +64,8 @@
                 </div>
             </div>
         @else
-            <a href="{{ route('news.index', ['category' => $category->slug]) }}"
-                class="{{ $itemBase }} {{ request('category') == $category->slug ? $itemActive : $itemIdle }}">
+            <a href="{{ route('news.category', $category->slug) }}"
+                class="{{ $itemBase }} {{ request('categorySlug') == $category->slug ? $itemActive : $itemIdle }}">
                 {{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}
             </a>
         @endif

@@ -34,6 +34,7 @@ Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('local
 Route::get('/', [LandingController::class, 'index'])->name('landing.home');
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/category/{categorySlug}', [NewsController::class, 'index'])->name('news.category');
 Route::get('/news/{announcement:slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::middleware('guest')->group(function () {

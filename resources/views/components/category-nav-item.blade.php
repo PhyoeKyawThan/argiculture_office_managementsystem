@@ -1,8 +1,8 @@
 @props(['category'])
 
 <div class="relative group/nested">
-    <a href="{{ route('news.index', ['category' => $category->slug]) }}" 
-       class="flex justify-between items-center px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 {{ request('category') == $category->slug ? 'bg-emerald-50 text-emerald-900 font-bold' : '' }}">
+    <a href="{{ route('news.category', $category->slug) }}" 
+       class="flex justify-between items-center px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 {{ request('categorySlug') == $category->slug ? 'bg-emerald-50 text-emerald-900 font-bold' : '' }}">
         {{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}
         
         @if($category->children->isNotEmpty())
