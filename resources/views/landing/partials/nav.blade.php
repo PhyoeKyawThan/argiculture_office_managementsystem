@@ -9,7 +9,7 @@
         . ($active ? 'bg-emerald-800 text-white' : 'text-emerald-200 hover:bg-emerald-800 hover:text-white');
 
     $modules = $enabledModules ?? AgriculturalContentCatalog::enabledModules();
-    $categories = $categories ?? collect();
+    $categories = collect($categories ?? []);
     $enabledCategories = $categories->filter(function ($category) use ($modules) {
         $module = str_replace('-', '_', $category->slug);
         return in_array($module, $modules);
