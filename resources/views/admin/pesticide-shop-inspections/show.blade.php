@@ -115,9 +115,11 @@
         <section class="bg-white rounded-2xl border border-emerald-100 p-6 shadow-sm">
             <h2 class="text-sm font-black uppercase tracking-wider text-emerald-800 mb-4">
                 {{ __('messages.inspections.photos') }}</h2>
-            <div class="flex flex-wrap gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 @foreach($inspection->photos as $photo)
-                    <img src="{{ asset('storage/' . $photo) }}" alt="Inspection Photo" class="rounded-lg shadow-md">
+                    <div class="relative aspect-square rounded-xl overflow-hidden bg-slate-100 shadow-sm">
+                        <img src="{{ asset('storage/' . $photo) }}" alt="Inspection Photo" class="w-full h-full object-cover rounded-xl">
+                    </div>
                 @endforeach
             </div>
         </section>

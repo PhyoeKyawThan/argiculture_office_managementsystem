@@ -181,7 +181,7 @@
                                 stats.monthlyAnnouncements.reduce((a, b) => a + b, 0),
                                 stats.monthlyInspections.reduce((a, b) => a + b, 0)
                             ],
-                            backgroundColor: [emerald, emeraldLight, teal],
+                            backgroundColor: ["#05f525", emeraldLight, teal],
                             borderColor: ['#ffffff', '#ffffff', '#ffffff'],
                             borderWidth: 2,
                         }],
