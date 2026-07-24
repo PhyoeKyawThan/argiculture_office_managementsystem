@@ -91,9 +91,9 @@
                 <h3 class="text-base font-black text-slate-900">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ (Surrounding Agreements)</h3>
                 
                 @php
-                    $agreements = is_string($pesticideShop->surrounding_aggreements) 
-                        ? json_decode($pesticideShop->surrounding_aggreements, true) 
-                        : $pesticideShop->surrounding_aggreements;
+                    $agreements = is_string($pesticideShop->surrounding_agreements) 
+                        ? json_decode($pesticideShop->surrounding_agreements, true) 
+                        : $pesticideShop->surrounding_agreements;
                 @endphp
 
                 @if(!empty($agreements))

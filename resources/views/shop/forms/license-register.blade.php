@@ -23,7 +23,7 @@
             </div>
         @endif
 
-        <form action="{{ route('shop.storeLicenseApplication') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form id="license-form" action="{{ route('shop.storeLicenseApplication') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
             <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
@@ -162,8 +162,9 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-1">Signature (ထောက်ခံသူ လက်မှတ်)</label>
-                                    <input type="file" name="surrounding_agreements_signatures[{{ $key }}]" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-emerald-50 file:text-emerald-700 cursor-pointer">
-                                    <p class="text-[10px] text-amber-600 mt-1">※ Validation failure triggers: leave blank to retain your original file upload safely.</p>
+                                    <canvas class="sig-pad-canvas w-full h-32 border border-slate-200 rounded-xl cursor-crosshair"></canvas>
+                                    <input type="file" name="surrounding_agreements_signatures[{{ $key }}]" accept="image/*" class="hidden">
+                                    <button type="button" class="clear-sig-btn px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 mt-1">Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +201,11 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-3">
                 <h3 class="text-base font-black text-emerald-800 border-l-4 border-emerald-600 pl-2">၅။ လျှောက်ထားသူ၏ လက်မှတ် (Signature)</h3>
                 <div class="max-w-xs">
-                    <input type="file" name="signature" id="signature" accept="image/*" class="previewable-input w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" data-target="preview-main-sig">
+                    <canvas id="signature-pad" class="w-full h-48 border border-slate-200 rounded-xl cursor-crosshair"></canvas>
+                    <div class="flex gap-2 mt-2">
+                        <button type="button" id="clear-main-sig" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200">Clear</button>
+                    </div>
+                    <input type="file" name="signature" id="signature-file" accept="image/*" class="hidden">
                     <div id="preview-main-sig" class="hidden mt-3 border border-slate-200 rounded-xl overflow-hidden bg-white max-h-32 flex items-center justify-center p-1">
                         <img src="" alt="Signature Preview" class="max-h-28 w-auto object-contain">
                     </div>

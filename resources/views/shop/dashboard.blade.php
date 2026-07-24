@@ -49,12 +49,12 @@
                             <span class="font-semibold text-slate-800 mt-0.5 inline-block">{{ $shop->requested_selling_address }}</span>
                         </div>
                     </div>
-                    <div class="grid sm_grid-cols-1 gap-4 text-md text-red-400 flex-grow p-4 bg-red-200 rounded-xl">
                         @if($shop->status === 'rejected' && $shop->rejection_reason)
+                        <div class="grid sm_grid-cols-1 gap-4 text-md text-red-400 flex-grow p-4 bg-red-200 rounded-xl">
                             <span class="font-bold text-red-700 block text-md uppercase tracking-wide">{{ __('messages.shop_dashboard.rejection_reason') }}</span>
                             <p class="font-bold underline text-red-400">{{ $shop->rejection_reason }}</p>
+                        </div>
                         @endif
-                    </div>
 
                     <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4 mt-auto">
                         @if($shop->status === 'pending' || $shop->status === 'rejected')
