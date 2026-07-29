@@ -156,10 +156,10 @@
                             <span class="text-sm font-bold text-slate-800 block">{{ $label }}</span>
                             <div class="grid sm:grid-cols-3 gap-3">
                                 <div>
-                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][name]" value="{{ old("surrounding_agreements.boundaries.{$key}.name", data_get($surroundingAgreements, "boundaries.{$key}.name")) }}" placeholder="အမည်" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
+                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][name]" value="{{ old("surrounding_agreements.boundaries.{$key}.name", data_get($surroundingAgreements, "boundaries.{$key}.name")) }}" placeholder="အမည်" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
                                 </div>
                                 <div>
-                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][nrc]" value="{{ old("surrounding_agreements.boundaries.{$key}.nrc", data_get($surroundingAgreements, "boundaries.{$key}.nrc")) }}" placeholder="မှတ်ပုံတင်အမှတ်" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
+                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][nrc]" value="{{ old("surrounding_agreements.boundaries.{$key}.nrc", data_get($surroundingAgreements, "boundaries.{$key}.nrc")) }}" placeholder="မှတ်ပုံတင်အမှတ်" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-1">Signature (လက်မှတ်)</label>

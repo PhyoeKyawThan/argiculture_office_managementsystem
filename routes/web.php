@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PesticideShopController as AdminPesticideShopController;
 use App\Http\Controllers\Shop\PesticideShopController as ShopPesticideShopController;
 use App\Http\Controllers\Admin\PesticideShopInspectionController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Farmer\DashboardController as FarmerDashboardController;
@@ -132,5 +133,8 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('admin')->name('admin.')
         Route::resource('categories', CategoryController::class)->except(['show']);
 
         Route::resource('users', UserController::class)->except(['show']);
+
+        Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::post('reports/export', [ReportController::class, 'export'])->name('reports.export');
     });
 });
