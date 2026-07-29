@@ -23,8 +23,6 @@
                 <option value="{{ $region }}" @selected(request('region') === $region)>{{ $region }}</option>
             @endforeach
         </select>
-        <input type="text" name="office" value="{{ request('office') }}" placeholder="{{ __('messages.staff.office_placeholder') }}"
-            class="rounded-xl border border-slate-200 px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
         <button type="submit" class="px-4 py-2 bg-emerald-100 text-emerald-900 font-bold rounded-xl text-sm hover:bg-emerald-200 transition">{{ __('messages.common.filter') }}</button>
     </form>
 

@@ -83,9 +83,17 @@ class DashboardController extends Controller
         $labels = [];
         $values = [];
 
-        foreach ($rootCategories as $category) {
-            $labels[] = $category->name;
-            $values[] = AgriculturalAnnouncement::where('category_id', $category->id)->count();
+        foreach ($rootCategories as $index => $category) {
+            $labels[$index] = $category->name;
+            $values[$index] = AgriculturalAnnouncement::where('category_id', $category->id)->count();
+            $category->relationLoaded('children');
+            foreach ($category->children as $child_category){
+                $values[$index] += AgriculturalAnnouncement::where('category_id', $child_category->id)->count();
+                $child_category->relationLoaded('children');
+                foreach($child_category->children as $grand_child_category){
+                    $values[$index] += AgriculturalAnnouncement::where('category_id', $grand_child_category->id)->count();
+                }
+            }
         }
 
         return ['labels' => $labels, 'values' => $values];

@@ -72,6 +72,7 @@ class PesticideShopController extends Controller
                 'attachments' => $attachmentPaths,
                 'surrounding_agreements' => $agreementData,
                 'status' => 'pending',
+                'created_at' => $request->input('created_at'),
             ]);
             $backOfficeUsers = User::query()
                 ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
@@ -155,6 +156,7 @@ class PesticideShopController extends Controller
             'retail_or_wholesale' => $validated['retail_or_wholesale'],
             'has_emergency_preparedness_plan' => $request->has('has_emergency_preparedness_plan') ? 1 : 0,
             'status' => 'pending',
+            'created_at' => $validated['created_at'],
         ];
 
         if ($request->hasFile('signature')) {

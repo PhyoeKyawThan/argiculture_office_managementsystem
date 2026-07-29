@@ -55,10 +55,8 @@
         <section class="bg-white rounded-2xl border border-emerald-100 p-6 shadow-sm lg:col-span-2">
             <h2 class="text-sm font-black uppercase tracking-wider text-emerald-800 mb-4">{{ __('messages.staff.career') }}</h2>
             <dl class="grid sm:grid-cols-2 gap-3 text-sm">
-                <div><dt class="text-slate-500">{{ __('messages.staff.first_position') }}</dt><dd class="font-semibold">{{ $staff->first_joining_position }}</dd></div>
                 <div><dt class="text-slate-500">{{ __('messages.staff.first_joining') }}</dt><dd class="font-semibold">{{ $staff->first_joining_date->format('M j, Y') }}</dd></div>
                 <div><dt class="text-slate-500">{{ __('messages.staff.assigned_position') }}</dt><dd class="font-semibold">{{ $staff->assigned_position }}</dd></div>
-                <div><dt class="text-slate-500">{{ __('messages.staff.region_assignment_since') }}</dt><dd class="font-semibold">{{ $staff->assigned_region_first_joining_date->format('M j, Y') }}</dd></div>
             </dl>
         </section>
     </div>

@@ -74,7 +74,7 @@
                                 @csrf
                                 @method('PUT')
                                 <select name="status" class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    @foreach(\App\Models\FertilizerDistributionLicense::STATUSES as $status)
+                                    @foreach([App\Models\FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT, App\Models\FertilizerDistributionLicense::STATUS_GOT_RESPONSE_FROM_REGIONAL_DEPARTMENT, App\Models\FertilizerDistributionLicense::STATUS_CANCELLED, App\Models\FertilizerDistributionLicense::STATUS_PENDING] as $status)
                                         <option value="{{ $status }}" @selected($license->status === $status)>{{ __('messages.fertilizer_license.statuses.' . $status) }}</option>
                                     @endforeach
                                 </select>

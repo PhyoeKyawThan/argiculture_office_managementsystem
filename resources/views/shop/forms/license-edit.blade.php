@@ -238,6 +238,11 @@
                         </div>
                     @endif
                 </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
+                    <input type="date" name="created_at" 
+                                       class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500" >
+                </div>
             </div>
 
             <button type="submit" class="w-full py-4 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-950/20 text-center">

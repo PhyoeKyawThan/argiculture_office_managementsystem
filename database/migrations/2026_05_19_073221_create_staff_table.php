@@ -17,12 +17,10 @@ return new class extends Migration
             $table->string('name')->nullable(false);
             $table->enum('gender', ['male', 'female'])->nullable(false);
             $table->date('date_of_birth')->nullable(false);
-            $table->string('first_joining_position')->nullable(false);
             $table->date('first_joining_date')->nullable(false);
             $table->string('current_position')->nullable(false);
             $table->date('current_position_joining_date')->nullable(false);
             $table->string('assigned_position')->nullable(false);
-            $table->date('assigned_region_first_joining_date')->nullable(false);
             $table->string('current_region')->nullable(false);
             $table->string('current_office')->nullable(false);
             $table->string('current_branch')->nullable(false);

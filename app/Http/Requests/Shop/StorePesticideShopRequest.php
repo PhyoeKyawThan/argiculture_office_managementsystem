@@ -49,6 +49,7 @@ class StorePesticideShopRequest extends FormRequest
             'attachments.certificate'     => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
             'attachments.ward_approval'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
             'signature'                   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            'created_at' => 'required|date',
         ];
     }
 

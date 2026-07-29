@@ -47,12 +47,6 @@
         <h2 class="text-sm font-black uppercase tracking-wider text-emerald-800 mb-4">{{ __('messages.staff.career') }}</h2>
         <div class="grid sm:grid-cols-2 gap-4">
             <div>
-                <label for="first_joining_position" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.first_joining_position') }}</label>
-                <input type="text" name="first_joining_position" id="first_joining_position"
-                    value="{{ old('first_joining_position', $s?->first_joining_position) }}" required
-                    class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
-            </div>
-            <div>
                 <label for="first_joining_date" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.first_joining_date') }}</label>
                 <input type="date" name="first_joining_date" id="first_joining_date"
                     value="{{ old('first_joining_date', $s?->first_joining_date?->format('Y-m-d')) }}" required
@@ -62,12 +56,6 @@
                 <label for="assigned_position" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.assigned_position') }}</label>
                 <input type="text" name="assigned_position" id="assigned_position"
                     value="{{ old('assigned_position', $s?->assigned_position) }}" required
-                    class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
-            </div>
-            <div>
-                <label for="assigned_region_first_joining_date" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.assigned_region_first_joining_date') }}</label>
-                <input type="date" name="assigned_region_first_joining_date" id="assigned_region_first_joining_date"
-                    value="{{ old('assigned_region_first_joining_date', $s?->assigned_region_first_joining_date?->format('Y-m-d')) }}" required
                     class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
         </div>

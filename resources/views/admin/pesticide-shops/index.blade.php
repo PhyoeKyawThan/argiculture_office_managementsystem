@@ -29,7 +29,7 @@
         <table class="w-full text-sm min-w-[640px]">
             <thead class="bg-emerald-50 text-left">
                 <tr>
-                    <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.shop_reg.shop_name') }}</th>
+                    {{-- <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.shop_reg.shop_name') }}</th> --}}
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.shop_reg.owner_name') }}</th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.shop_reg.license_number') }}</th>
                     <th class="px-4 py-3 font-bold text-emerald-900">{{ __('messages.shop_reg.status_field') }}</th>
@@ -39,8 +39,8 @@
             <tbody class="divide-y divide-emerald-50">
                 @forelse($shops as $shop)
                     <tr class="hover:bg-emerald-50/50 {{ $shop->isPending() ? 'bg-amber-50/30' : '' }}">
-                        <td class="px-4 py-3 font-semibold">{{ $shop->name ?? '-' }}</td>
-                        <td class="px-4 py-3">{{ $shop->user->name ?? '-' }}</td>
+                        {{-- <td class="px-4 py-3 font-semibold">{{ $shop->name ?? '-' }}</td> --}}
+                        <td class="px-4 py-3">{{ $shop->name ?? '-' }}</td>
                         <td class="px-4 py-3">{{ $shop->license?->license_number ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="px-2 py-0.5 rounded-full text-xs font-bold uppercase
@@ -53,7 +53,7 @@
                         <td class="px-4 py-3 text-right">
                             <a href="{{ route('admin.pesticide-shops.show', $shop) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.view') }}</a>
                             <span class="text-slate-300 mx-1">|</span>
-                            <form action="{{ route('admin.pesticide-shops.destroy', $shop) }}" method="POST" class="inline">
+                            <form action="{{ route('admin.pesticide-shops.delete', $shop) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.shop_reg.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>

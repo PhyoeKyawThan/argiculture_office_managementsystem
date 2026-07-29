@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->string('township')->nullable();
             $table->string('building_dimensions')->nullable();
             $table->json('attachment_nrc')->nullable(false); // nrc_front and nrc_end 
-            $table->string('township_recommendation_letter')->nullable(false);
+            $table->string('township_recommendation_letter')->nullable();
             $table->enum('status', ['pending', 'allowed', 'sending_to_regional_department', 'got_response_from_regional_department', 'completed', 'cancelled'])->default('pending');
             $table->string('cancelled_reason')->nullable()->default(null);
             $table->timestamps();

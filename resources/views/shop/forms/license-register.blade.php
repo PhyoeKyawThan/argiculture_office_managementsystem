@@ -9,7 +9,7 @@
 
 @section('content')
     <div class="w-[100%] max-w-4xl mx-auto py-8 px-4">
-        <h1 class="text-2xl font-black text-slate-900 mb-1">ပိုးသတ်ဆေးလုပ်ငန်းလိုင်စင်လျှောက်လွှာ (ပုံစံ - ၇)</h1>
+        <h1 class="text-2xl font-black text-slate-900 mb-1">ပိုးသတ်ဆေးလုပ်ငန်းလိုင်စင်လျှောက်လွှာ</h1>
         <p class="text-sm text-slate-500 mb-6">Please fill out the details below carefully to submit your application to the Agriculture Office.</p>
         
         @if ($errors->any())
@@ -209,6 +209,11 @@
                     <div id="preview-main-sig" class="hidden mt-3 border border-slate-200 rounded-xl overflow-hidden bg-white max-h-32 flex items-center justify-center p-1">
                         <img src="" alt="Signature Preview" class="max-h-28 w-auto object-contain">
                     </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
+                    <input type="date" name="created_at"
+                                       class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500" >
                 </div>
             </div>
 

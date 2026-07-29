@@ -139,21 +139,21 @@
                     @endforeach
                 </div>
             </div>
-            <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
+            {{-- <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="border-b border-emerald-50 pb-4">
                     <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.township_recommendation_letter') }}</h2>
-                    {{-- <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p> --}}
+                    <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
                         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
-                            {{-- <span class="block text-sm font-bold text-slate-700">Township Recommendation Letter</span> --}}
+                            <span class="block text-sm font-bold text-slate-700">Township Recommendation Letter</span>
                                 <a href="{{ asset('storage/' . $license->township_recommendation_letter) }}" target="_blank" class="block rounded-xl overflow-hidden border border-slate-200 bg-white">
                                     <img src="{{ asset('storage/' . $license->township_recommendation_letter) }}" alt="{{ $label }}" class="w-full max-h-72 object-contain bg-white">
                                 </a>
                         </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="space-y-6">
@@ -163,12 +163,12 @@
                     <p class="text-sm text-slate-500">{{ __('messages.fertilizer_license.status_actions_subtitle') }}</p>
                 </div>
 
-                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
+                {{-- <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="allowed">
                     <button type="submit" class="w-full rounded-xl bg-emerald-700 text-white font-black px-4 py-3 hover:bg-emerald-800">{{ __('messages.fertilizer_license.mark_allowed') }}</button>
-                </form>
+                </form> --}}
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
@@ -184,12 +184,12 @@
                     <button type="submit" class="w-full rounded-xl bg-indigo-600 text-white font-black px-4 py-3 hover:bg-indigo-700">{{ __('messages.fertilizer_license.mark_regional_response') }}</button>
                 </form>
 
-                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
+                {{-- <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="completed">
                     <button type="submit" class="w-full rounded-xl bg-slate-900 text-white font-black px-4 py-3 hover:bg-slate-800">{{ __('messages.fertilizer_license.mark_completed') }}</button>
-                </form>
+                </form> --}}
 
                 <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="space-y-3">
                     @csrf

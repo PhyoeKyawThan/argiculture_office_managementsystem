@@ -24,8 +24,8 @@
                                 @checked(old('features.'.$key, optional($settings->get($key))->is_enabled ?? true))
                                 class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
                             <span>
-                                <span class="block font-bold text-slate-900">{{ __('messages.content.modules.'.$module.'.label') }}</span>
-                                <span class="block text-sm text-slate-500">{{ __('messages.content.modules.'.$module.'.description') }}</span>
+                                <span class="block font-bold text-slate-900">{{ config('app.locale') === 'en' ? $category->name : $category->name_mm }}</span>
+                                <span class="block text-sm text-slate-500">{{ $category->description }}</span>
                             </span>
                         </label>
                     @endforeach

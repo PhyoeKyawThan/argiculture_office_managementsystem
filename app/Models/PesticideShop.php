@@ -39,6 +39,7 @@ class PesticideShop extends Model
         'status',
         'rejection_reason',
         'reviewed_by',
+        'created_at',
     ];
 
     protected $casts = [

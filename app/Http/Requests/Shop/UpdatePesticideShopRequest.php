@@ -32,8 +32,9 @@ class UpdatePesticideShopRequest extends FormRequest
             'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'attachments.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'surrounding_agreements.location' => 'required|array',
-            'surrounding_agreements.boundaries' => 'required|array',
-            'surrounding_agreements_signatures.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            // 'surrounding_agreements.boundaries' => 'required|array',
+            // 'surrounding_agreements_signatures.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'created_at' => 'required|date'
         ];
     }
 }

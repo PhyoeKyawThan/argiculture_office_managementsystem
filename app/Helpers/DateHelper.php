@@ -29,7 +29,7 @@ class DateHelper
 
         return [
             'year' => self::convertToMyanmarNumber($year),
-            'month' => $month_num,
+            'month' => self::convertToMyanmarNumber($month_num),
             'month_text' => $mm_months[$month_num],
             'day' => self::convertToMyanmarNumber($day),
             'year_range' => self::convertToMyanmarNumber($year) . '-' .self::convertToMyanmarNumber($year + 1)

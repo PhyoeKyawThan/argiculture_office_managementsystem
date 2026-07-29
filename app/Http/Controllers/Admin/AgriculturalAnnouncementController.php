@@ -33,6 +33,7 @@ class AgriculturalAnnouncementController extends Controller
                 'category' => fn($query) => $query->withRecursiveParents()
             ])
             ->when($request->filled('category_id'), fn($q) => $q->whereIn('category_id', $categoryIds))
+            ->where('is_published', '=', $request->input('published') === 'no' ? false : true)
             ->latest('published_at')
             ->paginate(15)
             ->withQueryString();

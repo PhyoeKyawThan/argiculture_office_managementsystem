@@ -82,29 +82,40 @@
                         <label class="block text-sm font-bold text-slate-700 mb-1"
                             for="nrc_number">{{ __('messages.shop.application_form.nrc_number') }}</label>
                         <div class="flex flex-wrap gap-2 items-center">
-                            <select id="state-number" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <select id="state-number"
+                                class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                                 @foreach (['၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉', '၁၀', '၁၁', '၁၂', '၁၃', '၁၄'] as $nrc_code)
                                     <option value="{{ $nrc_code }}" {{ old('state_number', $nrcState) === $nrc_code ? 'selected' : '' }}>{{ $nrc_code }}</option>
                                 @endforeach
                             </select>
                             <span class="text-slate-400">/</span>
 
-                            <select id="district" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none min-w-[120px]" data-old-value="{{ old('district_old_val', $nrcDistrict) }}">
+                            <select id="district"
+                                class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none min-w-[120px]"
+                                data-old-value="{{ old('district_old_val', $nrcDistrict) }}">
                                 <option value="" selected>{{ __('messages.shop.select_nrc_code_first') }}</option>
                             </select>
-                            <input type="hidden" name="district_old_val" id="district_old_val" value="{{ old('district_old_val', $nrcDistrict) }}">
+                            <input type="hidden" name="district_old_val" id="district_old_val"
+                                value="{{ old('district_old_val', $nrcDistrict) }}">
 
-                            <select id="naing" class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <select id="naing"
+                                class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
                                 @foreach(['နိုင်', 'ပြု', 'ဧည့်', 'သာ'] as $status_type)
                                     <option value="{{ $status_type }}" {{ old('naing_old_val', $nrcNaing) === $status_type ? 'selected' : '' }}>({{ $status_type }})</option>
                                 @endforeach
                             </select>
-                            <input type="hidden" name="naing_old_val" id="naing_old_val" value="{{ old('naing_old_val', $nrcNaing) }}">
+                            <input type="hidden" name="naing_old_val" id="naing_old_val"
+                                value="{{ old('naing_old_val', $nrcNaing) }}">
 
-                            <input type="text" id="nrc_number" placeholder="၁၂၃၄၅၆" value="{{ old('nrc_serial_val', $nrcSerial) }}" required class="flex-1 min-w-[150px] rounded-xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <input type="hidden" name="nrc_serial_val" id="nrc_serial_val" value="{{ old('nrc_serial_val', $nrcSerial) }}">
+                            <input type="text" id="nrc_number" placeholder="၁၂၃၄၅၆"
+                                value="{{ old('nrc_serial_val', $nrcSerial) }}" required
+                                class="flex-1 min-w-[150px] rounded-xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <input type="hidden" name="nrc_serial_val" id="nrc_serial_val"
+                                value="{{ old('nrc_serial_val', $nrcSerial) }}">
 
-                            <input type="hidden" name="nrc_number" id="nrc" value="{{ old('nrc_number', $latestLicense->nrc_number ?? '') }}" class="@error('nrc_number') border-red-400 @enderror">
+                            <input type="hidden" name="nrc_number" id="nrc"
+                                value="{{ old('nrc_number', $latestLicense->nrc_number ?? '') }}"
+                                class="@error('nrc_number') border-red-400 @enderror">
                         </div>
                     </div>
                 </div>
@@ -175,7 +186,8 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <h2 class="text-xl font-black text-slate-900">
-                            {{ __('messages.shop.application_form.fertilizer_items') }}</h2>
+                            {{ __('messages.shop.application_form.fertilizer_items') }}
+                        </h2>
                         <p class="text-sm text-slate-500">{{ __('messages.shop.application_form.add_items_desc') }}</p>
                     </div>
                     <button type="button" id="addFertilizerRow"
@@ -188,7 +200,8 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <h2 class="text-xl font-black text-slate-900">
-                            {{ __('messages.shop.application_form.nrc_attachments') }}</h2>
+                            {{ __('messages.shop.application_form.nrc_attachments') }}
+                        </h2>
                         <p class="text-sm text-slate-500">{{ __('messages.shop.application_form.upload_nrc_desc') }}</p>
                     </div>
                 </div>
@@ -212,7 +225,7 @@
                             @endif
                         </div>
                     @endforeach
-                    <div>
+                    {{-- <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1"
                             for="township_recommendation_letter">{{ __('messages.shop.application_form.recommendation_letter') }}</label>
                         @if($editing ?? false && $latestLicense->township_recommendation_letter)
@@ -228,6 +241,11 @@
                         @if($editing ?? false && $latestLicense->township_recommendation_letter)
                             <p class="text-xs text-slate-400 mt-1">{{ __('messages.common.optional') }}</p>
                         @endif
+                    </div> --}}
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
+                        <input type="date" name="created_at" value="{{ $latestLicense ? $latestLicense->created_at?->format('Y-m-d') : '' }}"
+                            class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
             </div>
