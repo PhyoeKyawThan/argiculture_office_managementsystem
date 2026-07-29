@@ -69,7 +69,7 @@
         <a href="{{ route('admin.reports.index') }}"
             class="{{ $navLink(request()->routeIs('admin.reports.*')) }}">
             <i data-lucide="bar-chart-3" class="{{ $iconClass }}"></i>
-            Reports
+            {{ __('messages.reports.nav') }}
         </a>
         <a href="{{ route('admin.feature-settings.edit') }}"
             class="{{ $navLink(request()->routeIs('admin.feature-settings.*')) }}">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -15,24 +15,24 @@
     </style>
 </head>
 <body>
-    <h1>Agriculture Office Report</h1>
+    <h1>{{ __('messages.reports.pdf_title') }}</h1>
     <div class="meta">
-        <strong>Date Range:</strong> {{ $dateFrom }} to {{ $dateTo }}<br>
-        <strong>Generated:</strong> {{ now()->format('Y-m-d H:i:s') }}
+        <strong>{{ __('messages.reports.date_range') }}</strong> {{ $dateFrom }} to {{ $dateTo }}<br>
+        <strong>{{ __('messages.reports.generated') }}</strong> {{ now()->format('Y-m-d H:i:s') }}
     </div>
 
     @if(in_array('fertilizer_licenses', $topics))
-        <h2>Fertilizer Distribution Licenses</h2>
+        <h2>{{ __('messages.reports.sections.fertilizer_licenses') }}</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Applicant Name</th>
-                    <th>Shop Name</th>
-                    <th>NRC Number</th>
-                    <th>Township</th>
-                    <th>Application Date</th>
-                    <th>Status</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.id') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.applicant_name') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.shop_name') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.nrc_number') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.township') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.application_date') }}</th>
+                    <th>{{ __('messages.reports.columns.fertilizer.status') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,29 +50,29 @@
                         <td>{{ $license->nrc_number }}</td>
                         <td>{{ $license->township }}</td>
                         <td>{{ $license->application_date?->format('Y-m-d') }}</td>
-                        <td>{{ ucfirst($license->status) }}</td>
+                        <td>{{ __('messages.fertilizer_license.statuses.'.$license->status) }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" style="text-align:center; color:#6b7280;">No records found</td></tr>
+                    <tr><td colspan="7" style="text-align:center; color:#6b7280;">{{ __('messages.reports.no_records') }}</td></tr>
                 @endforelse
             </tbody>
         </table>
     @endif
 
     @if(in_array('pesticide_shops', $topics))
-        <h2>Pesticide Shop Registrations</h2>
+        <h2>{{ __('messages.reports.sections.pesticide_shops') }}</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>NRC</th>
-                    <th>Township</th>
-                    <th>Shop Address</th>
-                    <th>Building Type</th>
-                    <th>Business Type</th>
-                    <th>Status</th>
-                    <th>Applied At</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.id') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.name') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.nrc') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.township') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.shop_address') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.building_type') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.business_type') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.status') }}</th>
+                    <th>{{ __('messages.reports.columns.pesticide_shops.applied_at') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,32 +90,32 @@
                         <td>{{ $shop->township }}</td>
                         <td>{{ $shop->requested_selling_address }}</td>
                         <td>{{ $shop->building_type }}</td>
-                        <td>{{ $shop->retail_or_wholesale === 'retail' ? 'Retail' : 'Wholesale' }}</td>
+                        <td>{{ $shop->retail_or_wholesale === 'retail' ? __('messages.common.retail') : __('messages.common.wholesale') }}</td>
                         <td>{{ ucfirst($shop->status) }}</td>
                         <td>{{ $shop->created_at?->format('Y-m-d H:i') }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="9" style="text-align:center; color:#6b7280;">No records found</td></tr>
+                    <tr><td colspan="9" style="text-align:center; color:#6b7280;">{{ __('messages.reports.no_records') }}</td></tr>
                 @endforelse
             </tbody>
         </table>
     @endif
 
     @if(in_array('inspections', $topics))
-        <h2>Pesticide Shop Inspections</h2>
+        <h2>{{ __('messages.reports.sections.inspections') }}</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Owner Name</th>
-                    <th>Shop Address</th>
-                    <th>Township</th>
-                    <th>Inspection Date</th>
-                    <th>Valid Retail License</th>
-                    <th>Complies With Law</th>
-                    <th>Training Certificate</th>
-                    <th>Action Taken</th>
-                    <th>Remarks</th>
+                    <th>{{ __('messages.reports.columns.inspections.id') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.owner_name') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.shop_address') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.township') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.inspection_date') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.valid_retail_license') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.complies_with_law') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.training_certificate') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.action_taken') }}</th>
+                    <th>{{ __('messages.reports.columns.inspections.remarks') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,21 +132,21 @@
                         <td>{{ $inspection->shop_address }}</td>
                         <td>{{ $inspection->township }}</td>
                         <td>{{ $inspection->inspection_date?->format('Y-m-d') }}</td>
-                        <td>{{ $inspection->has_valid_retail_license ? 'Yes' : 'No' }}</td>
-                        <td>{{ $inspection->complies_with_pesticide_law ? 'Yes' : 'No' }}</td>
-                        <td>{{ $inspection->has_training_certificate ? 'Yes' : 'No' }}</td>
+                        <td>{{ $inspection->has_valid_retail_license ? __('messages.common.yes') : __('messages.common.no') }}</td>
+                        <td>{{ $inspection->complies_with_pesticide_law ? __('messages.common.yes') : __('messages.common.no') }}</td>
+                        <td>{{ $inspection->has_training_certificate ? __('messages.common.yes') : __('messages.common.no') }}</td>
                         <td>{{ $inspection->action_taken }}</td>
                         <td>{{ $inspection->remarks }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="10" style="text-align:center; color:#6b7280;">No records found</td></tr>
+                    <tr><td colspan="10" style="text-align:center; color:#6b7280;">{{ __('messages.reports.no_records') }}</td></tr>
                 @endforelse
             </tbody>
         </table>
     @endif
 
     <div class="footer">
-        Agriculture Office Management System &middot; Generated on {{ now()->format('Y-m-d H:i:s') }}
+        {{ __('messages.reports.footer', ['date' => now()->format('Y-m-d H:i:s')]) }}
     </div>
 </body>
 </html>

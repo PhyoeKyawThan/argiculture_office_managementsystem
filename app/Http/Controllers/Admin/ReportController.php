@@ -71,8 +71,8 @@ class ReportController extends Controller
             'margin_footer' => 10,
         ]);
 
-        $mpdf->SetTitle('Agriculture Office Report');
-        $mpdf->SetAuthor('Agriculture Office Management System');
+        $mpdf->SetTitle(__('messages.reports.pdf_title'));
+        $mpdf->SetAuthor(__('messages.reports.pdf_author'));
 
         $html = view('admin.reports.pdf', compact('topics', 'dateFrom', 'dateTo'))->render();
         $mpdf->WriteHTML($html);
@@ -110,19 +110,19 @@ class ReportController extends Controller
 
     private function writeFertilizerLicensesCsv($handle, string $dateFrom, string $dateTo): void
     {
-        fputcsv($handle, ['Fertilizer Distribution Licenses']);
-        fputcsv($handle, ['Generated: ' . now()->format('Y-m-d H:i:s')]);
-        fputcsv($handle, ['Date Range: ' . $dateFrom . ' to ' . $dateTo]);
+        fputcsv($handle, [__('messages.reports.sections.fertilizer_licenses')]);
+        fputcsv($handle, [__('messages.reports.generated') . ' ' . now()->format('Y-m-d H:i:s')]);
+        fputcsv($handle, [__('messages.reports.date_range') . ' ' . $dateFrom . ' to ' . $dateTo]);
         fputcsv($handle, []);
 
         fputcsv($handle, [
-            'ID',
-            'Applicant Name',
-            'Shop Name',
-            'NRC Number',
-            'Township',
-            'Application Date',
-            'Status',
+            __('messages.reports.columns.fertilizer.id'),
+            __('messages.reports.columns.fertilizer.applicant_name'),
+            __('messages.reports.columns.fertilizer.shop_name'),
+            __('messages.reports.columns.fertilizer.nrc_number'),
+            __('messages.reports.columns.fertilizer.township'),
+            __('messages.reports.columns.fertilizer.application_date'),
+            __('messages.reports.columns.fertilizer.status'),
         ]);
 
         FertilizerDistributionLicense::query()
@@ -148,21 +148,21 @@ class ReportController extends Controller
 
     private function writePesticideShopsCsv($handle, string $dateFrom, string $dateTo): void
     {
-        fputcsv($handle, ['Pesticide Shop Registrations']);
-        fputcsv($handle, ['Generated: ' . now()->format('Y-m-d H:i:s')]);
-        fputcsv($handle, ['Date Range: ' . $dateFrom . ' to ' . $dateTo]);
+        fputcsv($handle, [__('messages.reports.sections.pesticide_shops')]);
+        fputcsv($handle, [__('messages.reports.generated') . ' ' . now()->format('Y-m-d H:i:s')]);
+        fputcsv($handle, [__('messages.reports.date_range') . ' ' . $dateFrom . ' to ' . $dateTo]);
         fputcsv($handle, []);
 
         fputcsv($handle, [
-            'ID',
-            'Name',
-            'NRC',
-            'Township',
-            'Shop Address',
-            'Building Type',
-            'Business Type',
-            'Status',
-            'Applied At',
+            __('messages.reports.columns.pesticide_shops.id'),
+            __('messages.reports.columns.pesticide_shops.name'),
+            __('messages.reports.columns.pesticide_shops.nrc'),
+            __('messages.reports.columns.pesticide_shops.township'),
+            __('messages.reports.columns.pesticide_shops.shop_address'),
+            __('messages.reports.columns.pesticide_shops.building_type'),
+            __('messages.reports.columns.pesticide_shops.business_type'),
+            __('messages.reports.columns.pesticide_shops.status'),
+            __('messages.reports.columns.pesticide_shops.applied_at'),
         ]);
 
         PesticideShop::query()
@@ -177,7 +177,7 @@ class ReportController extends Controller
                         $shop->township,
                         $shop->requested_selling_address,
                         $shop->building_type,
-                        $shop->retail_or_wholesale === 'retail' ? 'Retail' : 'Wholesale',
+                        $shop->retail_or_wholesale === 'retail' ? __('messages.common.retail') : __('messages.common.wholesale'),
                         $shop->status,
                         $shop->created_at?->format('Y-m-d H:i:s'),
                     ]);
@@ -190,22 +190,22 @@ class ReportController extends Controller
 
     private function writeInspectionsCsv($handle, string $dateFrom, string $dateTo): void
     {
-        fputcsv($handle, ['Pesticide Shop Inspections']);
-        fputcsv($handle, ['Generated: ' . now()->format('Y-m-d H:i:s')]);
-        fputcsv($handle, ['Date Range: ' . $dateFrom . ' to ' . $dateTo]);
+        fputcsv($handle, [__('messages.reports.sections.inspections')]);
+        fputcsv($handle, [__('messages.reports.generated') . ' ' . now()->format('Y-m-d H:i:s')]);
+        fputcsv($handle, [__('messages.reports.date_range') . ' ' . $dateFrom . ' to ' . $dateTo]);
         fputcsv($handle, []);
 
         fputcsv($handle, [
-            'ID',
-            'Owner Name',
-            'Shop Address',
-            'Township',
-            'Inspection Date',
-            'Has Valid Retail License',
-            'Complies With Pesticide Law',
-            'Has Training Certificate',
-            'Action Taken',
-            'Remarks',
+            __('messages.reports.columns.inspections.id'),
+            __('messages.reports.columns.inspections.owner_name'),
+            __('messages.reports.columns.inspections.shop_address'),
+            __('messages.reports.columns.inspections.township'),
+            __('messages.reports.columns.inspections.inspection_date'),
+            __('messages.reports.columns.inspections.valid_retail_license'),
+            __('messages.reports.columns.inspections.complies_with_law'),
+            __('messages.reports.columns.inspections.training_certificate'),
+            __('messages.reports.columns.inspections.action_taken'),
+            __('messages.reports.columns.inspections.remarks'),
         ]);
 
         PesticideShopInspection::query()
@@ -219,9 +219,9 @@ class ReportController extends Controller
                         $inspection->shop_address,
                         $inspection->township,
                         $inspection->inspection_date?->format('Y-m-d'),
-                        $inspection->has_valid_retail_license ? 'Yes' : 'No',
-                        $inspection->complies_with_pesticide_law ? 'Yes' : 'No',
-                        $inspection->has_training_certificate ? 'Yes' : 'No',
+                        $inspection->has_valid_retail_license ? __('messages.common.yes') : __('messages.common.no'),
+                        $inspection->complies_with_pesticide_law ? __('messages.common.yes') : __('messages.common.no'),
+                        $inspection->has_training_certificate ? __('messages.common.yes') : __('messages.common.no'),
                         $inspection->action_taken,
                         $inspection->remarks,
                     ]);
