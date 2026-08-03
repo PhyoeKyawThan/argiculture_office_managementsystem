@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', __('messages.app.brand')) · {{ __('messages.app.agriculture_office') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body{
+            background-image: url('assets/image.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 <body class="bg-emerald-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
     <header class="site-header bg-emerald-900 text-white shadow-lg sticky top-0 z-[100] overflow-visible">
         <div class="max-w-6xl mx-auto px-4 relative overflow-visible">
             <div class="h-14 flex items-center justify-between gap-3">
                 <a href="{{ route('landing.home') }}" class="flex items-center gap-2 shrink-0 min-w-0">
-                    <span class="p-1.5 rounded-lg bg-emerald-800/60 shrink-0">
-                        <i data-lucide="leaf" class="w-6 h-6 text-emerald-200"></i>
+                    <span class="p-1.5 rounded-lg bg-slate-100 shrink-0">
+                        {{-- <i data-lucide="leaf" class="w-6 h-6 text-emerald-200"></i> --}}
+                        <img src="{{ asset('assets/logo.png') }}" class="w-6 h-6" />
                     </span>
                     <span class="text-lg sm:text-xl font-bold tracking-tight truncate">{{ __('messages.app.brand') }}</span>
                 </a>

@@ -27,23 +27,26 @@ class PesticideShopController extends Controller
     use DateConverterTrait;
     public function index(Request $request): View
     {
-        $shops = PesticideShop::query()
-            ->with(['user:id,name,email', 'reviewer:id,name'])
+       $shops = PesticideShop::query()
+            ->with(['user:id,name,email', 'reviewer:id,name', 'license'])
             ->when($request->filled('status'), fn($q) => $q->where('status', $request->string('status')))
             ->when($request->filled('search'), function ($query) use ($request) {
                 $term = '%' . $request->string('search') . '%';
-                $query->where(function ($inner) use ($term) {
-                    $inner->where('shop_name', 'like', $term)
-                        ->orWhere('owner_name', 'like', $term)
-                        ->orWhere('license_number', 'like', $term)
-                        ->orWhere('email', 'like', $term);
-                });
-            })
-            ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
-            ->latest()
-            ->paginate(15)
-            ->withQueryString();
-
+                $query->where(function ($q) use ($term) {
+                    $q->where('name', 'like', $term)
+                    ->orWhereHas('user', function ($sub) use ($term) {
+                    $sub->where('name', 'like', $term)
+                      ->orWhere('email', 'like', $term);
+                })
+              ->orWhereHas('license', function ($sub) use ($term) {
+                  $sub->where('license_number', 'like', $term);
+              });
+        });
+    })
+    ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
+    ->latest()
+    ->paginate(15)
+    ->withQueryString();
         $pendingCount = PesticideShop::query()->where('status', PesticideShop::STATUS_PENDING)->count();
 
         return view('admin.pesticide-shops.index', compact('shops', 'pendingCount'));

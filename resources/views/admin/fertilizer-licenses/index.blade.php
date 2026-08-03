@@ -59,27 +59,6 @@
                             <a href="{{ route('admin.fertilizer-licenses.show', $license) }}" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm hover:bg-slate-200">
                                 {{ __('messages.fertilizer_license.index.view_details') }}
                             </a>
-                            @if($license->isTransferable())
-                                <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="hidden" name="status" value="sending_to_regional_department">
-                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800">
-                                        {{ __('messages.fertilizer_license.transfer_to_regional') }}
-                                    </button>
-                                </form>
-                            @endif
-
-                            <form action="{{ route('admin.fertilizer-licenses.update_status', $license) }}" method="POST" class="inline-flex items-center gap-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="status" class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    @foreach([App\Models\FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT, App\Models\FertilizerDistributionLicense::STATUS_GOT_RESPONSE_FROM_REGIONAL_DEPARTMENT, App\Models\FertilizerDistributionLicense::STATUS_CANCELLED, App\Models\FertilizerDistributionLicense::STATUS_PENDING] as $status)
-                                        <option value="{{ $status }}" @selected($license->status === $status)>{{ __('messages.fertilizer_license.statuses.' . $status) }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">{{ __('messages.common.update') }}</button>
-                            </form>
                             <span class="text-slate-300 mx-1">|</span>
                             <form action="{{ route('admin.fertilizer-licenses.destroy', $license) }}" method="POST" class="inline">
                                 @csrf

@@ -167,7 +167,7 @@ class AgriculturalContentCatalog
         return Category::whereNull('parent_id')
             ->pluck('slug')
             ->map(fn(string $slug) => str_replace('-', '_', $slug))
-            ->filter(fn(string $module) => static::isValidModule($module))
+            // ->filter(fn(string $module) => static::isValidModule($module))
             ->values()
             ->toArray();
     }

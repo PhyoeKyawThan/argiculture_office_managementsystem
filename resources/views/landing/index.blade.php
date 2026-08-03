@@ -4,7 +4,7 @@
 
 @section('content')
     @if($hero)
-        <section class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-950 text-white">
+        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-900 text-white">
             <div class="max-w-6xl mx-auto px-4 py-20 lg:py-28 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <p class="text-emerald-300 text-sm font-bold uppercase tracking-widest mb-3">{{ $hero->subtitle }}</p>
@@ -22,7 +22,8 @@
                 </div>
                 <div class="hidden lg:flex justify-center">
                     <div class="w-72 h-72 rounded-3xl bg-emerald-800/50 border border-emerald-700 flex items-center justify-center">
-                        <i data-lucide="leaf" class="w-32 h-32 text-emerald-300/80"></i>
+                        {{-- <i data-lucide="leaf" class="w-32 h-32 text-emerald-300/80"></i> --}}
+                        <img src="{{ asset('assets/logo.png') }}" class="w-full h-full text-emerald-300/80"/>
                     </div>
                 </div>
             </div>
@@ -31,7 +32,7 @@
 
     @if($features->isNotEmpty())
         <section class="max-w-6xl mx-auto px-4 py-16">
-            <h2 class="text-2xl font-black text-emerald-900 mb-10 text-center">{{ __('messages.landing.platform_capabilities') }}</h2>
+            <h2 class="text-2xl font-black text-white mb-10 text-center">{{ __('messages.landing.platform_capabilities') }}</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach($features as $feature)
                     <article class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 hover:shadow-md transition">
@@ -52,7 +53,7 @@
     @endif
 
     @if($stats->isNotEmpty())
-        <section class="bg-emerald-900 text-white py-14">
+        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-950 text-white py-14">
             <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
                 @foreach($stats as $stat)
                     <div>
@@ -88,13 +89,13 @@
     @endif
 
     @if(\App\Support\Feature::enabled('content_news') && $latestNews->isNotEmpty())
-        <section class="max-w-6xl mx-auto px-4 py-16">
+        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-950 mx-auto px-6 py-16">
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-2xl font-black text-emerald-900">{{ __('messages.farmer.latest_news') }}</h2>
-                    <p class="text-slate-600 text-sm mt-1">{{ __('messages.announcements.public_subtitle') }}</p>
+                    <h2 class="text-2xl font-black text-white">{{ __('messages.farmer.latest_news') }}</h2>
+                    <p class="text-white text-sm mt-1">{{ __('messages.announcements.public_subtitle') }}</p>
                 </div>
-                <a href="{{ route('news.index') }}" class="text-sm font-bold text-emerald-700 whitespace-nowrap">{{ __('messages.farmer.view_all_news') }}</a>
+                <a href="{{ route('news.index') }}" class="text-sm font-bold text-white whitespace-nowrap">{{ __('messages.farmer.view_all_news') }}</a>
             </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($latestNews as $article)

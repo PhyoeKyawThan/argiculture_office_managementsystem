@@ -23,8 +23,8 @@
                     aria-controls="adminNavDrawer">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
-                <div class="admin-header-logo-wrap p-1.5 rounded-lg bg-emerald-800/60 shrink-0">
-                    <i data-lucide="leaf" class="admin-header-logo-icon w-6 h-6 text-emerald-200"></i>
+                <div class="admin-header-logo-wrap p-1.5 rounded-lg bg-slate-100 shrink-0">
+                    <img src="{{ asset('assets/logo.png') }}" class="w-6 h-6" />
                 </div>
                 <div class="flex flex-col min-w-0">
                     <span class="admin-header-title text-xl font-bold tracking-tight truncate">{{ __('messages.app.brand') }}</span>
