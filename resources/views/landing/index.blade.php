@@ -4,7 +4,7 @@
 
 @section('content')
     @if($hero)
-        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-900 text-white">
+        <section class=" from-emerald-100 via-emerald-400 to-emerald-900 text-white">
             <div class="max-w-6xl mx-auto px-4 py-20 lg:py-28 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <p class="text-emerald-300 text-sm font-bold uppercase tracking-widest mb-3">{{ $hero->subtitle }}</p>
@@ -53,15 +53,15 @@
     @endif
 
     @if($stats->isNotEmpty())
-        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-950 text-white py-14">
+        <section class="bg-gradient-to-br from-green-100 via-green-400 to-green-600 text-white py-14">
             <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
                 @foreach($stats as $stat)
                     <div>
                         @if($stat->icon)
-                            <i data-lucide="{{ $stat->icon }}" class="w-8 h-8 mx-auto text-emerald-300 mb-3"></i>
+                            <i data-lucide="{{ $stat->icon }}" class="w-8 h-8 mx-auto text-green-900 mb-3"></i>
                         @endif
                         <div class="text-4xl font-black">{{ $stat->title }}</div>
-                        <div class="text-emerald-300 font-semibold mt-1">{{ $stat->subtitle }}</div>
+                        <div class="text-green-300 font-semibold mt-1">{{ $stat->subtitle }}</div>
                     </div>
                 @endforeach
             </div>
@@ -89,7 +89,7 @@
     @endif
 
     @if(\App\Support\Feature::enabled('content_news') && $latestNews->isNotEmpty())
-        <section class="bg-gradient-to-br from-emerald-100 via-emerald-400 to-emerald-950 mx-auto px-6 py-16">
+        <section class="from-emerald-100 via-emerald-400 to-emerald-950 mx-auto px-6 py-16">
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <h2 class="text-2xl font-black text-white">{{ __('messages.farmer.latest_news') }}</h2>

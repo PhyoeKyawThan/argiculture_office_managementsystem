@@ -10,7 +10,7 @@
             <label for="type" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.landing_sections.section_types') }}</label>
             <select name="type" id="type" required
                 class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
-                @foreach(['hero', 'feature', 'stat', 'cta', 'footer'] as $type)
+                @foreach(['hero', 'stat', 'footer'] as $type)
                     <option value="{{ $type }}" @selected(old('type', $s?->type) === $type)>{{ __('messages.landing_sections.types.'.$type) }}</option>
                 @endforeach
             </select>

@@ -96,7 +96,7 @@
             </div>
             <div>
                 <label for="current_salary" class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.staff.current_salary') }}</label>
-                <input type="number" name="salary" id="current_salary"
+                <input type="text" name="salary" id="current_salary"
                     value="{{ old('salary', $s?->salary) }}" required
                     class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>

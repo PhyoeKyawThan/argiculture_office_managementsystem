@@ -28,7 +28,7 @@ class NewFarmerInquiryNotification extends Notification
             'message' => __('messages.notifications.new_farmer_inquiry', [
                 'farmer' => $this->inquiry->farmer->name,
                 'title' => $this->inquiry->title,
-            ]),
+            ], 'my'),
             'url' => route('admin.inquiries.show', $this->inquiry),
         ];
     }

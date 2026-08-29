@@ -43,11 +43,7 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                    <label for="format" class="sr-only">{{ __('messages.reports.format') }}</label>
-                    <select name="format" id="format" class="rounded-xl border border-slate-200 px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="pdf">{{ __('messages.reports.pdf') }}</option>
-                        <option value="csv">{{ __('messages.reports.csv') }}</option>
-                    </select>
+                    <input name="format" value="pdf" hidden>
                     <button type="submit" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-sm text-sm">
                         {{ __('messages.reports.export') }}
                     </button>

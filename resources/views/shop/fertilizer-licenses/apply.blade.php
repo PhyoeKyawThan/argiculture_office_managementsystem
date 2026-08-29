@@ -100,14 +100,14 @@
 
                             <select id="naing"
                                 class="rounded-xl border border-slate-200 px-3 py-3 bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
-                                @foreach(['နိုင်', 'ပြု', 'ဧည့်', 'သာ'] as $status_type)
+                                @foreach(['နိုင်', 'ပြု', 'ဧည့်'] as $status_type)
                                     <option value="{{ $status_type }}" {{ old('naing_old_val', $nrcNaing) === $status_type ? 'selected' : '' }}>({{ $status_type }})</option>
                                 @endforeach
                             </select>
                             <input type="hidden" name="naing_old_val" id="naing_old_val"
                                 value="{{ old('naing_old_val', $nrcNaing) }}">
 
-                            <input type="text" id="nrc_number" placeholder="၁၂၃၄၅၆"
+                            <input type="text" id="nrc_number" placeholder="၁၂၃၄၅၆" maxlength="6"
                                 value="{{ old('nrc_serial_val', $nrcSerial) }}" required
                                 class="flex-1 min-w-[150px] rounded-xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
                             <input type="hidden" name="nrc_serial_val" id="nrc_serial_val"
@@ -145,10 +145,8 @@
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1"
                             for="township">{{ __('messages.shop.application_form.township') }}</label>
-                        <select name="township" id="township"
+                        <input type="text" name="township" id="township" value="{{ old('township', $latestLicense->township ?? '') }}"
                             class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <option value="Hinthada" {{ (old('township', $latestLicense->township ?? '') === 'Hinthada') ? 'selected' : '' }}>{{ __('messages.shop.application_form.hinthada') }}</option>
-                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1"
@@ -225,7 +223,7 @@
                             @endif
                         </div>
                     @endforeach
-                    {{-- <div>
+                    <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1"
                             for="township_recommendation_letter">{{ __('messages.shop.application_form.recommendation_letter') }}</label>
                         @if($editing ?? false && $latestLicense->township_recommendation_letter)
@@ -241,7 +239,7 @@
                         @if($editing ?? false && $latestLicense->township_recommendation_letter)
                             <p class="text-xs text-slate-400 mt-1">{{ __('messages.common.optional') }}</p>
                         @endif
-                    </div> --}}
+                    </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
                         <input type="date" name="created_at" value="{{ $latestLicense ? $latestLicense->created_at?->format('Y-m-d') : '' }}"

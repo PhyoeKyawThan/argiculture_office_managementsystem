@@ -41,8 +41,8 @@ class FertilizerLicenseController extends Controller
         $data = $request->validated();
         $frontPath = $this->uploadFile($request->file('attachment_nrc.front'), 'fertilizer-licenses/nrc');
         $backPath = $this->uploadFile($request->file('attachment_nrc.back'), 'fertilizer-licenses/nrc');
-        // $township_recommendation_letter = $this->uploadFile($request->file('township_recommendation_letter'), 'township_recommendation_letter');
-        DB::transaction(function () use ($data, $frontPath, $backPath, $request) {
+        $township_recommendation_letter = $this->uploadFile($request->file('township_recommendation_letter'), 'township_recommendation_letter');
+        DB::transaction(function () use ($data, $frontPath, $backPath, $township_recommendation_letter, $request) {
             $license = FertilizerDistributionLicense::create([
                 'user_id' => $request->user()?->id,
                 'application_date' => $data['created_at'] ?? today()->toDateString(),
@@ -56,7 +56,7 @@ class FertilizerLicenseController extends Controller
                 'distribution_location_address' => $data['distribution_location_address'] ?? null,
                 'building_type' => $data['building_type'] ?? null,
                 'building_dimensions' => $data['building_dimensions'] ?? null,
-                // 'township_recommendation_letter' => $township_recommendation_letter,
+                'township_recommendation_letter' => $township_recommendation_letter,
                 'attachment_nrc' => [
                     'front' => $frontPath,
                     'back' => $backPath,
@@ -189,12 +189,12 @@ class FertilizerLicenseController extends Controller
             ]));
         }
 
-        // if ($request->hasFile('township_recommendation_letter')) {
-        //     if (!empty($fertilizer_license->township_recommendation_letter)) {
-        //         $this->deleteFile($fertilizer_license->township_recommendation_letter);
-        //     }
-        //     $updateData['township_recommendation_letter'] = $this->uploadFile($request->file('township_recommendation_letter'), 'township_recommendation_letter');
-        // }
+        if ($request->hasFile('township_recommendation_letter')) {
+            if (!empty($fertilizer_license->township_recommendation_letter)) {
+                $this->deleteFile($fertilizer_license->township_recommendation_letter);
+            }
+            $updateData['township_recommendation_letter'] = $this->uploadFile($request->file('township_recommendation_letter'), 'township_recommendation_letter');
+        }
 
         DB::transaction(function () use ($fertilizer_license, $data, $updateData) {
             $fertilizer_license->update($updateData);

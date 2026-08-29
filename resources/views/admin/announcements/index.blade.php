@@ -65,7 +65,7 @@
                         <td class="px-4 py-3">
                             {{-- <div>{{ config('app.locale') ?? 'en' ? $announcement->category->name :
                                 $announcement->category->name_mm }}</div> --}}
-                            <div>{{ $announcement->category->path }}</div>'
+                            <div>{{ $announcement->category?->path }}</div>'
                         </td>
                         <td class="px-4 py-3">
                             @if($announcement->is_published)

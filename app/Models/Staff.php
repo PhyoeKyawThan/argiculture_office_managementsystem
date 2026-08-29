@@ -48,14 +48,14 @@ class Staff extends Model
         return $this->hasMany(StaffLog::class, 'staff_id', 'id');
     }
 
-    public function salary(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value){
-                return config('app.locale') === 'en' ? $value : DateHelper::convertToMyanmarNumber($value, true);
-            }
-        );
-    }
+    // public function salary(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: function ($value){
+    //             return config('app.locale') === 'en' ? $value : DateHelper::convertToMyanmarNumber($value, true);
+    //         }
+    //     );
+    // }
 
     public function pesticideShopInspections(): HasMany
     {

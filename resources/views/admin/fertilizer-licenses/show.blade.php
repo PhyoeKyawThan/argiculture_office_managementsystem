@@ -6,7 +6,7 @@
     <div class="flex flex-col gap-4 mb-8">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-black text-emerald-900">Fertilizer License Review</h1>
+                <h1 class="text-3xl font-black text-emerald-900">ဓာတ်မြေဩဇာလိုင်စင်လျှောက်လွှာစီစစ်ခြင်း</h1>
                 <p class="text-slate-600 text-sm mt-1">Confirm the application details before updating the status.</p>
             </div>
             <span class="inline-flex px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider self-start
@@ -46,43 +46,43 @@
 
                 <div class="grid sm:grid-cols-2 gap-5 text-sm">
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Applicant Name</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ဆိုင်ပိုင်ရှင်အမည်</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->applicant_name }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Shop Name</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ဆိုင်အမည်</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->shop_name ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">NRC Number</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">မှတ်ပုံတင်နံပါတ်</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->nrc_number }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Application Date</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">တင်ပြသည့်ရက်စွဲ</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->application_date?->format('M j, Y') ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Education Level</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ပညာအရည်အချင်း</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->education_level ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Work Experience</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">လုပ်ငန်းအတွေ့အကြုံ</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->work_experience ? 'Yes' : 'No' }}</span>
                     </div>
                     <div class="sm:col-span-2">
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Permanent Address</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">အမြဲတမ်း‌နေရပ်လိပ်စာ</span>
                         <span class="mt-1 block font-semibold text-slate-900 whitespace-pre-line">{{ $license->permanent_address ?? '—' }}</span>
                     </div>
                     <div class="sm:col-span-2">
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Distribution Location Address</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ဖြန့်ဖြူးရောင်းချမည့်လိပ်စာ</span>
                         <span class="mt-1 block font-semibold text-slate-900 whitespace-pre-line">{{ $license->distribution_location_address ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Building Type</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">အဆောက်အုံအမျိုးအစား</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->building_type ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Building Dimensions</span>
+                        <span class="block text-xs font-bold uppercase tracking-wide text-slate-400">အဆောက်အုံအကျယ်အဝန်း</span>
                         <span class="mt-1 block font-semibold text-slate-900">{{ $license->building_dimensions ?? '—' }}</span>
                     </div>
                     @if($license->isCancelled() && $license->cancelled_reason)
@@ -108,10 +108,10 @@
                                 <span class="text-xs font-bold text-slate-500">Item #{{ $item->id }}</span>
                             </div>
                             <div class="grid sm:grid-cols-2 gap-4 text-sm">
-                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Chemical Formula</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->chemical_formula ?? '—' }}</span></div>
-                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Fertilizer Type</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->fertilizer_type ?? '—' }}</span></div>
-                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Packaging Size</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->packaging_size ?? '—' }}</span></div>
-                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">Weight / Volume</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->weight_volume ?? '—' }}</span></div>
+                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ဓာတုဗေဒဖော်မြူလာ</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->chemical_formula ?? '—' }}</span></div>
+                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ဓာတ်မြေဩဇာ အမျိုးအစား</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->fertilizer_type ?? '—' }}</span></div>
+                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">ထုတ်ပိုးမှု့အရွယ်အစား</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->packaging_size ?? '—' }}</span></div>
+                                <div><span class="block text-xs font-bold uppercase tracking-wide text-slate-400">အသားတင်အလေးချိန်</span><span class="mt-1 block font-semibold text-slate-900">{{ $item->weight_volume ?? '—' }}</span></div>
                             </div>
                         </div>
                     @endforeach
@@ -125,7 +125,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
-                    @foreach(['front' => 'Front NRC', 'back' => 'Back NRC'] as $key => $label)
+                    @foreach(['front' => 'မှတ်ပုံတင်အရှေ့', 'back' => 'မှတ်ပုံတင်အနောက်'] as $key => $label)
                         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
                             <span class="block text-sm font-bold text-slate-700">{{ $label }}</span>
                             @if(data_get($license->attachment_nrc, $key))
@@ -139,7 +139,7 @@
                     @endforeach
                 </div>
             </div>
-            {{-- <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
+            <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-6 space-y-5">
                 <div class="border-b border-emerald-50 pb-4">
                     <h2 class="text-xl font-black text-slate-900">{{ __('messages.fertilizer_license.township_recommendation_letter') }}</h2>
                     <p class="text-sm text-slate-500">Front and back images uploaded by the applicant.</p>
@@ -153,7 +153,7 @@
                                 </a>
                         </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
 
         <div class="space-y-6">
@@ -197,7 +197,7 @@
                     <input type="hidden" name="status" value="cancelled">
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">{{ __('messages.fertilizer_license.cancelled_reason') }}</label>
-                        <textarea name="cancelled_reason" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="{{ __('messages.fertilizer_license.cancelled_reason_placeholder') }}"></textarea>
+                        <textarea name="cancelled_reason" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="{{ __('messages.fertilizer_license.cancelled_reason_placeholder') }}">{{ $license->cancelled_reason ?? '' }}</textarea>
                     </div>
                     <button type="submit" class="w-full rounded-xl bg-red-600 text-white font-black px-4 py-3 hover:bg-red-700" data-confirm data-confirm-message="@json(__('messages.fertilizer_license.cancel_confirm'))" data-confirm-title="@json(__('messages.fertilizer_license.cancel_and_send_back'))">{{ __('messages.fertilizer_license.cancel_and_send_back') }}</button>
                 </form>

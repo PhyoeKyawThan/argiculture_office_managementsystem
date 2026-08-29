@@ -30,7 +30,7 @@ class ReplyFarmerInquiryNotification extends Notification
             'message' => __('messages.notifications.inquiry_replied', [
                 'responder' => $responderName,
                 'title' => $this->inquiry->title,
-            ]),
+            ], 'my'),
             'url' => route('farmer.inquiries.show', $this->inquiry),
         ];
     }

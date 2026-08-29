@@ -48,13 +48,14 @@
                             </span>
                         </td>
                         <td class="px-4 py-3 text-right space-x-2">
-                            <a href="{{ route('admin.users.edit', $user) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
                             @if($user->id !== auth()->id())
                                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 font-bold hover:underline" data-confirm data-confirm-message="@json(__('messages.users.confirm_delete'))" data-confirm-title="@json(__('messages.common.delete'))">{{ __('messages.common.delete') }}</button>
                                 </form>
+                            @else
+                            <a href="{{ route('admin.users.edit', $user) }}" class="text-emerald-700 font-bold hover:underline">{{ __('messages.common.edit') }}</a>
                             @endif
                         </td>
                     </tr>

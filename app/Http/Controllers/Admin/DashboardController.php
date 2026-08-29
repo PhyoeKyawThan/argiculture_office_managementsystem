@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $values = [];
 
         foreach ($rootCategories as $index => $category) {
-            $labels[$index] = $category->name;
+            $labels[$index] = config('app.locale') == 'my' ? $category->name_mm ?? $category->name : $category->name;
             $values[$index] = AgriculturalAnnouncement::where('category_id', $category->id)->count();
             $category->relationLoaded('children');
             foreach ($category->children as $child_category){

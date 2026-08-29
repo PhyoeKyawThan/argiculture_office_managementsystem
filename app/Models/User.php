@@ -28,7 +28,6 @@ class User extends Authenticatable
     public const ROLES = [
         self::ROLE_ADMIN,
         self::ROLE_SHOP,
-        self::ROLE_STAFF,
         self::ROLE_FARMER,
     ];
 

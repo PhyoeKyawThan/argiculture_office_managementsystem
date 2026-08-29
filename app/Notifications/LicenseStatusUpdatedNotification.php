@@ -26,18 +26,18 @@ class LicenseStatusUpdatedNotification extends Notification
         $this->license->loadMissing('items');
 
         $message = match ($this->license->status) {
-            FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT => 'Your fertilizer distribution license is being transferred from the Township Department to the Regional Department.',
-            FertilizerDistributionLicense::STATUS_CANCELLED => 'Your fertilizer distribution license application was cancelled. Please review and resubmit with corrected information.',
-            default => 'Your fertilizer distribution license status has been updated.',
+            FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင်ကို မြို့နယ်ဦးစီးဌာနမှ တိုင်းဒေသကြီးဦးစီးဌာနသို့ လွှဲပြောင်းပေးပို့နေပါပြီ။',
+            FertilizerDistributionLicense::STATUS_CANCELLED => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် လျှောက်ထားမှု ပယ်ဖျက်ခံရပါသည်။ ကျေးဇူးပြု၍ ပြန်လည်စစ်ဆေးပြီး မှန်ကန်သော အချက်အလက်များဖြင့် ပြန်လည်တင်ပြပါ။',
+            default => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် အခြေအနေ ပြောင်းလဲသွားပါသည်။',
         };
 
         if ($this->license->status === FertilizerDistributionLicense::STATUS_CANCELLED && $this->license->cancelled_reason) {
-            $message .= ' Reason: ' . $this->license->cancelled_reason;
+            $message .= ' ပယ်ဖျက်ရသည့် အကြောင်းရင်း: ' . $this->license->cancelled_reason;
         }
 
         return [
             'license_id' => $this->license->id,
-            'title' => 'Fertilizer distribution license status updated',
+            'title' => 'ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် အခြေအနေ ပြောင်းလဲခြင်း',
             'message' => $message,
             'previous_status' => $this->previousStatus,
             'status' => $this->license->status,
@@ -50,16 +50,15 @@ class LicenseStatusUpdatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $body = match ($this->license->status) {
-            FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT => 'Your fertilizer distribution license is being transferred from the Township Department to the Regional Department.',
-            FertilizerDistributionLicense::STATUS_CANCELLED => 'Your fertilizer distribution license application was cancelled. Reason: ' . ($this->license->cancelled_reason ?: 'Please review and resubmit with corrected information.'),
-            default => 'Your fertilizer distribution license status has been updated.',
+            FertilizerDistributionLicense::STATUS_SENDING_TO_REGIONAL_DEPARTMENT => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင်ကို မြို့နယ်ဦးစီးဌာနမှ တိုင်းဒေသကြီးဦးစီးဌာနသို့ လွှဲပြောင်းပေးပို့နေပါပြီ။',
+            FertilizerDistributionLicense::STATUS_CANCELLED => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် လျှောက်ထားမှု ပယ်ဖျက်ခံရပါသည်။ ပယ်ဖျက်ရသည့် အကြောင်းရင်း: ' . ($this->license->cancelled_reason ?: 'ကျေးဇူးပြု၍ ပြန်လည်စစ်ဆေးပြီး မှန်ကန်သော အချက်အလက်များဖြင့် ပြန်လည်တင်ပြပါ။'),
+            default => 'သင့်၏ ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် အခြေအနေ ပြောင်းလဲသွားပါသည်။',
         };
 
         return (new MailMessage)
-            ->subject('Fertilizer distribution license status update')
-            ->greeting('Hello ' . ($notifiable->name ?? ''))
+            ->subject('ဓာတ်မြေသြဇာ ဖြန့်ဖြူးရောင်းချခွင့် လိုင်စင် အခြေအနေ အပ်ဒိတ်')
+            ->greeting('မင်္ဂလာပါ ' . ($notifiable->name ?? ''))
             ->line($body)
-            ->action('View dashboard', route('shop.dashboard'))
-            ->line('We will notify you again when there is another status change.');
+            ->line('လိုင်စင် အခြေအနေ ထပ်မံပြောင်းလဲသည့်အခါ ထပ်မံ အကြောင်းကြားပေးပါမည်။');
     }
 }

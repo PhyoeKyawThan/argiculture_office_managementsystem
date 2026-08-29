@@ -27,7 +27,7 @@ class UpdateFertilizerLicenseNotification extends Notification
             'message' => __('messages.notifications.update_fertilizer_license', [
                 'shop' => $this->license->user->username,
                 'owner' => $this->license->applicant_name,
-            ]),
+            ], 'my'),
             'url' => route('admin.fertilizer-licenses.show', $this->license),
         ];
     }

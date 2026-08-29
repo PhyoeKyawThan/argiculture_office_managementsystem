@@ -26,10 +26,10 @@ class ShopStatusUpdatedNotification extends Notification
             default => 'messages.notifications.shop_status_updated',
         };
 
-        $message = __($messageKey, ['shop' => $this->shop->name]);
+        $message = __($messageKey, ['shop' => $this->shop->name], 'my');
 
         if ($this->shop->status === PesticideShop::STATUS_REJECTED && $this->shop->rejection_reason) {
-            $message .= ' Reason: ' . $this->shop->rejection_reason . '.';
+            $message .= ' အကြောင်းပြချက် : ' . $this->shop->rejection_reason . '.';
         }
 
         return [
@@ -46,17 +46,28 @@ class ShopStatusUpdatedNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        $body = match ($this->shop->status) {
-            PesticideShop::STATUS_APPROVED => 'Your pesticide shop registration has been approved. You can now download your license from the dashboard.',
-            PesticideShop::STATUS_REJECTED => 'Your pesticide shop registration was rejected. Reason: ' . ($this->shop->rejection_reason ?: 'Please review and resubmit with corrected information.') . '.',
-            default => 'Your pesticide shop registration status has been updated.',
-        };
+        $body = __($this->matchStatusMessageKey(), ['shop' => $this->shop->name], 'my');
+
+        if ($this->shop->status === PesticideShop::STATUS_REJECTED && $this->shop->rejection_reason) {
+            $body .= ' အကြောင်းပြချက် : ' . $this->shop->rejection_reason . '.';
+        }
+        if ($this->shop->status === PesticideShop::STATUS_APPROVED){
+            $body .= 'တစ်လအတွင်း ကွင်းဆင်းစစ်ဆေးပါမည်။ကွင်းဆင်းစစ်ဆေးမှု့အောင်မြင်ပါက လိုင်စင်ထုတ်ပေးပါမည်။';
+        }
 
         return (new MailMessage)
-            ->subject('Pesticide shop registration status update')
-            ->greeting('Hello ' . ($notifiable->name ?? ''))
+            ->subject('ပိုးသတ်ဆေးဆိုင် မှတ်ပုံတင်ခြင်း အခြေအနေ အပ်ဒိတ်')
+            ->greeting('မင်္ဂလာပါ ' . ($notifiable->name ?? ''))
             ->line($body)
-            ->action('View dashboard', route('shop.dashboard'))
-            ->line('We will notify you again when there is another status change.');
+            ->line('အခြေအနေ အပြောင်းအလဲ တစ်စုံတစ်ရာ ရှိပါက ထပ်မံ အကြောင်းကြားပါမည်။');
+    }
+
+    private function matchStatusMessageKey(): string
+    {
+        return match ($this->shop->status) {
+            PesticideShop::STATUS_APPROVED => 'messages.notifications.shop_status_approved',
+            PesticideShop::STATUS_REJECTED => 'messages.notifications.shop_status_rejected',
+            default => 'messages.notifications.shop_status_updated',
+        };
     }
 }

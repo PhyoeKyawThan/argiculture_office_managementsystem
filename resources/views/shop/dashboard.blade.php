@@ -20,6 +20,7 @@
 
     <div class="grid grid-cols-2 gap-6">
         <div class="flex flex-col">
+            <div class="text-slate-800 text-xl font-bold py-2">{{ __('messages.shop.pesticide_application') }}</div>
             @if($shop = auth()->user()->pesticideShop)
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4 flex flex-col h-full">
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-50 pb-4">
@@ -56,11 +57,16 @@
                         </div>
                         @endif
 
+                         @if($shop->status === 'approved')
+                        <div class="grid sm_grid-cols-1 gap-4 text-md text-green-400 flex-grow p-4 bg-green-200 rounded-xl">
+                            <p class="font-bold text-slate-800">တစ်လအတွင်း ကွင်းဆင်းစစ်ဆေးပါမည်။ကွင်းဆင်းစစ်ဆေးမှု့အောင်မြင်ပါက လိုင်စင်ထုတ်ပေးပါမည်။</p>
+                        </div>
+                        @endif
+
                     <div class="pt-2 border-t border-slate-50 flex items-center justify-between gap-4 mt-auto">
-                        @if($shop->status === 'pending' || $shop->status === 'rejected')
+                        @if($shop->status === 'rejected')
                             <a href="{{ route('shop.licenseEditForm', $shop->id) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm">{{ __('messages.common.update') }} &rarr;</a>
-                        @else
-                            <a href="{{ route('shop.licenseDownload', $shop->id) }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition shadow-sm">Download &rarr;</a>
+                        
                         @endif
                     </div>
                 </div>
@@ -74,15 +80,15 @@
         </div>
 
         <div class="flex flex-col">
+            <div class="text-slate-800 text-xl font-bold py-2">{{ __('messages.shop.fertilizer_application') }}</div>
             <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-sm space-y-4 flex flex-col h-full">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-4">
                     <div>
-                        <h2 class="text-xl font-black text-slate-900">{{ __('messages.shop.fertilizer_application') }}</h2>
-                        <p class="text-xs text-slate-400 mt-0.5">Manage distribution applications.</p>
+                       
                     </div>
                     @if($latestFertilizerLicense)
-                        <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
-                            {{ ucfirst(str_replace('_', ' ', $latestFertilizerLicense->status)) }}
+                        <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider {{ $latestFertilizerLicense->status == 'cancelled' ? ' bg-red-100' : ' bg-emerald-100' }} text-emerald-800">
+                            {{ __('messages.fertilizer_license.statuses.'.$latestFertilizerLicense->status) }}
                         </span>
                     @endif
                 </div>
@@ -109,15 +115,16 @@
                         @endif
                     </div>
                 @else
-                    <p class="text-sm text-slate-600 flex-grow">{{ __('messages.shop.no_application_fertilizer') }}</p>
+                    <h3 class="font-black text-slate-900">{{ __('messages.shop.no_application_fertilizer') }}</h3>
                 @endif
 
-                <div class="pt-2 border-t border-slate-50 flex items-center justify-end mt-auto">
-                    @if($latestFertilizerLicense)
+                <div class="bg-white rounded-3xl p-6 text-center flex flex-col justify-center items-center h-full">
+                    @if($latestFertilizerLicense && $latestFertilizerLicense->status == 'cancelled')
                         <a href="{{ route('shop.fertilizer-licenses.edit', $latestFertilizerLicense) }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">{{ __('messages.common.update') }}</a>
-                    @else
+                    @elseif(!$latestFertilizerLicense)
                         <a href="{{ route('shop.fertilizer-licenses.create') }}" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition">
                             {{ __('messages.shop.to_fill_application') }}</a>
+                            
                     @endif
                 </div>
             </div>

@@ -26,7 +26,7 @@ class UpdateShopRegistrationNotification extends Notification
             'message' => __('messages.notifications.update_shop_registration', [
                 'shop' => $this->shop->shop_name,
                 'owner' => $this->shop->owner_name,
-            ]),
+            ], 'my'),
             'url' => route('admin.pesticide-shops.show', $this->shop),
         ];
     }

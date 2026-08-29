@@ -28,7 +28,7 @@ class UpdateFertilizerLicenseRequest extends FormRequest
             'attachment_nrc' => ['nullable', 'array', 'size:2'],
             'attachment_nrc.front' => ['nullable', 'file', 'image', 'max:5120'],
             'attachment_nrc.back' => ['nullable', 'file', 'image', 'max:5120'],
-            // 'township_recommendation_letter' => ['nullable', 'file', 'image', 'max:5120'],
+            'township_recommendation_letter' => ['nullable', 'file', 'image', 'max:5120'],
             'fertilizer_license_items' => ['required', 'array', 'min:1'],
             'fertilizer_license_items.*.fertilizer_name' => ['required', 'string', 'max:255'],
             'fertilizer_license_items.*.chemical_formula' => ['nullable', 'string', 'max:255'],

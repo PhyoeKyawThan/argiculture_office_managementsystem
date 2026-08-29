@@ -7,7 +7,7 @@ return [
         'language' => 'Language',
     ],
     'app' => [
-        'brand' => 'AgriManage',
+        'brand' => 'AgriManager',
         'office_management' => 'Office Management',
         'agriculture_office' => 'Agriculture Office',
     ],
@@ -72,6 +72,7 @@ return [
         'read_more' => 'Read more',
         'submit' => 'Submit',
         'download' => 'Download',
+        'download_license' => 'Download License',
         'retail' => 'Retail',
         'wholesale' => 'Wholesale',
     ],
@@ -568,7 +569,7 @@ return [
         'attachments_description' => 'Front and back images uploaded by the applicant.',
         'township_recommendation_letter' => 'Township Recommendation Letter',
         'status_actions' => 'Status Actions',
-        'status_actions_subtitle' => 'Move the application through the review workflow.',
+      
         'mark_allowed' => 'Mark as Allowed',
         'transfer_to_regional' => 'Transfer to Regional Department',
         'mark_regional_response' => 'Mark Regional Response Received',

@@ -22,7 +22,7 @@
                 <div class="flex flex-wrap items-start justify-between gap-3 mb-6">
                     <div>
                         <h1 class="text-2xl font-black text-slate-900">{{ $pesticideShop->name }}</h1>
-                        <p class="text-slate-500 text-sm mt-1">Applicant Name: <span class="font-bold text-slate-800">{{ $pesticideShop->name }}</span></p>
+                        <p class="text-slate-500 text-sm mt-1">လျှောက်ထားသူအမည်- <span class="font-bold text-slate-800">{{ $pesticideShop->name }}</span></p>
                     </div>
                     <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider
                         @if($pesticideShop->status === 'approved') bg-emerald-100 text-emerald-800
@@ -35,27 +35,27 @@
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">၁။ လျှောက်ထားသူနှင့် ဆိုင်အချက်အလက်</h3>
                 <dl class="grid sm:grid-cols-2 gap-x-6 gap-y-4 text-sm border-b border-slate-100 pb-6">
                     <div>
-                        <dt class="font-bold text-slate-400">NRC Number</dt>
+                        <dt class="font-bold text-slate-400">မှတ်ပုံတင်နံပါတ်</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->nrc }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Township (မြို့နယ်)</dt>
+                        <dt class="font-bold text-slate-400">မြို့နယ်</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->township }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Education / Qualifications</dt>
+                        <dt class="font-bold text-slate-400">ပညာအရည်အချင်း</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->education }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Operation Business Type</dt>
+                        <dt class="font-bold text-slate-400">လုပ်ငန်းအမျိူးအစား</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5 capitalize">{{ $pesticideShop->retail_or_wholesale }}</dd>
                     </div>
                     <div class="sm:col-span-2">
-                        <dt class="font-bold text-slate-400">Permanent Address (အမြဲတမ်းနေရပ်လိပ်စာ)</dt>
+                        <dt class="font-bold text-slate-400">အမြဲတမ်းနေရပ်လိပ်စာ</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->stable_address }}</dd>
                     </div>
                     <div class="sm:col-span-2">
-                        <dt class="font-bold text-slate-400">Shop / Storage Address (ရောင်းချမည့်နေရာလိပ်စာ)</dt>
+                        <dt class="font-bold text-slate-400">ရောင်းချမည့်နေရာလိပ်စာ</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->requested_selling_address }}</dd>
                     </div>
                 </dl>
@@ -63,19 +63,19 @@
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mt-6 mb-3">၂။ ဆိုင်အဆောက်အအုံဖွဲ့စည်းမှု တည်ဆောက်ချက်</h3>
                 <dl class="grid sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
                     <div>
-                        <dt class="font-bold text-slate-400">Building Type (အဆောက်အအုံအမျိုးအစား)</dt>
+                        <dt class="font-bold text-slate-400">အဆောက်အအုံအမျိုးအစား</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->building_type }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Dimensions (အကျယ်အဝန်း)</dt>
+                        <dt class="font-bold text-slate-400">အဆောက်အအုံအကျယ်အဝန်း</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->building_area }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Distance From Restaurants/Pharmacies</dt>
+                        <dt class="font-bold text-slate-400">စား‌သောက်ဆိုင်နှင့်ဆေးဆိုင်များမှအကွာအဝေးဖော်ပြချက်</dt>
                         <dd class="font-semibold text-slate-800 mt-0.5">{{ $pesticideShop->from_restaurant_distance }}</dd>
                     </div>
                     <div>
-                        <dt class="font-bold text-slate-400">Emergency Preparedness Plan</dt>
+                        <dt class="font-bold text-slate-400">ဘေးအန္တရာယ်ကြိုတင်ကာကွယ်ရေးပြင်ဆင်ထားမှု့များရှိပါသည်။</dt>
                         <dd class="mt-1">
                             @if($pesticideShop->has_emergency_preparedness_plan)
                                 <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100">ပြင်ဆင်ပြီးရှိပါသည်</span>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
-                <h3 class="text-base font-black text-slate-900">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ (Surrounding Agreements)</h3>
+                <h3 class="text-base font-black text-slate-900">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ </h3>
                 
                 @php
                     $agreements = is_string($pesticideShop->surrounding_agreements) 
@@ -98,20 +98,20 @@
 
                 @if(!empty($agreements))
                     <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-                        <div><span class="text-slate-400 block font-medium">Village</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">Village Tract</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village_tract', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">Township</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.township', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">Region/State</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.region_state', '—') }}</span></div>
+                        <div><span class="text-slate-400 block font-medium">ရွာ/လမ်း</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village', '—') }}</span></div>
+                        <div><span class="text-slate-400 block font-medium">အုပ်စု/ရပ်ကွက်</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village_tract', '—') }}</span></div>
+                        <div><span class="text-slate-400 block font-medium">မြို့နယ်</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.township', '—') }}</span></div>
+                        <div><span class="text-slate-400 block font-medium">တိုင်းဒေသကြီး</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.region_state', '—') }}</span></div>
                     </div>
 
                     <div class="space-y-3">
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">ပတ်ဝန်းကျင် နယ်နိမိတ်ဆိုင်ရာ ထောက်ခံသူများ ဇယား</p>
                         <div class="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden bg-white">
                             @foreach([
-                                'store_front' => 'အရှေ့ဘက် (Store Front)',
-                                'store_end' => 'အနောက်ဘက် (Store End)',
-                                'store_south' => 'တောင်ဘက် (Store South)',
-                                'store_north' => 'မြောက်ဘက် (Store North)'
+                                'store_front' => 'ဆိုင်၏အရှေ့ဘက် ',
+                                'store_end' => 'ဆိုင်၏အနောက်ဘက် ',
+                                'store_south' => 'ဆိုင်၏တောင်ဘက် ',
+                                'store_north' => 'ဆိုင်၏မြောက်ဘက် '
                             ] as $dirKey => $dirLabel)
                                 @php $boundary = data_get($agreements, "boundaries.{$dirKey}"); @endphp
                                 <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm">
@@ -139,7 +139,7 @@
             </div>
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
-                <h3 class="text-base font-black text-slate-900">၄။ ပူးတွဲတင်ပြရန် စာရွက်စာတမ်းများ (Attachments)</h3>
+                <h3 class="text-base font-black text-slate-900">၄။ ပူးတွဲတင်ပြရန် စာရွက်စာတမ်းများ </h3>
                 
                 @php
                     $attachments = is_string($pesticideShop->attachments) 
@@ -152,8 +152,8 @@
                         @foreach([
                             'card_front' => 'သင်တန်းဆင်းကတ်ပြား (အရှေ့)',
                             'card_back' => 'သင်တန်းဆင်းကတ်ပြား (အနောက်)',
-                            'certificate' => 'သင်တန်းဆင်းလက်မှတ် (Certificate)',
-                            'ward_approval' => 'ရပ်ကွက်ထောက်ခံစာ (Ward Approval)'
+                            'certificate' => 'သင်တန်းဆင်းလက်မှတ် ',
+                            'ward_approval' => 'ရပ်ကွက်ထောက်ခံစာ'
                         ] as $attKey => $attLabel)
                             <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 flex flex-col justify-between space-y-3">
                                 <div>
@@ -184,7 +184,7 @@
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-base font-black text-slate-900">၅။ လျှောက်ထားသူ၏ လက်မှတ် (Signature)</h3>
+                    <h3 class="text-base font-black text-slate-900">၅။ လျှောက်ထားသူ၏ လက်မှတ် </h3>
                     <p class="text-xs text-slate-400 mt-1">Submitted dynamic signature identity file parameter.</p>
                 </div>
                 <div>
@@ -208,12 +208,12 @@
         <div class="space-y-6">
             <div class="flex justify-between flex-wrap gap-4 rounded-3xl border border-red-200 bg-blue-50 p-6 text-sm text-red-800 shadow-sm">
                 <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'pdf']) }}">{{ __('messages.pesticide_shops.download') }} (.pdf)</a>
-                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'docx']) }}">
+                {{-- <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download', [$pesticideShop->id, 'format' => 'docx']) }}">
                     {{ __('messages.pesticide_shops.download') }} (.docx)
-                </a>
-                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}">
+                </a> --}}
+                {{-- <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}">
                     {{ __('messages.pesticide_shops.download_agreements') }} (.docx)
-                </a>
+                </a> --}}
                 <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'pdf']) }}">
                     {{ __('messages.pesticide_shops.download_agreements') }} (.pdf)
                 </a>
@@ -233,7 +233,7 @@
 
             @if($pesticideShop->status === 'pending')
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm h-fit space-y-4">
-                    <h2 class="text-lg font-black text-slate-900">Application Review</h2>
+                    <h2 class="text-lg font-black text-slate-900">လျှောက်လွှာပြန်လည်ဆန်းစစ်ခြင်း</h2>
                     <p class="text-xs text-slate-400">Evaluate application materials, attachments, and neighborhood validations before verifying approval status.</p>
                     
                     <form method="POST" action="{{ route('admin.pesticide-shops.update_status', $pesticideShop) }}" class="space-y-4">
@@ -243,19 +243,19 @@
                         <div class="space-y-2">
                             <button type="submit" name="status" value="approved"
                                 class="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-md shadow-emerald-700/10 text-sm">
-                                Approve Application
+                              အတည်ပြုသည်
                             </button>
                         </div>
                         
                         <div class="pt-2 border-t border-slate-100">
-                            <label for="rejection_reason" class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Rejection Reason</label>
-                            <textarea name="rejection_reason" id="rejection_reason" rows="3" placeholder="Provide explanation details if rejecting this shop request..."
-                                class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('rejection_reason') }}</textarea>
+                            <label for="rejection_reason" class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">ပယ်ဖျက်ရသည့်အကြောင်းရင်း</label>
+                            <textarea name="rejection_reason" id="rejection_reason" rows="3" placeholder="ပယ်ဖျက်ရသည့်အကြောင်းအရင်းကိုရေးသားပါ။"
+                                class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('rejection_reason', $pesticideShop->rejection_reason ?? '') }}</textarea>
                         </div>
                         
                         <button type="submit" name="status" value="rejected"
                             class="w-full py-3 border border-red-200 text-red-700 hover:bg-red-50 font-bold rounded-xl transition text-sm">
-                            Reject Application
+                          ပယ်ဖျက်ရန်
                         </button>
                     </form>
                 </div>

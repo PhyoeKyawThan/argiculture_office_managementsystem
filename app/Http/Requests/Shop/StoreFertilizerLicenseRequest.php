@@ -28,7 +28,7 @@ class StoreFertilizerLicenseRequest extends FormRequest
             'attachment_nrc' => ['required', 'array', 'size:2'],
             'attachment_nrc.front' => ['required', 'file', 'image', 'max:5120'],
             'attachment_nrc.back' => ['required', 'file', 'image', 'max:5120'],
-            // 'township_recommendation_letter' =>  ['required', 'file', 'image', 'max:5120'],
+            'township_recommendation_letter' =>  ['required', 'file', 'image', 'max:5120'],
             'fertilizer_license_items' => ['required', 'array', 'min:1'],
             'fertilizer_license_items.*.fertilizer_name' => ['required', 'string', 'max:255'],
             'fertilizer_license_items.*.chemical_formula' => ['nullable', 'string', 'max:255'],

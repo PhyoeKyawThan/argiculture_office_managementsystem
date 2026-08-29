@@ -68,7 +68,7 @@ class FertilizerLicenseController extends Controller
             'date_dot' => implode('.', [$date_data_mm['day'], $date_data_mm['month'], $date_data_mm['year']]),
             // 'applicant_name' => $fertilizer_license->applicant_name,
             'shop_name' => $fertilizer_license->shop_name,
-            'nrc' => $fertilizer_license->nrc,
+            'nrc' => $fertilizer_license->nrc_number,
             'education_level' => $fertilizer_license->education_level,
             'work_experience' => $fertilizer_license->work_experience ? 'ရှိ' : 'မရှိ',
             // 'permanent_address' => $fertilizer_license->permanent_address,
