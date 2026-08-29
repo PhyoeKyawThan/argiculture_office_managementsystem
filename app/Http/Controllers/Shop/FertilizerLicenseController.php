@@ -45,7 +45,7 @@ class FertilizerLicenseController extends Controller
         DB::transaction(function () use ($data, $frontPath, $backPath, $township_recommendation_letter, $request) {
             $license = FertilizerDistributionLicense::create([
                 'user_id' => $request->user()?->id,
-                'application_date' => $data['created_at'] ?? today()->toDateString(),
+                'application_date' => today()->toDateString(),
                 'applicant_name' => $data['applicant_name'],
                 'township' => $data['township'],
                 'shop_name' => $data['shop_name'] ?? null,
@@ -62,7 +62,6 @@ class FertilizerLicenseController extends Controller
                     'back' => $backPath,
                 ],
                 'status' => FertilizerDistributionLicense::STATUS_PENDING,
-                'created_at' => $data['created_at'],
             ]);
 
             $license->items()->createMany(array_map(function (array $item) {
@@ -150,7 +149,7 @@ class FertilizerLicenseController extends Controller
         $data = $request->validated();
 
         $updateData = [
-            'application_date' => $data['created_at'] ?? today()->toDateString(),
+            'application_date' => today()->toDateString(),
             'applicant_name' => $data['applicant_name'],
             'township' => $data['township'],
             'shop_name' => $data['shop_name'] ?? null,
@@ -162,7 +161,6 @@ class FertilizerLicenseController extends Controller
             'building_type' => $data['building_type'] ?? null,
             'building_dimensions' => $data['building_dimensions'] ?? null,
             'status' => FertilizerDistributionLicense::STATUS_PENDING,
-            'created_at' => $data['created_at'],
         ];
 
         $frontPath = null;

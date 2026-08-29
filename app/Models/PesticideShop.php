@@ -36,15 +36,17 @@ class PesticideShop extends Model
         'signature',
         'attachments',
         'surrounding_agreements',
+        'surrounding_agreement_attachment',
+        'items',
         'status',
         'rejection_reason',
         'reviewed_by',
-        'created_at',
     ];
 
     protected $casts = [
         'attachments' => 'array',
         'surrounding_agreements' => 'array',
+        'items' => 'array',
         'has_emergency_preparedness_plan' => 'boolean',
     ];
     protected function nrc(): Attribute

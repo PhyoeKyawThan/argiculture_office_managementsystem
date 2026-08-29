@@ -35,7 +35,6 @@ class StoreFertilizerLicenseRequest extends FormRequest
             'fertilizer_license_items.*.fertilizer_type' => ['nullable', 'string', 'max:255'],
             'fertilizer_license_items.*.packaging_size' => ['nullable', 'string', 'max:255'],
             'fertilizer_license_items.*.weight_volume' => ['nullable', 'string', 'max:255'],
-            'created_at' => ['nullable', 'date'],
         ];
     }
 

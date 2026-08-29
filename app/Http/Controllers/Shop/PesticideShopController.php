@@ -35,26 +35,25 @@ class PesticideShopController extends Controller
     {
         try {
             $attachmentPaths = [];
-            $agreementData = $request->input('surrounding_agreements');
             if ($request->hasFile('attachments')) {
                 foreach ($request->file('attachments') as $key => $file) {
-                    //storage/app/public/pesticide_shops/attachments/
                     $path = $file->store('pesticide_shops/attachments', 'public');
                     $attachmentPaths[$key] = $path;
                 }
             }
 
-            if ($request->hasFile('surrounding_agreements_signatures')) {
-                foreach ($request->file('surrounding_agreements_signatures') as $direction => $file) {
-                    // storage/app/public/pesticide_shops/signatures/
-                    $path = $file->store('pesticide_shops/signatures', 'public');
-                    $agreementData['boundaries'][$direction]['signature'] = $path;
-                }
+            $surroundingAgreementAttachmentPath = null;
+            if ($request->hasFile('surrounding_agreement_attachment')) {
+                $surroundingAgreementAttachmentPath = $request->file('surrounding_agreement_attachment')->store('pesticide_shops/attachments', 'public');
             }
+
             $mainSignaturePath = null;
             if ($request->hasFile('signature')) {
                 $mainSignaturePath = $request->file('signature')->store('pesticide_shops/signatures/applicant', 'public');
             }
+
+            $items = $request->input('items', []);
+
             $pesticideShop = PesticideShop::create([
                 'user_id' => auth()->id(),
                 'name' => $request->input('name'),
@@ -70,9 +69,9 @@ class PesticideShopController extends Controller
                 'has_emergency_preparedness_plan' => $request->boolean('has_emergency_preparedness_plan'),
                 'signature' => $mainSignaturePath,
                 'attachments' => $attachmentPaths,
-                'surrounding_agreements' => $agreementData,
+                'surrounding_agreement_attachment' => $surroundingAgreementAttachmentPath,
+                'items' => $items,
                 'status' => 'pending',
-                'created_at' => $request->input('created_at'),
             ]);
             $backOfficeUsers = User::query()
                 ->whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
@@ -102,7 +101,6 @@ class PesticideShopController extends Controller
                 ->with('error', 'Approved applications cannot be modified.');
         }
         $attachments = $pesticideShop->attachments ?? [];
-        $surroundingAgreements = $pesticideShop->surrounding_agreements ?? [];
 
         $nrc_formats = config('app.nrc_formats');
         $nrc_formats = get_formatted_nrc_suits($nrc_formats);
@@ -131,7 +129,6 @@ class PesticideShopController extends Controller
         return view('shop.forms.license-edit', compact(
             'pesticideShop',
             'attachments',
-            'surroundingAgreements',
             'nrc_formats',
             'nrcState',
             'nrcDistrict',
@@ -156,7 +153,7 @@ class PesticideShopController extends Controller
             'retail_or_wholesale' => $validated['retail_or_wholesale'],
             'has_emergency_preparedness_plan' => $request->has('has_emergency_preparedness_plan') ? 1 : 0,
             'status' => 'pending',
-            'created_at' => $validated['created_at'],
+            'items' => $validated['items'],
         ];
 
         if ($request->hasFile('signature')) {
@@ -177,23 +174,13 @@ class PesticideShopController extends Controller
         }
         $updateData['attachments'] = $currentAttachments;
 
-        $agreements = $validated['surrounding_agreements'];
-        $oldAgreements = $pesticideShop->surrounding_agreements ?? [];
-
-        foreach (['store_front', 'store_end', 'store_south', 'store_north'] as $direction) {
-            $existingSignaturePath = data_get($oldAgreements, "boundaries.{$direction}.signature");
-
-            if ($request->hasFile("surrounding_agreements_signatures.{$direction}")) {
-                if ($existingSignaturePath) {
-                    Storage::disk('public')->delete($existingSignaturePath);
-                }
-                $file = $request->file("surrounding_agreements_signatures.{$direction}");
-                $existingSignaturePath = $file->store('pesticide_shops/signatures/neighbors', 'public');
+        if ($request->hasFile('surrounding_agreement_attachment')) {
+            if ($pesticideShop->surrounding_agreement_attachment) {
+                Storage::disk('public')->delete($pesticideShop->surrounding_agreement_attachment);
             }
-
-            $agreements['boundaries'][$direction]['signature'] = $existingSignaturePath;
+            $updateData['surrounding_agreement_attachment'] = $request->file('surrounding_agreement_attachment')->store('pesticide_shops/attachments', 'public');
         }
-        $updateData['surrounding_agreements'] = $agreements;
+
         $pesticideShop->update($updateData);
 
         $backOfficeUsers = User::query()

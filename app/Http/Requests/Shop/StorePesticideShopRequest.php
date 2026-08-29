@@ -27,21 +27,13 @@ class StorePesticideShopRequest extends FormRequest
             'retail_or_wholesale'             => ['required', Rule::in(['retail', 'wholesale'])],
             'has_emergency_preparedness_plan' => ['nullable', 'boolean'],
 
-            'surrounding_agreements'                          => ['required', 'array'],
-            'surrounding_agreements.location.village'         => ['required', 'string', 'max:255'],
-            'surrounding_agreements.location.village_tract'   => ['required', 'string', 'max:255'],
-            'surrounding_agreements.location.township'        => ['required', 'string', 'max:255'],
-            'surrounding_agreements.location.region_state'    => ['required', 'string', 'max:255'],
-            
-            // 'surrounding_agreements.boundaries'               => ['required', 'array', 'size:4'],
-            // 'surrounding_agreements.boundaries.*.name'        => ['required', 'string', 'max:255'],
-            // 'surrounding_agreements.boundaries.*.nrc'         => ['required', 'string', 'max:100'],
+            'surrounding_agreement_attachment' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
 
-            // 'surrounding_agreements_signatures'               => ['required', 'array', 'size:4'],
-            // 'surrounding_agreements_signatures.store_front'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            // 'surrounding_agreements_signatures.store_end'     => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            // 'surrounding_agreements_signatures.store_south'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            // 'surrounding_agreements_signatures.store_north'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.name' => ['required', 'string', 'max:255'],
+            'items.*.formula' => ['required', 'string', 'max:255'],
+            'items.*.type' => ['required', 'string', 'max:255'],
+            'items.*.capacity' => ['required', 'string', 'max:255'],
 
             'attachments'                 => ['required', 'array', 'size:4'],
             'attachments.card_front'      => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
@@ -49,7 +41,6 @@ class StorePesticideShopRequest extends FormRequest
             'attachments.certificate'     => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
             'attachments.ward_approval'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096'],
             'signature'                   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:3072'],
-            'created_at' => 'required|date',
         ];
     }
 
@@ -67,8 +58,11 @@ class StorePesticideShopRequest extends FormRequest
             'attachments.card_back'                           => 'Training Card (Back)',
             'attachments.certificate'                         => 'Pesticide Certificate',
             'attachments.ward_approval'                       => 'Ward Recommendation Letter',
-            'surrounding_agreements.boundaries.store_front.name' => 'Store Front Neighbor Name',
-            'surrounding_agreements_signatures.store_front'   => 'Store Front Neighbor Signature File',
+            'surrounding_agreement_attachment'                => 'Surrounding Agreement Attachment',
+            'items.*.name'                                    => 'Pesticide Name',
+            'items.*.formula'                                 => 'Formula',
+            'items.*.type'                                    => 'Pesticide Type',
+            'items.*.capacity'                                => 'Capacity',
         ];
     }
 }

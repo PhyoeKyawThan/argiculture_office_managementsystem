@@ -31,10 +31,12 @@ class UpdatePesticideShopRequest extends FormRequest
             'has_emergency_preparedness_plan' => 'nullable|boolean',
             'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'attachments.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'surrounding_agreements.location' => 'required|array',
-            // 'surrounding_agreements.boundaries' => 'required|array',
-            // 'surrounding_agreements_signatures.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'created_at' => 'required|date'
+            'surrounding_agreement_attachment' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
+            'items' => 'required|array|min:1',
+            'items.*.name' => 'required|string|max:255',
+            'items.*.formula' => 'required|string|max:255',
+            'items.*.type' => 'required|string|max:255',
+            'items.*.capacity' => 'required|string|max:255',
         ];
     }
 }

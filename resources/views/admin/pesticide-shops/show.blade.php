@@ -88,98 +88,97 @@
             </div>
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
-                <h3 class="text-base font-black text-slate-900">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ </h3>
-                
+                <h3 class="text-base font-black text-slate-900">၃။ ပိုးသတ်ဆေးအမျိုးအစားများ</h3>
+
                 @php
-                    $agreements = is_string($pesticideShop->surrounding_agreements) 
-                        ? json_decode($pesticideShop->surrounding_agreements, true) 
-                        : $pesticideShop->surrounding_agreements;
+                    $items = is_string($pesticideShop->items) ? json_decode($pesticideShop->items, true) : $pesticideShop->items;
                 @endphp
 
-                @if(!empty($agreements))
-                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-                        <div><span class="text-slate-400 block font-medium">ရွာ/လမ်း</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">အုပ်စု/ရပ်ကွက်</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.village_tract', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">မြို့နယ်</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.township', '—') }}</span></div>
-                        <div><span class="text-slate-400 block font-medium">တိုင်းဒေသကြီး</span><span class="font-bold text-slate-800">{{ data_get($agreements, 'location.region_state', '—') }}</span></div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">ပတ်ဝန်းကျင် နယ်နိမိတ်ဆိုင်ရာ ထောက်ခံသူများ ဇယား</p>
-                        <div class="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden bg-white">
-                            @foreach([
-                                'store_front' => 'ဆိုင်၏အရှေ့ဘက် ',
-                                'store_end' => 'ဆိုင်၏အနောက်ဘက် ',
-                                'store_south' => 'ဆိုင်၏တောင်ဘက် ',
-                                'store_north' => 'ဆိုင်၏မြောက်ဘက် '
-                            ] as $dirKey => $dirLabel)
-                                @php $boundary = data_get($agreements, "boundaries.{$dirKey}"); @endphp
-                                <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm">
-                                    <div class="space-y-0.5">
-                                        <span class="text-xs font-black text-emerald-800 bg-emerald-50 border border-emerald-100/50 px-2 py-0.5 rounded-md">{{ $dirLabel }}</span>
-                                        <div class="font-bold text-slate-800 mt-1.5">အမည် - {{ data_get($boundary, 'name', '—') }}</div>
-                                        <div class="text-xs text-slate-500">မှတ်ပုံတင် - {{ data_get($boundary, 'nrc', '—') }}</div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        @if(data_get($boundary, 'signature'))
-                                            <a href="{{ asset('storage/' . data_get($boundary, 'signature')) }}" target="_blank" class="block border border-slate-200 rounded-xl overflow-hidden p-1 bg-slate-50 hover:border-emerald-500 transition max-h-16">
-                                                <img src="{{ asset('storage/' . data_get($boundary, 'signature')) }}" alt="Signature" class="h-12 w-auto object-contain">
-                                            </a>
-                                        @else
-                                            <span class="text-xs text-slate-400 italic">No Signature File</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                @if(!empty($items))
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+                            <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">#</th>
+                                    <th class="px-3 py-2 text-left">ပိုးသတ်ဆေးအမည်</th>
+                                    <th class="px-3 py-2 text-left">ဖော်မြူလာ</th>
+                                    <th class="px-3 py-2 text-left">ပိုးသတ်ဆေးအမျိုးအစား</th>
+                                    <th class="px-3 py-2 text-left">ထုတ်ပိုးမှူ အရွယ်အစား</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                @foreach($items as $index => $item)
+                                    <tr>
+                                        <td class="px-3 py-2 text-slate-500">{{ $index + 1 }}</td>
+                                        <td class="px-3 py-2 font-semibold text-slate-800">{{ $item['name'] ?? '—' }}</td>
+                                        <td class="px-3 py-2 text-slate-600">{{ $item['formula'] ?? '—' }}</td>
+                                        <td class="px-3 py-2 text-slate-600">{{ $item['type'] ?? '—' }}</td>
+                                        <td class="px-3 py-2 text-slate-600">{{ $item['capacity'] ?? '—' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 @else
-                    <p class="text-sm text-slate-400 italic">No agreements metadata provided.</p>
+                    <p class="text-sm text-slate-400 italic">No pesticide items provided.</p>
                 @endif
             </div>
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-4">
                 <h3 class="text-base font-black text-slate-900">၄။ ပူးတွဲတင်ပြရန် စာရွက်စာတမ်းများ </h3>
-                
+
                 @php
-                    $attachments = is_string($pesticideShop->attachments) 
-                        ? json_decode($pesticideShop->attachments, true) 
+                    $attachments = is_string($pesticideShop->attachments)
+                        ? json_decode($pesticideShop->attachments, true)
                         : $pesticideShop->attachments;
                 @endphp
 
-                @if(!empty($attachments))
-                    <div class="grid sm:grid-cols-2 gap-4">
-                        @foreach([
-                            'card_front' => 'သင်တန်းဆင်းကတ်ပြား (အရှေ့)',
-                            'card_back' => 'သင်တန်းဆင်းကတ်ပြား (အနောက်)',
-                            'certificate' => 'သင်တန်းဆင်းလက်မှတ် ',
-                            'ward_approval' => 'ရပ်ကွက်ထောက်ခံစာ'
-                        ] as $attKey => $attLabel)
-                            <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 flex flex-col justify-between space-y-3">
-                                <div>
-                                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">{{ $attKey }}</span>
-                                    <span class="block text-sm font-bold text-slate-800 mt-0.5">{{ $attLabel }}</span>
-                                </div>
-                                @if(isset($attachments[$attKey]))
-                                    <div class="relative border border-slate-200 rounded-xl bg-white overflow-hidden group">
-                                        <img src="{{ asset('storage/' . $attachments[$attKey]) }}" alt="{{ $attLabel }}" class="w-full h-32 object-contain p-2">
-                                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                            <a href="{{ asset('storage/' . $attachments[$attKey]) }}" target="_blank" class="px-3 py-1.5 bg-white text-slate-900 font-bold text-xs rounded-xl shadow-md hover:bg-slate-100">
-                                                Open Full File &nearr;
-                                            </a>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="h-32 rounded-xl border border-dashed border-slate-200 flex items-center justify-center bg-white">
-                                        <span class="text-xs text-slate-400 italic">Not Uploaded</span>
-                                    </div>
-                                @endif
+                <div class="grid sm:grid-cols-2 gap-4">
+                    @if($pesticideShop->surrounding_agreement_attachment)
+                        <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 flex flex-col justify-between space-y-3">
+                            <div>
+                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">surrounding_agreement_attachment</span>
+                                <span class="block text-sm font-bold text-slate-800 mt-0.5">ပတ်ဝန်းကျင်သဘောတူညီချက်</span>
                             </div>
-                        @endforeach
-                    </div>
-                @else
-                    <p class="text-sm text-slate-400 italic">No file attachments array found.</p>
-                @endif
+                            <div class="relative border border-slate-200 rounded-xl bg-white overflow-hidden group">
+                                <img src="{{ asset('storage/' . $pesticideShop->surrounding_agreement_attachment) }}" alt="Surrounding Agreement" class="w-full h-32 object-contain p-2">
+                                <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                    <a href="{{ asset('storage/' . $pesticideShop->surrounding_agreement_attachment) }}" target="_blank" class="px-3 py-1.5 bg-white text-slate-900 font-bold text-xs rounded-xl shadow-md hover:bg-slate-100">
+                                        Open Full File &nearr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @foreach([
+                        'card_front' => 'သင်တန်းဆင်းကတ်ပြား (အရှေ့)',
+                        'card_back' => 'သင်တန်းဆင်းကတ်ပြား (အနောက်)',
+                        'certificate' => 'သင်တန်းဆင်းလက်မှတ် ',
+                        'ward_approval' => 'ရပ်ကွက်ထောက်ခံစာ'
+                    ] as $attKey => $attLabel)
+                        <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 flex flex-col justify-between space-y-3">
+                            <div>
+                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">{{ $attKey }}</span>
+                                <span class="block text-sm font-bold text-slate-800 mt-0.5">{{ $attLabel }}</span>
+                            </div>
+                            @if(isset($attachments[$attKey]))
+                                <div class="relative border border-slate-200 rounded-xl bg-white overflow-hidden group">
+                                    <img src="{{ asset('storage/' . $attachments[$attKey]) }}" alt="{{ $attLabel }}" class="w-full h-32 object-contain p-2">
+                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                        <a href="{{ asset('storage/' . $attachments[$attKey]) }}" target="_blank" class="px-3 py-1.5 bg-white text-slate-900 font-bold text-xs rounded-xl shadow-md hover:bg-slate-100">
+                                            Open Full File &nearr;
+                                        </a>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="h-32 rounded-xl border border-dashed border-slate-200 flex items-center justify-center bg-white">
+                                    <span class="text-xs text-slate-400 italic">Not Uploaded</span>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -214,9 +213,9 @@
                 {{-- <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'docx']) }}">
                     {{ __('messages.pesticide_shops.download_agreements') }} (.docx)
                 </a> --}}
-                <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'pdf']) }}">
+                {{-- <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_agreements', [$pesticideShop->id, 'format' => 'pdf']) }}">
                     {{ __('messages.pesticide_shops.download_agreements') }} (.pdf)
-                </a>
+                </a> --}}
                  <a class="p-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/10 text-sm" href="{{ route('admin.pesticide-shops.download_license', [$pesticideShop->id]) }}">
                     {{ __('messages.pesticide_shops.download_license') }} (.pdf)
                 </a>

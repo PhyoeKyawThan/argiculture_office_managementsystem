@@ -125,56 +125,46 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6">
-                <h3 class="text-base font-black text-emerald-800 border-l-4 border-emerald-600 pl-2">၃။ ပတ်ဝန်းကျင်သဘောတူညီချက်များ </h3>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1">ရွာ/လမ်း</label>
-                        <input type="text" name="surrounding_agreements[location][village]" value="{{ old('surrounding_agreements.location.village') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1"> ကျေးရွာအုပ်စု/ရပ်ကွက်</label>
-                        <input type="text" name="surrounding_agreements[location][village_tract]" value="{{ old('surrounding_agreements.location.village_tract') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1"> မြို့နယ်</label>
-                        <input type="text" name="surrounding_agreements[location][township]" value="{{ old('surrounding_agreements.location.township') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1">တိုင်း/ပြည်နယ်</label>
-                        <input type="text" name="surrounding_agreements[location][region_state]" value="{{ old('surrounding_agreements.location.region_state') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                    </div>
+            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
+                <h3 class="text-base font-black text-emerald-800 border-l-4 border-emerald-600 pl-2">၃။ ပိုးသတ်ဆေးအမျိုးအစားများ</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            <tr>
+                                <th class="px-3 py-2 text-left">ပိုးသတ်ဆေးအမည်</th>
+                                <th class="px-3 py-2 text-left">ဖော်မြူလာ</th>
+                                <th class="px-3 py-2 text-left">ပိုးသတ်ဆေးအမျိုးအစား</th>
+                                <th class="px-3 py-2 text-left">ထုတ်ပိုးမှူ အရွယ်အစား</th>
+                                <th class="px-3 py-2 text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-table-body" class="divide-y divide-slate-100">
+                        </tbody>
+                    </table>
                 </div>
 
-                <div class="space-y-4">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">ပတ်ဝန်းကျင် နယ်နိမိတ်ဆိုင်ရာ ထောက်ခံသူများ</p>
-                    
-                    @foreach(['store_front' => 'ဆိုင်၏အရှေ့ဘက်', 'store_end' => 'ဆိုင်၏အနောက်ဘက် ', 'store_south' => 'ဆိုင်၏တောင်ဘက် ', 'store_north' => 'ဆိုင်၏မြောက်ဘက်'] as $key => $label)
-                        <div class="p-4 border border-slate-100 bg-slate-50/30 rounded-2xl space-y-3">
-                            <span class="text-sm font-bold text-slate-800 block">{{ $label }}</span>
-                            <div class="grid sm:grid-cols-3 gap-3">
-                                <div>
-                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][name]" value="{{ old("surrounding_agreements.boundaries.{$key}.name") }}" placeholder="အမည်" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                                </div>
-                                <div>
-                                    <input type="text" name="surrounding_agreements[boundaries][{{ $key }}][nrc]" value="{{ old("surrounding_agreements.boundaries.{$key}.nrc") }}" placeholder="မှတ်ပုံတင်အမှတ်" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-1">ထောက်ခံသူ လက်မှတ်</label>
-                                    <canvas class="sig-pad-canvas w-full h-32 border border-slate-200 rounded-xl cursor-crosshair"></canvas>
-                                    <input type="file" name="surrounding_agreements_signatures[{{ $key }}]" accept="image/*" class="hidden">
-                                    <button type="button" class="clear-sig-btn px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 mt-1">Clear</button>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+                <button type="button" id="add-item-btn" class="px-4 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 rounded-xl hover:bg-emerald-100 transition">
+                    + Add New Item
+                </button>
             </div>
 
             <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
                 <h3 class="text-base font-black text-emerald-800 border-l-4 border-emerald-600 pl-2">၄။ ပူးတွဲတင်ပြရန် စာရွက်စာတမ်းများ</h3>
-                
+
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-between space-y-3">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">ပတ်ဝန်းကျင်သဘောတူညီချက်</label>
+                        <input type="file" name="surrounding_agreement_attachment" accept="image/*"
+                               class="previewable-input w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer"
+                               data-target="preview-surrounding_agreement_attachment">
+                        <p class="text-[10px] text-slate-400 mt-1">Upload surrounding agreement attachment.</p>
+                    </div>
+                    <div id="preview-surrounding_agreement_attachment" class="hidden border border-slate-200 rounded-xl overflow-hidden bg-white max-h-32 flex items-center justify-center p-1">
+                        <img src="" alt="Preview" class="max-h-28 w-auto object-contain">
+                    </div>
+                </div>
+
                 <div class="grid sm:grid-cols-2 gap-4">
                     @foreach([
                         'card_front' => 'သင်တန်းဆင်းကတ်ပြား - အရှေ့ဖက် ',
@@ -210,11 +200,6 @@
                         <img src="" alt="Signature Preview" class="max-h-28 w-auto object-contain">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
-                    <input type="date" name="created_at"
-                                       class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500" >
-                </div>
             </div>
 
             <button type="submit" class="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-700/20 text-center">
@@ -232,7 +217,7 @@
         const naingSelect = document.getElementById('naing');
         const nrcInput = document.getElementById('nrc_number');
         const hiddenNrcInput = document.getElementById('nrc');
-    
+
         const oldDistrictTracker = document.getElementById('district_old_val');
         const oldNaingTracker = document.getElementById('naing_old_val');
         const oldSerialTracker = document.getElementById('nrc_serial_val');
@@ -273,7 +258,7 @@
         function populateDistricts() {
             const selectedNrcCode = mmToEn(stateNumberSelect.value);
             const districts = nrc_formats.districts.filter(d => d.nrc_code === selectedNrcCode);
-            
+
             districtSelect.innerHTML = '';
             districts.forEach(district => {
                 const option = document.createElement('option');
@@ -288,7 +273,6 @@
             }
             updateFullNrcValue();
         }
-
 
         document.querySelectorAll('.previewable-input').forEach(input => {
             input.addEventListener('change', function() {
@@ -311,7 +295,7 @@
         });
 
         stateNumberSelect.addEventListener('change', () => {
-            districtSelect.removeAttribute('data-old-value'); 
+            districtSelect.removeAttribute('data-old-value');
             populateDistricts();
         });
         districtSelect.addEventListener('change', updateFullNrcValue);
@@ -323,6 +307,32 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             populateDistricts();
+
+            let itemIndex = 0;
+            const itemsTableBody = document.getElementById('items-table-body');
+            const addItemBtn = document.getElementById('add-item-btn');
+
+            function addItemRow(name = '', formula = '', type = '', capacity = '') {
+                const row = document.createElement('tr');
+                row.className = 'item-row';
+                row.innerHTML = `
+                    <td class="px-3 py-2"><input type="text" name="items[${itemIndex}][name]" value="${name}" placeholder="ပိုးသတ်ဆေးအမည်" class="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500"></td>
+                    <td class="px-3 py-2"><input type="text" name="items[${itemIndex}][formula]" value="${formula}" placeholder="ဖော်မြူလာ" class="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500"></td>
+                    <td class="px-3 py-2"><input type="text" name="items[${itemIndex}][type]" value="${type}" placeholder="အမျိုးအစား" class="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500"></td>
+                    <td class="px-3 py-2"><input type="text" name="items[${itemIndex}][capacity]" value="${capacity}" placeholder="အရွယ်အစား" class="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500"></td>
+                    <td class="px-3 py-2 text-center"><button type="button" class="delete-item-btn px-2 py-1 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100">Delete</button></td>
+                `;
+                itemsTableBody.appendChild(row);
+                itemIndex++;
+
+                row.querySelector('.delete-item-btn').addEventListener('click', function() {
+                    row.remove();
+                });
+            }
+
+            addItemBtn.addEventListener('click', () => addItemRow());
+
+            addItemRow();
         });
     </script>
 @endsection

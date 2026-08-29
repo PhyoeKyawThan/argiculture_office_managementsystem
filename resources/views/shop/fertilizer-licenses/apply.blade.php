@@ -240,11 +240,6 @@
                             <p class="text-xs text-slate-400 mt-1">{{ __('messages.common.optional') }}</p>
                         @endif
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">တင်ပြသည့်ရက်စွဲ</label>
-                        <input type="date" name="created_at" value="{{ $latestLicense ? $latestLicense->created_at?->format('Y-m-d') : '' }}"
-                            class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none bg-white focus:ring-2 focus:ring-emerald-500">
-                    </div>
                 </div>
             </div>
 
